@@ -5,7 +5,6 @@ import { HeroHighlight, Highlight } from "./ui/hero-highlight";
 export default function Home() {
   return (
     <main className="min-h-screen bg-background text-foreground">
-      {/* Hero Section */}
       <HeroHighlight>
         <MotionDiv
           initial={{ opacity: 0, y: 20 }}
@@ -33,12 +32,11 @@ export default function Home() {
           </MotionP>
         </MotionDiv>
 
-        {/* Prominent Contact Information */}
         <MotionDiv
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.4, ease: [0.4, 0.0, 0.2, 1] }}
-          className="grid grid-cols-2 md:grid-cols-12 gap-3 md:gap-6 mt-12 px-2 md:px-0"
+          className="grid grid-cols-2 md:grid-cols-12 gap-3 md:gap-6 mt-16 md:mt-24 px-2 md:px-0"
         >
           <div className="md:col-span-3 bg-card/95 backdrop-blur-sm border border-border/50 rounded-xl p-4 md:p-6 min-h-[120px] shadow-lg hover:shadow-xl transition-all hover:-translate-y-1">
             <div className="flex flex-col items-center text-center h-full justify-center">
@@ -174,7 +172,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* About Section - Enhanced with Images */}
       <HeroHighlight>
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
@@ -267,7 +264,6 @@ export default function Home() {
         </div>
       </HeroHighlight>
 
-      {/* Footer */}
       <footer className="bg-accent py-8 md:py-12">
         <div className="max-w-6xl mx-auto px-4">
           <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-8">
