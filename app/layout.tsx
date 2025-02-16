@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Borgen Bilsalg",
   description:
-    "Borgen Bilsalg - Din pålitelige partner for kjøp og salg av kvalitetsbiler i Norge. Vi tilbyr et bredt utvalg av nye og brukte biler med garanti.",
+    "Borgen Bilsalg - Din pålitelige partner for kjøp og salg av bilder i Norge. Vi tilbyr et bredt utvalg av brukte biler.",
   keywords: [
     "bilforhandler",
     "forhandler",
@@ -43,8 +43,7 @@ export const metadata: Metadata = {
     locale: "nb_NO",
     url: "https://borgenbilsalg.no",
     title: "Borgen Bilsalg",
-    description:
-      "Din pålitelige partner for kjøp og salg av kvalitetsbiler i Norge",
+    description: "Din pålitelige partner for kjøp og salg av biler i Norge",
     siteName: "Borgen Bilsalg",
   },
 };
