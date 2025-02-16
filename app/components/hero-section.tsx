@@ -79,11 +79,11 @@ function ContactCards() {
               target: "_blank",
               rel: "noopener noreferrer",
               className:
-                "md:col-span-3 bg-card/95 backdrop-blur-sm border border-border/50 rounded-xl p-5 md:p-6 min-h-[160px] md:min-h-[120px] shadow-lg hover:shadow-xl transition-all hover:-translate-y-1 w-full cursor-pointer",
+                "md:col-span-3 bg-card/95 backdrop-blur-sm border border-border/50 rounded-xl p-5 md:p-6 min-h-[180px] md:min-h-[140px] shadow-lg hover:shadow-xl transition-all hover:-translate-y-1 w-full cursor-pointer",
             }
           : {
               className:
-                "md:col-span-3 bg-card/95 backdrop-blur-sm border border-border/50 rounded-xl p-5 md:p-6 min-h-[160px] md:min-h-[120px] shadow-lg hover:shadow-xl transition-all hover:-translate-y-1 w-full",
+                "md:col-span-3 bg-card/95 backdrop-blur-sm border border-border/50 rounded-xl p-5 md:p-6 min-h-[180px] md:min-h-[140px] shadow-lg hover:shadow-xl transition-all hover:-translate-y-1 w-full",
             };
 
         return (
@@ -106,7 +106,7 @@ function ContactCards() {
                 <p
                   className={`text-sm md:text-lg text-foreground font-medium ${
                     info.title === "E-post"
-                      ? "text-[0.75rem] md:text-base"
+                      ? "text-[0.65rem] md:text-2xl whitespace-nowrap"
                       : "text-sm md:text-2xl"
                   }`}
                 >
