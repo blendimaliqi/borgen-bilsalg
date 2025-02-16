@@ -12,11 +12,6 @@ export default function Home() {
       </HeroHighlight>
 
       <ServicesSection />
-
-      <HeroHighlight>
-        <AboutSection />
-      </HeroHighlight>
-
       <Footer />
     </main>
   );

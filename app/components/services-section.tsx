@@ -26,6 +26,16 @@ export function ServicesSection() {
             imageSrc="https://images.unsplash.com/photo-1573497620053-ea5300f94f21?q=80&w=800&auto=format&fit=crop"
             imageAlt="Selg bil til Borgen Bilsalg"
           />
+
+          <div className="w-full h-[2px] bg-border hidden md:block" />
+
+          <ServiceCard
+            icon={HandCoins}
+            title="Innbytte av bil"
+            description="Vil du bytte inn din nåværende bil mot en nyere modell? Vi gir deg en rettferdig vurdering av din bil og hjelper deg med å finne den perfekte erstatningen. Med vår innbytteordning blir overgangen til ny bil både enkel og økonomisk fordelaktig."
+            imageSrc="https://images.unsplash.com/photo-1580273916550-e323be2ae537?q=80&w=800&auto=format&fit=crop"
+            imageAlt="Innbytte av bil hos Borgen Bilsalg"
+          />
         </div>
       </div>
     </section>

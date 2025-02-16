@@ -42,11 +42,13 @@ function ContactCards() {
       icon: Phone,
       title: "Ring Direkte",
       content: "+47 123 45 678",
+      href: "tel:+4712345678",
     },
     {
       icon: Mail,
       title: "E-post",
       content: "zulic@borgenbilsalg.no",
+      href: "mailto:zulic@borgenbilsalg.no",
     },
     {
       icon: Clock,
@@ -56,7 +58,8 @@ function ContactCards() {
     {
       icon: MapPin,
       title: "Besøk Oss",
-      content: ["Borgengata 123", "1721 Sarpsborg"],
+      content: ["Industriveien 29", "1725 Sarpsborg"],
+      href: "https://www.google.com/maps/place/Industriveien+29,+1725+Sarpsborg/@59.27710435279952,11.09293157944697,17z",
     },
   ];
 
@@ -67,39 +70,52 @@ function ContactCards() {
       transition={{ duration: 0.5, delay: 0.4, ease: [0.4, 0.0, 0.2, 1] }}
       className="grid grid-cols-2 md:grid-cols-12 gap-3 md:gap-6 mt-16 md:mt-24 px-1 md:px-0"
     >
-      {contactInfo.map((info, index) => (
-        <div
-          key={index}
-          className="md:col-span-3 bg-card/95 backdrop-blur-sm border border-border/50 rounded-xl p-5 md:p-6 min-h-[160px] md:min-h-[120px] shadow-lg hover:shadow-xl transition-all hover:-translate-y-1 w-full"
-        >
-          <div className="flex flex-col items-center text-center h-full justify-center">
-            <info.icon className="h-7 w-7 md:h-8 md:w-8 text-accent mb-3 md:mb-2" />
-            <h3 className="text-base md:text-2xl text-primary font-medium mb-3 md:mb-2">
-              {info.title}
-            </h3>
-            {Array.isArray(info.content) ? (
-              info.content.map((line, i) => (
+      {contactInfo.map((info, index) => {
+        const CardWrapper = info.href ? "a" : "div";
+        const cardProps = info.href
+          ? {
+              href: info.href,
+              target: "_blank",
+              rel: "noopener noreferrer",
+              className:
+                "md:col-span-3 bg-card/95 backdrop-blur-sm border border-border/50 rounded-xl p-5 md:p-6 min-h-[160px] md:min-h-[120px] shadow-lg hover:shadow-xl transition-all hover:-translate-y-1 w-full cursor-pointer",
+            }
+          : {
+              className:
+                "md:col-span-3 bg-card/95 backdrop-blur-sm border border-border/50 rounded-xl p-5 md:p-6 min-h-[160px] md:min-h-[120px] shadow-lg hover:shadow-xl transition-all hover:-translate-y-1 w-full",
+            };
+
+        return (
+          <CardWrapper key={index} {...cardProps}>
+            <div className="flex flex-col items-center text-center h-full justify-center">
+              <info.icon className="h-7 w-7 md:h-8 md:w-8 text-accent mb-3 md:mb-2" />
+              <h3 className="text-base md:text-2xl text-primary font-medium mb-3 md:mb-2">
+                {info.title}
+              </h3>
+              {Array.isArray(info.content) ? (
+                info.content.map((line, i) => (
+                  <p
+                    key={i}
+                    className="text-sm md:text-lg text-foreground font-medium leading-tight"
+                  >
+                    {line}
+                  </p>
+                ))
+              ) : (
                 <p
-                  key={i}
-                  className="text-sm md:text-lg text-foreground font-medium leading-tight"
+                  className={`text-sm md:text-lg text-foreground font-medium ${
+                    info.title === "E-post"
+                      ? "text-[0.75rem] md:text-base"
+                      : "text-sm md:text-2xl"
+                  }`}
                 >
-                  {line}
+                  {info.content}
                 </p>
-              ))
-            ) : (
-              <p
-                className={`text-sm md:text-lg text-foreground font-medium ${
-                  info.title === "E-post"
-                    ? "text-[0.75rem] md:text-base"
-                    : "text-sm md:text-2xl"
-                }`}
-              >
-                {info.content}
-              </p>
-            )}
-          </div>
-        </div>
-      ))}
+              )}
+            </div>
+          </CardWrapper>
+        );
+      })}
     </MotionDiv>
   );
 }
