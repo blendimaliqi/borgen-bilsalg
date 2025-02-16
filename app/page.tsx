@@ -38,37 +38,39 @@ export default function Home() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.4, ease: [0.4, 0.0, 0.2, 1] }}
-          className="grid grid-cols-1 md:grid-cols-12 gap-6 mt-12 px-4 md:px-0"
+          className="grid grid-cols-2 md:grid-cols-12 gap-3 md:gap-6 mt-12 px-2 md:px-0"
         >
-          <div className="md:col-span-3 bg-card/95 backdrop-blur-sm border border-border/50 rounded-xl p-4 md:p-6 shadow-lg hover:shadow-xl transition-all hover:-translate-y-1">
-            <div className="flex flex-col items-center text-center">
-              <Phone className="h-8 w-8 text-accent mb-2" />
-              <h3 className="text-2xl text-primary font-medium mb-2">
+          <div className="md:col-span-3 bg-card/95 backdrop-blur-sm border border-border/50 rounded-xl p-4 md:p-6 min-h-[120px] shadow-lg hover:shadow-xl transition-all hover:-translate-y-1">
+            <div className="flex flex-col items-center text-center h-full justify-center">
+              <Phone className="h-6 w-6 md:h-8 md:w-8 text-accent mb-1 md:mb-2" />
+              <h3 className="text-base md:text-2xl text-primary font-medium mb-1 md:mb-2">
                 Ring Direkte
               </h3>
-              <p className="text-2xl text-foreground font-medium">
+              <p className="text-sm md:text-2xl text-foreground font-medium">
                 +47 123 45 678
               </p>
             </div>
           </div>
 
-          <div className="md:col-span-3 bg-card/95 backdrop-blur-sm border border-border/50 rounded-xl p-4 md:p-6 shadow-lg hover:shadow-xl transition-all hover:-translate-y-1">
-            <div className="flex flex-col items-center text-center">
-              <Mail className="h-8 w-8 text-accent mb-2" />
-              <h3 className="text-2xl text-primary font-medium mb-2">E-post</h3>
-              <p className="text-xl text-foreground font-medium">
-                post@borgenbilsalg.no
+          <div className="md:col-span-3 bg-card/95 backdrop-blur-sm border border-border/50 rounded-xl p-4 md:p-6 min-h-[120px] shadow-lg hover:shadow-xl transition-all hover:-translate-y-1">
+            <div className="flex flex-col items-center text-center h-full justify-center">
+              <Mail className="h-6 w-6 md:h-8 md:w-8 text-accent mb-1 md:mb-2" />
+              <h3 className="text-base md:text-2xl text-primary font-medium mb-1 md:mb-2">
+                E-post
+              </h3>
+              <p className="text-xs md:text-xl text-foreground font-medium break-words px-2">
+                zulic@borgenbilsalg.no
               </p>
             </div>
           </div>
 
-          <div className="md:col-span-3 bg-card/95 backdrop-blur-sm border border-border/50 rounded-xl p-4 md:p-6 shadow-lg hover:shadow-xl transition-all hover:-translate-y-1">
-            <div className="flex flex-col items-center text-center">
-              <Clock className="h-8 w-8 text-accent mb-2" />
-              <h3 className="text-2xl text-primary font-medium mb-2">
+          <div className="md:col-span-3 bg-card/95 backdrop-blur-sm border border-border/50 rounded-xl p-4 md:p-6 min-h-[120px] shadow-lg hover:shadow-xl transition-all hover:-translate-y-1">
+            <div className="flex flex-col items-center text-center h-full justify-center">
+              <Clock className="h-6 w-6 md:h-8 md:w-8 text-accent mb-1 md:mb-2" />
+              <h3 className="text-base md:text-2xl text-primary font-medium mb-1 md:mb-2">
                 Åpningstider
               </h3>
-              <p className="text-lg text-foreground font-medium">
+              <p className="text-xs md:text-lg text-foreground font-medium">
                 Man-Fre: 09:00-17:00
                 <br />
                 Lør: 10:00-15:00
@@ -76,13 +78,13 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="md:col-span-3 bg-card/95 backdrop-blur-sm border border-border/50 rounded-xl p-4 md:p-6 shadow-lg hover:shadow-xl transition-all hover:-translate-y-1">
-            <div className="flex flex-col items-center text-center">
-              <MapPin className="h-8 w-8 text-accent mb-2" />
-              <h3 className="text-2xl text-primary font-medium mb-2">
+          <div className="md:col-span-3 bg-card/95 backdrop-blur-sm border border-border/50 rounded-xl p-4 md:p-6 min-h-[120px] shadow-lg hover:shadow-xl transition-all hover:-translate-y-1">
+            <div className="flex flex-col items-center text-center h-full justify-center">
+              <MapPin className="h-6 w-6 md:h-8 md:w-8 text-accent mb-1 md:mb-2" />
+              <h3 className="text-base md:text-2xl text-primary font-medium mb-1 md:mb-2">
                 Besøk Oss
               </h3>
-              <p className="text-lg text-foreground font-medium">
+              <p className="text-xs md:text-lg text-foreground font-medium">
                 Borgengata 123
                 <br />
                 1721 Sarpsborg
@@ -277,11 +279,11 @@ export default function Home() {
               +47 123 45 678
             </a>
             <a
-              href="mailto:post@borgenbilsalg.no"
+              href="mailto:zulic@borgenbilsalg.no"
               className="flex items-center gap-2 text-base md:text-lg text-accent-foreground hover:text-accent-foreground/80 transition-colors"
             >
               <Mail className="h-5 w-5 text-accent-foreground/80" />
-              post@borgenbilsalg.no
+              zulic@borgenbilsalg.no
             </a>
           </div>
           <div className="mt-6 md:mt-4 text-center">
