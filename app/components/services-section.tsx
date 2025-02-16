@@ -72,10 +72,10 @@ function ServiceCard({
           {description}
         </p>
         <div className="inline-flex items-center gap-2 text-primary hover:text-primary/80 transition-colors cursor-pointer group">
-          Les mer
+          {/* Les mer
           <span className="group-hover:translate-x-1 transition-transform">
             →
-          </span>
+          </span> */}
         </div>
       </div>
 
