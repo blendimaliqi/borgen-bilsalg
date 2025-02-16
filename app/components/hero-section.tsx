@@ -27,7 +27,7 @@ export function HeroSection() {
         >
           Din pålitelige partner for kvalitetsbiler i Sarpsborg. Vi tilbyr{" "}
           <Highlight>profesjonell service</Highlight> og
-          <Highlight> trygg bilhandel</Highlight>.
+          <Highlight> trygg bilhandel </Highlight>.
         </MotionP>
       </MotionDiv>
 
