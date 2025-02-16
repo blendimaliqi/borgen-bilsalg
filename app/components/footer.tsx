@@ -43,11 +43,11 @@ export function Footer() {
             +47 123 45 678
           </a>
           <a
-            href="mailto:zulic@borgenbilsalg.no"
+            href="mailto:mirnes@borgenbilsalg.no"
             className="flex items-center gap-2 text-base md:text-lg text-accent-foreground hover:text-accent-foreground/80 transition-colors"
           >
             <Mail className="h-5 w-5 text-accent-foreground/80" />
-            zulic@borgenbilsalg.no
+            mirnes@borgenbilsalg.no
           </a>
         </div>
         <div className="mt-6 md:mt-4 text-center">

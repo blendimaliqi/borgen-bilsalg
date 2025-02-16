@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import React from "react";
+import React, { JSX } from "react";
 
 export const HeroHighlight = ({
   children,
@@ -40,12 +40,7 @@ export const Highlight = ({
   className?: string;
 }) => {
   return (
-    <span
-      className={cn(
-        "bg-gradient-to-r from-[#8b7355] via-[#a08563] to-[#8b7355] bg-clip-text font-bold text-transparent",
-        className
-      )}
-    >
+    <span className={cn("text-[#1A1A1A] font-bold", className)}>
       {children}
     </span>
   );

@@ -17,7 +17,7 @@ export function HeroSection() {
           transition={{ duration: 0.5, delay: 0.2, ease: [0.4, 0.0, 0.2, 1] }}
           className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground"
         >
-          <Highlight>Borgen Bilsalg</Highlight>
+          <Highlight>Borgen Bilsalg AS</Highlight>
         </MotionH1>
         <MotionP
           initial={{ opacity: 0, y: 20 }}
@@ -41,19 +41,20 @@ function ContactCards() {
     {
       icon: Phone,
       title: "Ring Direkte",
-      content: "+47 123 45 678",
+      content: "+47 986 81 758",
       href: "tel:+4712345678",
     },
     {
       icon: Mail,
       title: "E-post",
-      content: "zulic@borgenbilsalg.no",
-      href: "mailto:zulic@borgenbilsalg.no",
+      content: "mirnes@borgenbilsalg.no",
+      href: "mailto:mirnes@borgenbilsalg.no",
     },
     {
       icon: Clock,
       title: "Åpningstider",
-      content: ["Man-Fre: 09:00-17:00", "Lør: 10:00-15:00"],
+      content: ["Man-Fre: 10:00-17:00", "Lør: 10:00-14:00"],
+      tooltip: "Møter kan avtales utover åpningstider",
     },
     {
       icon: MapPin,
@@ -87,7 +88,7 @@ function ContactCards() {
 
         return (
           <CardWrapper key={index} {...cardProps}>
-            <div className="flex flex-col items-center text-center h-full justify-center">
+            <div className="flex flex-col items-center text-center h-full justify-center group relative">
               <info.icon className="h-7 w-7 md:h-8 md:w-8 text-accent mb-3 md:mb-2" />
               <h3 className="text-base md:text-2xl text-primary font-medium mb-3 md:mb-2">
                 {info.title}
@@ -111,6 +112,20 @@ function ContactCards() {
                 >
                   {info.content}
                 </p>
+              )}
+              {info.tooltip && (
+                <div
+                  className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 translate-y-full 
+                  opacity-0 group-hover:opacity-100 transition-opacity duration-200 
+                  bg-accent/95 text-accent-foreground px-4 py-2 rounded-lg text-sm 
+                  whitespace-nowrap pointer-events-none z-50 shadow-lg"
+                >
+                  {info.tooltip}
+                  <div
+                    className="absolute -top-1 left-1/2 transform -translate-x-1/2 rotate-45 
+                    w-2 h-2 bg-accent/95"
+                  ></div>
+                </div>
               )}
             </div>
           </CardWrapper>
