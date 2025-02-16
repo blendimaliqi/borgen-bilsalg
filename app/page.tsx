@@ -11,7 +11,7 @@ export default function Home() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, ease: [0.4, 0.0, 0.2, 1] }}
-          className="text-center space-y-6"
+          className="text-center space-y-6 px-4 md:px-0"
         >
           <MotionH1
             initial={{ opacity: 0, y: 20 }}
@@ -38,9 +38,9 @@ export default function Home() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.4, ease: [0.4, 0.0, 0.2, 1] }}
-          className="grid grid-cols-12 gap-6 mt-12"
+          className="grid grid-cols-1 md:grid-cols-12 gap-6 mt-12 px-4 md:px-0"
         >
-          <div className="col-span-3 bg-card/95 backdrop-blur-sm border border-border/50 rounded-xl p-6 shadow-lg hover:shadow-xl transition-all hover:-translate-y-1">
+          <div className="md:col-span-3 bg-card/95 backdrop-blur-sm border border-border/50 rounded-xl p-4 md:p-6 shadow-lg hover:shadow-xl transition-all hover:-translate-y-1">
             <div className="flex flex-col items-center text-center">
               <Phone className="h-8 w-8 text-accent mb-2" />
               <h3 className="text-2xl text-primary font-medium mb-2">
@@ -52,7 +52,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="col-span-3 bg-card/95 backdrop-blur-sm border border-border/50 rounded-xl p-6 shadow-lg hover:shadow-xl transition-all hover:-translate-y-1">
+          <div className="md:col-span-3 bg-card/95 backdrop-blur-sm border border-border/50 rounded-xl p-4 md:p-6 shadow-lg hover:shadow-xl transition-all hover:-translate-y-1">
             <div className="flex flex-col items-center text-center">
               <Mail className="h-8 w-8 text-accent mb-2" />
               <h3 className="text-2xl text-primary font-medium mb-2">E-post</h3>
@@ -62,7 +62,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="col-span-3 bg-card/95 backdrop-blur-sm border border-border/50 rounded-xl p-6 shadow-lg hover:shadow-xl transition-all hover:-translate-y-1">
+          <div className="md:col-span-3 bg-card/95 backdrop-blur-sm border border-border/50 rounded-xl p-4 md:p-6 shadow-lg hover:shadow-xl transition-all hover:-translate-y-1">
             <div className="flex flex-col items-center text-center">
               <Clock className="h-8 w-8 text-accent mb-2" />
               <h3 className="text-2xl text-primary font-medium mb-2">
@@ -76,7 +76,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="col-span-3 bg-card/95 backdrop-blur-sm border border-border/50 rounded-xl p-6 shadow-lg hover:shadow-xl transition-all hover:-translate-y-1">
+          <div className="md:col-span-3 bg-card/95 backdrop-blur-sm border border-border/50 rounded-xl p-4 md:p-6 shadow-lg hover:shadow-xl transition-all hover:-translate-y-1">
             <div className="flex flex-col items-center text-center">
               <MapPin className="h-8 w-8 text-accent mb-2" />
               <h3 className="text-2xl text-primary font-medium mb-2">
@@ -93,24 +93,24 @@ export default function Home() {
       </HeroHighlight>
 
       {/* Services Section */}
-      <section className="py-24 px-4">
+      <section className="py-12 md:py-24 px-4">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-4xl font-bold text-center mb-12 text-primary">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-8 md:mb-12 text-primary">
             Våre Tjenester
           </h2>
 
-          <div className="space-y-24">
+          <div className="space-y-12 md:space-y-24">
             {/* Kjøp Bil Service */}
-            <div className="grid grid-cols-12 gap-8 items-center">
-              <div className="col-span-3">
-                <h3 className="text-3xl font-medium flex items-center gap-3">
-                  <Car className="h-8 w-8 text-accent" />
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+              <div className="md:col-span-3">
+                <h3 className="text-2xl md:text-3xl font-medium flex items-center gap-3">
+                  <Car className="h-6 w-6 md:h-8 md:w-8 text-accent" />
                   Kjøp Bil
                 </h3>
               </div>
 
-              <div className="col-span-5">
-                <p className="text-muted-foreground text-lg leading-relaxed mb-6">
+              <div className="md:col-span-5">
+                <p className="text-muted-foreground text-base md:text-lg leading-relaxed mb-6">
                   Vi tilbyr en trygg og transparent bilkjøpsprosess. Hver bil i
                   vår kolleksjon er nøye inspisert og kvalitetssikret. Vi
                   hjelper deg med finansiering og sørger for en smidig
@@ -124,7 +124,7 @@ export default function Home() {
                 </div>
               </div>
 
-              <div className="col-span-4 aspect-[4/3] relative overflow-hidden rounded-xl">
+              <div className="md:col-span-4 aspect-[4/3] relative overflow-hidden rounded-xl">
                 <img
                   src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?q=80&w=800&auto=format&fit=crop"
                   alt="Kjøp bil hos Borgen Bilsalg"
@@ -134,19 +134,19 @@ export default function Home() {
             </div>
 
             {/* Middle Separator */}
-            <div className="w-full h-[2px] bg-border" />
+            <div className="w-full h-[2px] bg-border hidden md:block" />
 
             {/* Selg Bil Service */}
-            <div className="grid grid-cols-12 gap-8 items-center">
-              <div className="col-span-3">
-                <h3 className="text-3xl font-medium flex items-center gap-3">
-                  <HandCoins className="h-8 w-8 text-accent" />
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+              <div className="md:col-span-3">
+                <h3 className="text-2xl md:text-3xl font-medium flex items-center gap-3">
+                  <HandCoins className="h-6 w-6 md:h-8 md:w-8 text-accent" />
                   Selg Bil
                 </h3>
               </div>
 
-              <div className="col-span-5">
-                <p className="text-muted-foreground text-lg leading-relaxed mb-6">
+              <div className="md:col-span-5">
+                <p className="text-muted-foreground text-base md:text-lg leading-relaxed mb-6">
                   Ønsker du å selge din bil? Vi tilbyr en enkel og effektiv
                   salgsprosess med gratis verdivurdering og konkurransedyktige
                   priser. Vårt erfarne team sørger for en rask og problemfri
@@ -160,7 +160,7 @@ export default function Home() {
                 </div>
               </div>
 
-              <div className="col-span-4 aspect-[4/3] relative overflow-hidden rounded-xl">
+              <div className="md:col-span-4 aspect-[4/3] relative overflow-hidden rounded-xl">
                 <img
                   src="https://images.unsplash.com/photo-1573497620053-ea5300f94f21?q=80&w=800&auto=format&fit=crop"
                   alt="Selg bil til Borgen Bilsalg"
