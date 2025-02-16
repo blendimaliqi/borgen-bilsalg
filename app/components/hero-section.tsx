@@ -79,11 +79,11 @@ function ContactCards() {
               target: "_blank",
               rel: "noopener noreferrer",
               className:
-                "md:col-span-3 bg-card/95 backdrop-blur-sm border border-border/50 rounded-xl p-5 md:p-6 min-h-[180px] md:min-h-[140px] shadow-lg hover:shadow-xl transition-all hover:-translate-y-1 w-full cursor-pointer",
+                "md:col-span-3 bg-card/95 backdrop-blur-sm border border-border/50 rounded-xl p-5 md:p-6 min-h-[180px] md:min-h-[140px] w-full md:w-auto shadow-lg hover:shadow-xl transition-all hover:-translate-y-1 cursor-pointer",
             }
           : {
               className:
-                "md:col-span-3 bg-card/95 backdrop-blur-sm border border-border/50 rounded-xl p-5 md:p-6 min-h-[180px] md:min-h-[140px] shadow-lg hover:shadow-xl transition-all hover:-translate-y-1 w-full",
+                "md:col-span-3 bg-card/95 backdrop-blur-sm border border-border/50 rounded-xl p-5 md:p-6 min-h-[180px] md:min-h-[140px] w-full md:w-auto shadow-lg hover:shadow-xl transition-all hover:-translate-y-1",
             };
 
         return (
@@ -104,10 +104,10 @@ function ContactCards() {
                 ))
               ) : (
                 <p
-                  className={`text-sm md:text-lg text-foreground font-medium ${
+                  className={`text-foreground font-medium ${
                     info.title === "E-post"
-                      ? "text-[0.65rem] md:text-2xl whitespace-nowrap"
-                      : "text-sm md:text-2xl"
+                      ? "text-[0.65rem] sm:text-[0.75rem] md:text-xl lg:text-2xl whitespace-nowrap overflow-hidden"
+                      : "text-sm sm:text-base md:text-xl lg:text-2xl"
                   }`}
                 >
                   {info.content}
