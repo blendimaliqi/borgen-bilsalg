@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 export function AboutSection() {
   return (
     <div className="max-w-6xl mx-auto">
@@ -87,10 +89,11 @@ function AboutImages() {
           key={index}
           className="aspect-square relative overflow-hidden rounded-xl shadow-lg"
         >
-          <img
+          <Image
             src={image.src}
             alt={image.alt}
-            className="object-cover w-full h-full hover:scale-105 transition-transform duration-500"
+            fill
+            className="object-cover hover:scale-105 transition-transform duration-500"
           />
         </div>
       ))}

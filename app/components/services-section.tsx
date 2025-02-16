@@ -1,4 +1,5 @@
 import { Car, HandCoins } from "lucide-react";
+import Image from "next/image";
 
 export function ServicesSection() {
   return (
@@ -43,7 +44,7 @@ export function ServicesSection() {
 }
 
 interface ServiceCardProps {
-  icon: React.ComponentType<any>;
+  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
   title: string;
   description: string;
   imageSrc: string;
@@ -79,10 +80,11 @@ function ServiceCard({
       </div>
 
       <div className="md:col-span-4 aspect-[4/3] relative overflow-hidden rounded-xl">
-        <img
+        <Image
           src={imageSrc}
           alt={imageAlt}
-          className="object-cover w-full h-full hover:scale-105 transition-transform duration-500"
+          fill
+          className="object-cover hover:scale-105 transition-transform duration-500"
         />
       </div>
     </div>
