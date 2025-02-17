@@ -20,9 +20,6 @@ export const HeroHighlight = ({
       {/* Gradient overlay */}
       <div className="absolute inset-0 bg-gradient-to-br from-[#8b7355]/10 via-accent/5 to-[#d4c4b4]/10" />
 
-      {/* Pattern overlay */}
-      <div className="absolute inset-0 bg-[url('/texture.png')] opacity-15 mix-blend-multiply" />
-
       {/* Radial gradient for spotlight effect */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(139,115,85,0.05)_0%,transparent_70%)]" />
 

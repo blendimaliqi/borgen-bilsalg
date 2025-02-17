@@ -19,6 +19,8 @@ export function HeroSection() {
             fill
             className="object-contain opacity-100 px-4 sm:p-8 scale-125 sm:scale-100"
             priority
+            sizes="(max-width: 640px) 100vw, (max-width: 768px) 75vw, (max-width: 1200px) 50vw, 3840px"
+            quality={85}
           />
         </div>
         <MotionP
