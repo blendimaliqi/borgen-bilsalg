@@ -10,7 +10,7 @@ export function CarSection() {
               Se alle våre biler på Finn.no
             </h3>
             <p className="text-primary-foreground/90 text-lg">
-              Klikk her for å se vårt komplette utvalg av kvalitetsbiler med
+              Klikk her for å se komplett utvalg av kvalitetsbiler med
               detaljerte beskrivelser og bilder
             </p>
             <Link
