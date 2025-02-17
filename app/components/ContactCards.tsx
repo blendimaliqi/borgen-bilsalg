@@ -71,7 +71,7 @@ export function ContactCards() {
                 <p
                   className={`text-foreground font-medium ${
                     info.title === "E-post"
-                      ? "text-[0.65rem] sm:text-sm md:text-base lg:text-lg xl:text-xl break-all md:break-normal"
+                      ? "text-[0.6rem] sm:text-xs md:text-sm lg:text-base xl:text-lg break-normal"
                       : "text-sm sm:text-base md:text-xl lg:text-2xl"
                   }`}
                 >
