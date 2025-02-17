@@ -60,7 +60,7 @@ function ContactCards() {
       icon: MapPin,
       title: "Besøk Oss",
       content: ["Industriveien 29", "1725 Sarpsborg"],
-      href: "https://www.google.com/maps/place/Industriveien+29,+1725+Sarpsborg/@59.27710435279952,11.09293157944697,17z",
+      href: "https://www.google.com/maps/search/?api=1&query=59.277174491606935,11.092749118100468",
     },
   ];
 
