@@ -44,32 +44,32 @@ export function ContactCards() {
               target: "_blank",
               rel: "noopener noreferrer",
               className:
-                "relative md:col-span-3 bg-card/95 backdrop-blur-sm border border-border/50 rounded-xl p-5 md:p-6 min-h-[180px] md:min-h-[140px] w-full md:w-auto shadow-lg hover:shadow-xl transition-all hover:-translate-y-1 cursor-pointer",
+                "relative md:col-span-3 bg-white/90 backdrop-blur-sm border border-white/20 rounded-xl p-5 md:p-6 min-h-[180px] md:min-h-[140px] w-full md:w-auto shadow-lg hover:shadow-xl transition-all hover:-translate-y-1 cursor-pointer",
             }
           : {
               className:
-                "relative md:col-span-3 bg-card/95 backdrop-blur-sm border border-border/50 rounded-xl p-5 md:p-6 min-h-[180px] md:min-h-[140px] w-full md:w-auto shadow-lg hover:shadow-xl transition-all hover:-translate-y-1",
+                "relative md:col-span-3 bg-white/90 backdrop-blur-sm border border-white/20 rounded-xl p-5 md:p-6 min-h-[180px] md:min-h-[140px] w-full md:w-auto shadow-lg hover:shadow-xl transition-all hover:-translate-y-1",
             };
 
         return (
           <CardWrapper key={index} {...cardProps}>
             <div className="flex flex-col items-center text-center h-full justify-center group relative">
-              <info.icon className="h-7 w-7 md:h-8 md:w-8 text-accent mb-3 md:mb-2" />
-              <h3 className="text-base md:text-2xl text-primary font-medium mb-3 md:mb-2">
+              <info.icon className="h-7 w-7 md:h-8 md:w-8 text-primary mb-3 md:mb-2" />
+              <h3 className="text-base md:text-2xl text-primary font-semibold mb-3 md:mb-2">
                 {info.title}
               </h3>
               {Array.isArray(info.content) ? (
                 info.content.map((line, i) => (
                   <p
                     key={i}
-                    className="text-sm md:text-lg text-foreground font-medium leading-tight"
+                    className="text-sm md:text-lg text-primary/90 font-medium leading-tight"
                   >
                     {line}
                   </p>
                 ))
               ) : (
                 <p
-                  className={`text-foreground font-medium ${
+                  className={`text-primary/90 font-medium ${
                     info.title === "E-post"
                       ? "text-[0.6rem] sm:text-xs md:text-sm lg:text-base xl:text-lg break-normal"
                       : "text-sm sm:text-base md:text-xl lg:text-2xl"
