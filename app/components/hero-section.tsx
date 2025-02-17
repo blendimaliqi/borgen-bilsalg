@@ -17,7 +17,7 @@ export function HeroSection() {
             src="/borgen_logo_nobackground.png"
             alt="Borgen Bilsalg Logo"
             fill
-            className="object-contain opacity-85"
+            className="object-contain opacity-100 p-8"
             priority
           />
         </div>

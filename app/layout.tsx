@@ -46,6 +46,7 @@ export const metadata: Metadata = {
     apple: [
       { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
     ],
+    shortcut: "/favicon.ico",
   },
   appleWebApp: {
     capable: true,
@@ -71,6 +72,7 @@ export const metadata: Metadata = {
     description: "Din pålitelige partner for kjøp og salg av biler i Norge",
     siteName: "Borgen Bilsalg",
   },
+  manifest: "/ico/site.webmanifest",
 };
 
 export default function RootLayout({
