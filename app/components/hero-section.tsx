@@ -79,11 +79,11 @@ function ContactCards() {
               target: "_blank",
               rel: "noopener noreferrer",
               className:
-                "md:col-span-3 bg-card/95 backdrop-blur-sm border border-border/50 rounded-xl p-5 md:p-6 min-h-[180px] md:min-h-[140px] w-full md:w-auto shadow-lg hover:shadow-xl transition-all hover:-translate-y-1 cursor-pointer",
+                "relative md:col-span-3 bg-card/95 backdrop-blur-sm border border-border/50 rounded-xl p-5 md:p-6 min-h-[180px] md:min-h-[140px] w-full md:w-auto shadow-lg hover:shadow-xl transition-all hover:-translate-y-1 cursor-pointer",
             }
           : {
               className:
-                "md:col-span-3 bg-card/95 backdrop-blur-sm border border-border/50 rounded-xl p-5 md:p-6 min-h-[180px] md:min-h-[140px] w-full md:w-auto shadow-lg hover:shadow-xl transition-all hover:-translate-y-1",
+                "relative md:col-span-3 bg-card/95 backdrop-blur-sm border border-border/50 rounded-xl p-5 md:p-6 min-h-[180px] md:min-h-[140px] w-full md:w-auto shadow-lg hover:shadow-xl transition-all hover:-translate-y-1",
             };
 
         return (
@@ -115,10 +115,11 @@ function ContactCards() {
               )}
               {info.tooltip && (
                 <div
-                  className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 translate-y-full 
+                  className="fixed md:absolute -bottom-2 left-1/2 transform -translate-x-1/2 translate-y-full 
                   opacity-0 group-hover:opacity-100 transition-opacity duration-200 
                   bg-accent/95 text-accent-foreground px-4 py-2 rounded-lg text-sm 
-                  whitespace-nowrap pointer-events-none z-50 shadow-lg"
+                  whitespace-nowrap pointer-events-none shadow-lg
+                  z-[9999]"
                 >
                   {info.tooltip}
                   <div
