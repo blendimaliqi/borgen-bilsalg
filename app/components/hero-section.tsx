@@ -69,7 +69,7 @@ function ContactCards() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.4, ease: [0.4, 0.0, 0.2, 1] }}
-      className="grid grid-cols-2 md:grid-cols-12 gap-3 md:gap-6 mt-16 md:mt-24 px-1 md:px-0"
+      className="grid grid-cols-2 md:grid-cols-12 gap-3 md:gap-6 mt-16 md:mt-24 px-1 md:px-0 pb-16 md:pb-24"
     >
       {contactInfo.map((info, index) => {
         const CardWrapper = info.href ? "a" : "div";
@@ -115,11 +115,11 @@ function ContactCards() {
               )}
               {info.tooltip && (
                 <div
-                  className="fixed md:absolute -bottom-2 left-1/2 transform -translate-x-1/2 translate-y-full 
+                  className="fixed md:absolute top-[105%] md:top-auto md:bottom-0 left-1/2 transform -translate-x-1/2 md:translate-y-[120%] 
                   opacity-0 group-hover:opacity-100 transition-opacity duration-200 
                   bg-accent/95 text-accent-foreground px-4 py-2 rounded-lg text-sm 
-                  whitespace-nowrap pointer-events-none shadow-lg
-                  z-[9999]"
+                  whitespace-normal md:whitespace-nowrap max-w-[200px] md:max-w-none text-center
+                  pointer-events-none shadow-lg z-[99999]"
                 >
                   {info.tooltip}
                   <div
