@@ -6,7 +6,7 @@ export function useCars() {
     queryKey: ["cars"],
     queryFn: async (): Promise<Car[]> => {
       const response = await fetch("/api/cars", {
-        cache: "force-cache",
+        cache: "no-store",
       });
       if (!response.ok) {
         throw new Error(`Failed to fetch cars: ${response.status}`);
