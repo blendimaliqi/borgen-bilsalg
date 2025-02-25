@@ -7,10 +7,6 @@ import { createPortal } from "react-dom";
 
 export default function Navbar() {
   const pathname = usePathname();
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [showPrompt, setShowPrompt] = useState(false);
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
 
   // Add scroll behavior states
   const [prevScrollPos, setPrevScrollPos] = useState(0);
@@ -27,25 +23,8 @@ export default function Navbar() {
 
   // Check session storage on component mount
   useEffect(() => {
-    const adminAuth = sessionStorage.getItem("adminAuth");
-    if (adminAuth === "true") {
-      setIsAdmin(true);
-    }
-
-    // Add keyboard shortcut listener (Ctrl+Shift+A)
+    // Add keyboard shortcut listener for mobile menu
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.ctrlKey && e.shiftKey && e.key === "A") {
-        e.preventDefault();
-        if (!isAdmin) {
-          setShowPrompt(true);
-        }
-      }
-      // Close prompt with Escape
-      if (e.key === "Escape" && showPrompt) {
-        setShowPrompt(false);
-        setPassword("");
-        setError("");
-      }
       // Close mobile menu with Escape
       if (e.key === "Escape" && mobileMenuOpen) {
         setMobileMenuOpen(false);
@@ -54,7 +33,7 @@ export default function Navbar() {
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [isAdmin, showPrompt, mobileMenuOpen]);
+  }, [mobileMenuOpen]);
 
   // Add scroll behavior effect
   useEffect(() => {
@@ -118,20 +97,6 @@ export default function Navbar() {
     };
   }, []);
 
-  const handlePasswordSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (password === "mirkish") {
-      sessionStorage.setItem("adminAuth", "true");
-      setIsAdmin(true);
-      setShowPrompt(false);
-      setPassword("");
-      setError("");
-    } else {
-      setError("Feil passord. Prøv igjen.");
-      setPassword("");
-    }
-  };
-
   return (
     <header
       className={`border-b border-border fixed top-0 left-0 right-0 z-[100] bg-background transition-all duration-300 ${
@@ -180,18 +145,6 @@ export default function Navbar() {
         </nav>
 
         <div className="flex items-center gap-4">
-          {isAdmin && (
-            <Link
-              href="/admin/cars"
-              className={`relative py-1 text-xs transition ${
-                pathname === "/admin/cars" || pathname.startsWith("/admin/")
-                  ? "text-primary font-semibold after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-primary"
-                  : "text-muted-foreground hover:text-foreground"
-              }`}
-            >
-              Admin
-            </Link>
-          )}
           <Link
             href="/cars"
             className="hidden sm:inline-flex px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition"
@@ -309,20 +262,6 @@ export default function Navbar() {
                   >
                     Kontakt
                   </Link>
-                  {isAdmin && (
-                    <Link
-                      href="/admin/cars"
-                      className={`block py-2 px-3 text-sm font-medium border-l-2 mb-1 ${
-                        pathname === "/admin/cars" ||
-                        pathname.startsWith("/admin/")
-                          ? "border-primary text-primary bg-blue-50/50"
-                          : "border-transparent text-gray-800 hover:border-gray-300 hover:bg-gray-50"
-                      }`}
-                      onClick={() => setMobileMenuOpen(false)}
-                    >
-                      Admin
-                    </Link>
-                  )}
                 </div>
                 <div className="mt-3 pt-3 border-t border-gray-100">
                   <Link
@@ -338,53 +277,6 @@ export default function Navbar() {
           </div>,
           portalContainer
         )}
-
-      {/* Password Prompt Modal */}
-      {showPrompt && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[400]">
-          <div className="bg-card p-6 rounded-lg shadow-xl max-w-md w-full">
-            <h3 className="text-xl font-bold mb-4">Admin Tilgang</h3>
-            <form onSubmit={handlePasswordSubmit}>
-              <div className="mb-4">
-                <label
-                  htmlFor="password"
-                  className="block text-sm font-medium mb-1"
-                >
-                  Passord
-                </label>
-                <input
-                  type="password"
-                  id="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="w-full px-3 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
-                  autoFocus
-                />
-                {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
-              </div>
-              <div className="flex justify-end gap-2">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setShowPrompt(false);
-                    setPassword("");
-                    setError("");
-                  }}
-                  className="px-4 py-2 text-sm border border-border rounded-md hover:bg-muted transition-colors"
-                >
-                  Avbryt
-                </button>
-                <button
-                  type="submit"
-                  className="px-4 py-2 text-sm bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
-                >
-                  Logg inn
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
     </header>
   );
 }
