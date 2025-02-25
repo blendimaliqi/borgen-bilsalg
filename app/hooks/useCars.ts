@@ -6,16 +6,16 @@ export function useCars() {
     queryKey: ["cars"],
     queryFn: async (): Promise<Car[]> => {
       const response = await fetch("/api/cars", {
-        cache: "no-store",
+        cache: "force-cache",
       });
       if (!response.ok) {
         throw new Error(`Failed to fetch cars: ${response.status}`);
       }
       return response.json();
     },
-    staleTime: 30 * 60 * 1000, // 30 minutes
-    refetchOnWindowFocus: false,
+    staleTime: 5 * 60 * 1000, // 5 minutes - consider data stale after this time
+    refetchOnWindowFocus: true, // Refetch when user returns to tab
     refetchOnMount: true,
-    gcTime: 60 * 60 * 1000, // 1 hour
+    gcTime: 15 * 60 * 1000, // 15 minutes - align with server-side cache
   });
 }

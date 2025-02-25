@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
 import { getCarsWithFallback } from "@/app/lib/finn-cars";
 
-// Set revalidation time to 1 hour (3600 seconds)
-export const revalidate = 3600;
+// Set revalidation time to 15 minutes (900 seconds)
+export const revalidate = 900;
 
 /**
  * GET handler for /api/cars
@@ -12,6 +12,13 @@ export const revalidate = 3600;
  * - orgId: The organization ID on Finn.no (defaults to 4471300)
  * - limit: Maximum number of cars to fetch (0 for all)
  * - apiKey: Optional API key for protection (not implemented yet)
+ *
+ * The data is cached for 15 minutes on the server side to:
+ * - Reduce load on Finn.no
+ * - Improve response times
+ * - Still maintain relatively fresh data
+ *
+ * For immediate updates, use the /api/cars/refresh endpoint
  */
 export async function GET() {
   try {
