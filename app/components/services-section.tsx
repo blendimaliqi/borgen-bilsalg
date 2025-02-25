@@ -1,4 +1,6 @@
-import { Car, HandCoins, ShieldCheck, Wrench } from "lucide-react";
+"use client";
+
+import { Car, HandCoins, ShieldCheck } from "lucide-react";
 import Image from "next/image";
 
 export function ServicesSection() {
@@ -15,12 +17,12 @@ export function ServicesSection() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10">
           <ServiceCard
             icon={Car}
             title="Kjøp Bil"
             description="Vi tilbyr en trygg og transparent bilkjøpsprosess. Hver bil i vår kolleksjon er nøye inspisert og kvalitetssikret. Vi hjelper deg med finansiering og sørger for en smidig handleopplevelse fra start til slutt."
-            imageSrc="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?q=80&w=800&auto=format&fit=crop"
+            imageSrc="/images/services/man-buying-car.jpg"
             imageAlt="Kjøp bil hos Borgen Bilsalg"
             bgColor="bg-gradient-to-br from-primary/5 to-primary/10"
           />
@@ -29,7 +31,7 @@ export function ServicesSection() {
             icon={HandCoins}
             title="Selg Bil"
             description="Ønsker du å selge din bil? Vi tilbyr en enkel og effektiv salgsprosess med gratis verdivurdering og konkurransedyktige priser. Vårt erfarne team sørger for en rask og problemfri transaksjon."
-            imageSrc="https://images.unsplash.com/photo-1573497620053-ea5300f94f21?q=80&w=800&auto=format&fit=crop"
+            imageSrc="/images/services/medium-shot-man-working-as-valet.jpg"
             imageAlt="Selg bil til Borgen Bilsalg"
             bgColor="bg-gradient-to-br from-secondary/5 to-secondary/10"
           />
@@ -38,18 +40,9 @@ export function ServicesSection() {
             icon={ShieldCheck}
             title="Innbytte av bil"
             description="Vil du bytte din nåværende bil mot en nyere eller bare en annen type? vi gir deg en rettferdig vurdering av din bil og hjelper deg å finne den perfekte erstatningen. Med vår innbytteordning blir overgangen til ny bil både enkel og økonomisk fordelaktig."
-            imageSrc="https://images.unsplash.com/photo-1580273916550-e323be2ae537?q=80&w=800&auto=format&fit=crop"
+            imageSrc="/images/services/close-up-sales-manager-black-suit-selling-car-customer.jpg"
             imageAlt="Innbytte av bil hos Borgen Bilsalg"
             bgColor="bg-gradient-to-br from-accent/5 to-accent/10"
-          />
-
-          <ServiceCard
-            icon={Wrench}
-            title="Service og Vedlikehold"
-            description="Vi tilbyr profesjonell service og vedlikehold for alle bilmerker. Våre erfarne mekanikere sørger for at din bil er i topp stand. Vi bruker kun kvalitetsdeler og de nyeste diagnoseverktøyene for å sikre best mulig resultat."
-            imageSrc="https://images.unsplash.com/photo-1530046339160-ce3e530c7d2f?q=80&w=800&auto=format&fit=crop"
-            imageAlt="Service og vedlikehold hos Borgen Bilsalg"
-            bgColor="bg-gradient-to-br from-primary/5 to-secondary/10"
           />
         </div>
       </div>
@@ -95,7 +88,7 @@ function ServiceCard({
             src={imageSrc}
             alt={imageAlt}
             fill
-            sizes="(max-width: 768px) 100vw, 50vw"
+            sizes="(max-width: 768px) 100vw, 33vw"
             className="object-cover group-hover:scale-105 transition-transform duration-700"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
