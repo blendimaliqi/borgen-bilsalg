@@ -1,24 +1,29 @@
-import { Car, HandCoins } from "lucide-react";
+import { Car, HandCoins, ShieldCheck, Wrench } from "lucide-react";
 import Image from "next/image";
 
 export function ServicesSection() {
   return (
-    <section className="py-12 md:py-24 px-4">
+    <section className="py-16 md:py-24 px-4 bg-muted/30">
       <div className="max-w-7xl mx-auto">
-        <h2 className="text-3xl md:text-4xl font-bold text-center mb-8 md:mb-12 text-primary">
-          Våre Tjenester
-        </h2>
+        <div className="text-center mb-16">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-primary">
+            Våre Tjenester
+          </h2>
+          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+            Vi tilbyr et bredt spekter av tjenester for å gjøre din
+            bilopplevelse så smidig som mulig
+          </p>
+        </div>
 
-        <div className="space-y-12 md:space-y-24">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
           <ServiceCard
             icon={Car}
             title="Kjøp Bil"
             description="Vi tilbyr en trygg og transparent bilkjøpsprosess. Hver bil i vår kolleksjon er nøye inspisert og kvalitetssikret. Vi hjelper deg med finansiering og sørger for en smidig handleopplevelse fra start til slutt."
             imageSrc="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?q=80&w=800&auto=format&fit=crop"
             imageAlt="Kjøp bil hos Borgen Bilsalg"
+            bgColor="bg-gradient-to-br from-primary/5 to-primary/10"
           />
-
-          <div className="w-full h-[2px] bg-border hidden md:block" />
 
           <ServiceCard
             icon={HandCoins}
@@ -26,16 +31,25 @@ export function ServicesSection() {
             description="Ønsker du å selge din bil? Vi tilbyr en enkel og effektiv salgsprosess med gratis verdivurdering og konkurransedyktige priser. Vårt erfarne team sørger for en rask og problemfri transaksjon."
             imageSrc="https://images.unsplash.com/photo-1573497620053-ea5300f94f21?q=80&w=800&auto=format&fit=crop"
             imageAlt="Selg bil til Borgen Bilsalg"
+            bgColor="bg-gradient-to-br from-secondary/5 to-secondary/10"
           />
 
-          <div className="w-full h-[2px] bg-border hidden md:block" />
-
           <ServiceCard
-            icon={HandCoins}
+            icon={ShieldCheck}
             title="Innbytte av bil"
-            description="Vil du bytte din nåværende bil mot en nyere eller bare en annen type? vi gir deg en rettferdig vurdering av din bil og hjelper deg å finne den perfekte erstatningen.  Med vår innbytteordning blir overgangen til ny bil både enkel og økonomisk fordelaktig."
+            description="Vil du bytte din nåværende bil mot en nyere eller bare en annen type? vi gir deg en rettferdig vurdering av din bil og hjelper deg å finne den perfekte erstatningen. Med vår innbytteordning blir overgangen til ny bil både enkel og økonomisk fordelaktig."
             imageSrc="https://images.unsplash.com/photo-1580273916550-e323be2ae537?q=80&w=800&auto=format&fit=crop"
             imageAlt="Innbytte av bil hos Borgen Bilsalg"
+            bgColor="bg-gradient-to-br from-accent/5 to-accent/10"
+          />
+
+          <ServiceCard
+            icon={Wrench}
+            title="Service og Vedlikehold"
+            description="Vi tilbyr profesjonell service og vedlikehold for alle bilmerker. Våre erfarne mekanikere sørger for at din bil er i topp stand. Vi bruker kun kvalitetsdeler og de nyeste diagnoseverktøyene for å sikre best mulig resultat."
+            imageSrc="https://images.unsplash.com/photo-1530046339160-ce3e530c7d2f?q=80&w=800&auto=format&fit=crop"
+            imageAlt="Service og vedlikehold hos Borgen Bilsalg"
+            bgColor="bg-gradient-to-br from-primary/5 to-secondary/10"
           />
         </div>
       </div>
@@ -49,6 +63,7 @@ interface ServiceCardProps {
   description: string;
   imageSrc: string;
   imageAlt: string;
+  bgColor: string;
 }
 
 function ServiceCard({
@@ -57,36 +72,34 @@ function ServiceCard({
   description,
   imageSrc,
   imageAlt,
+  bgColor,
 }: ServiceCardProps) {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
-      <div className="md:col-span-3">
-        <h3 className="text-2xl md:text-3xl font-medium flex items-center gap-3">
-          <Icon className="h-6 w-6 md:h-8 md:w-8 text-accent" />
-          {title}
-        </h3>
-      </div>
+    <div
+      className={`rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group ${bgColor}`}
+    >
+      <div className="p-6 md:p-8">
+        <div className="flex items-start gap-4 mb-4">
+          <div className="bg-primary/10 p-3 rounded-xl">
+            <Icon className="h-6 w-6 md:h-7 md:w-7 text-primary" />
+          </div>
+          <h3 className="text-xl md:text-2xl font-bold">{title}</h3>
+        </div>
 
-      <div className="md:col-span-5">
-        <p className="text-muted-foreground text-base md:text-lg leading-relaxed mb-6">
+        <p className="text-muted-foreground text-base leading-relaxed mb-6">
           {description}
         </p>
-        <div className="inline-flex items-center gap-2 text-primary hover:text-primary/80 transition-colors cursor-pointer group">
-          {/* Les mer
-          <span className="group-hover:translate-x-1 transition-transform">
-            →
-          </span> */}
-        </div>
-      </div>
 
-      <div className="md:col-span-4 aspect-[4/3] relative overflow-hidden rounded-xl">
-        <Image
-          src={imageSrc}
-          alt={imageAlt}
-          fill
-          sizes="(max-width: 768px) 100vw, 33vw"
-          className="object-cover hover:scale-105 transition-transform duration-500"
-        />
+        <div className="relative h-48 md:h-56 rounded-xl overflow-hidden">
+          <Image
+            src={imageSrc}
+            alt={imageAlt}
+            fill
+            sizes="(max-width: 768px) 100vw, 50vw"
+            className="object-cover group-hover:scale-105 transition-transform duration-700"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+        </div>
       </div>
     </div>
   );

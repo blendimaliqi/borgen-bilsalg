@@ -13,17 +13,20 @@ export const HeroHighlight = ({
   return (
     <div
       className={cn(
-        "relative w-full overflow-hidden bg-gradient-to-b from-[#f8f5f0] via-[#f5f0e8] to-muted px-8 py-24",
+        "relative w-full overflow-hidden bg-gradient-to-b from-background via-muted/50 to-muted px-4 sm:px-8 py-6",
         className
       )}
     >
-      {/* Gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-br from-[#8b7355]/10 via-accent/5 to-[#d4c4b4]/10" />
+      {/* Enhanced gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-secondary/5 to-accent/10" />
 
-      {/* Radial gradient for spotlight effect */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(139,115,85,0.05)_0%,transparent_70%)]" />
+      {/* Improved radial gradient for spotlight effect */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(59,130,246,0.08)_0%,transparent_70%)]" />
 
-      {/* Content */}
+      {/* Subtle animated gradient */}
+      <div className="absolute inset-0 bg-gradient-to-tr from-primary/5 via-transparent to-accent/5 opacity-70 animate-gradient bg-200%" />
+
+      {/* Content with improved max-width for better responsiveness */}
       <div className="relative mx-auto max-w-7xl">{children}</div>
     </div>
   );
@@ -37,8 +40,9 @@ export const Highlight = ({
   className?: string;
 }) => {
   return (
-    <span className={cn("text-[#1A1A1A] font-bold", className)}>
+    <span className={cn("text-primary font-bold relative", className)}>
       {children}
+      <span className="absolute bottom-0 left-0 w-full h-[3px] bg-primary/20 rounded-full"></span>
     </span>
   );
 };
