@@ -2,7 +2,6 @@ import { HeroHighlight } from "./ui/hero-highlight";
 import { HeroSection } from "./components/hero-section";
 import { ServicesSection } from "./components/services-section";
 import { CarSection } from "./components/car-section";
-import { Footer } from "./components/footer";
 
 export default function Home() {
   return (
@@ -12,7 +11,6 @@ export default function Home() {
       </HeroHighlight>
       <CarSection />
       <ServicesSection />
-      <Footer />
     </main>
   );
 }

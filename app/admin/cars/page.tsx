@@ -1,84 +1,17 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { Car } from "@/app/lib/finn-cars";
+import { useState } from "react";
+import { useCars } from "@/app/hooks/useCars";
+import { useRefreshCars } from "@/app/hooks/useRefreshCars";
 
 export default function AdminCarsPage() {
-  const [isRefreshing, setIsRefreshing] = useState(false);
-  const [refreshResult, setRefreshResult] = useState<{
-    success: boolean;
-    message: string;
-    count?: number;
-  } | null>(null);
-  const [cars, setCars] = useState<Car[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  // Fetch cars on component mount
-  useEffect(() => {
-    async function fetchCars() {
-      setIsLoading(true);
-      setError(null);
-      try {
-        const response = await fetch("/api/cars");
-        if (!response.ok) {
-          throw new Error(`Failed to fetch cars: ${response.status}`);
-        }
-        const data = await response.json();
-        setCars(data);
-      } catch (err) {
-        console.error("Error fetching cars:", err);
-        setError("Det oppstod en feil ved henting av biler.");
-      } finally {
-        setIsLoading(false);
-      }
-    }
-
-    fetchCars();
-  }, []);
-
-  const handleRefresh = async () => {
-    setIsRefreshing(true);
-    setRefreshResult(null);
-
-    try {
-      const response = await fetch("/api/cars/refresh");
-
-      if (!response.ok) {
-        throw new Error(`Failed to refresh: ${response.status}`);
-      }
-
-      const data = await response.json();
-
-      if (data.success) {
-        setRefreshResult({
-          success: true,
-          message: `Oppdatering vellykket! Hentet ${data.count} biler.`,
-          count: data.count,
-        });
-
-        // Refresh the car list
-        const carsResponse = await fetch("/api/cars");
-        if (carsResponse.ok) {
-          const carsData = await carsResponse.json();
-          setCars(carsData);
-        }
-      } else {
-        setRefreshResult({
-          success: false,
-          message: data.message || "Oppdatering feilet av ukjent årsak.",
-        });
-      }
-    } catch (error) {
-      console.error("Error refreshing cars:", error);
-      setRefreshResult({
-        success: false,
-        message: "Det oppstod en feil under oppdatering av bildata.",
-      });
-    } finally {
-      setIsRefreshing(false);
-    }
-  };
+  const { data: cars = [], isLoading, isError, error } = useCars();
+  const {
+    mutate: refreshCars,
+    isPending: isRefreshing,
+    data: refreshResult,
+    error: refreshError,
+  } = useRefreshCars();
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -92,7 +25,7 @@ export default function AdminCarsPage() {
         </p>
 
         <button
-          onClick={handleRefresh}
+          onClick={() => refreshCars()}
           disabled={isRefreshing}
           className={`px-4 py-2 rounded-md ${
             isRefreshing
@@ -145,6 +78,16 @@ export default function AdminCarsPage() {
             )}
           </div>
         )}
+
+        {refreshError && (
+          <div className="mt-4 p-4 rounded-md bg-red-100 border border-red-400 text-red-700">
+            <p>
+              {refreshError instanceof Error
+                ? refreshError.message
+                : "Det oppstod en feil under oppdatering av bildata."}
+            </p>
+          </div>
+        )}
       </div>
 
       <div className="bg-white rounded-lg shadow-md p-6">
@@ -156,14 +99,18 @@ export default function AdminCarsPage() {
           </div>
         )}
 
-        {error && !isLoading && (
+        {isError && (
           <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-6">
             <strong className="font-bold">Feil! </strong>
-            <span className="block sm:inline">{error}</span>
+            <span className="block sm:inline">
+              {error instanceof Error
+                ? error.message
+                : "Det oppstod en feil ved henting av biler."}
+            </span>
           </div>
         )}
 
-        {!isLoading && !error && cars.length === 0 && (
+        {!isLoading && !isError && cars.length === 0 && (
           <div className="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded relative mb-6">
             <strong className="font-bold">Ingen biler funnet! </strong>
             <span className="block sm:inline">

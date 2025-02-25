@@ -2,52 +2,22 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState, useEffect } from "react";
-import { Car } from "@/app/lib/finn-cars";
+import { useState } from "react";
+import { useCars } from "../hooks/useCars";
 
 export default function CarsPage() {
-  const [cars, setCars] = useState<Car[]>([]);
-  const [filteredCars, setFilteredCars] = useState<Car[]>([]);
+  const { data: cars = [], isLoading, isError, error } = useCars();
   const [activeFilter, setActiveFilter] = useState<string>("all");
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
-
-  // Fetch cars on component mount
-  useEffect(() => {
-    async function fetchCars() {
-      setIsLoading(true);
-      setError(null);
-      try {
-        const response = await fetch("/api/cars");
-        if (!response.ok) {
-          throw new Error(`Failed to fetch cars: ${response.status}`);
-        }
-        const data = await response.json();
-        setCars(data);
-        setFilteredCars(data);
-      } catch (err) {
-        console.error("Error fetching cars:", err);
-        setError(
-          "Det oppstod en feil ved henting av biler. Vennligst prøv igjen senere."
-        );
-      } finally {
-        setIsLoading(false);
-      }
-    }
-
-    fetchCars();
-  }, []);
 
   // Filter cars based on selected filter
+  const filteredCars =
+    activeFilter === "all"
+      ? cars
+      : cars.filter((car) => car.fuel === activeFilter);
+
+  // Handle filter change
   const handleFilterChange = (filter: string) => {
     setActiveFilter(filter);
-
-    if (filter === "all") {
-      setFilteredCars(cars);
-    } else {
-      const filtered = cars.filter((car) => car.fuel === filter);
-      setFilteredCars(filtered);
-    }
   };
 
   return (
@@ -116,15 +86,19 @@ export default function CarsPage() {
       )}
 
       {/* Error state */}
-      {error && !isLoading && (
+      {isError && (
         <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-6">
           <strong className="font-bold">Feil! </strong>
-          <span className="block sm:inline">{error}</span>
+          <span className="block sm:inline">
+            {error instanceof Error
+              ? error.message
+              : "Det oppstod en feil ved henting av biler. Vennligst prøv igjen senere."}
+          </span>
         </div>
       )}
 
       {/* No cars found state */}
-      {!isLoading && !error && cars.length === 0 && (
+      {!isLoading && !isError && cars.length === 0 && (
         <div className="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded relative mb-6">
           <strong className="font-bold">Ingen biler funnet! </strong>
           <span className="block sm:inline">
@@ -135,15 +109,18 @@ export default function CarsPage() {
       )}
 
       {/* No filtered results */}
-      {!isLoading && !error && cars.length > 0 && filteredCars.length === 0 && (
-        <div className="bg-blue-100 border border-blue-400 text-blue-700 px-4 py-3 rounded relative mb-6">
-          <strong className="font-bold">Ingen treff! </strong>
-          <span className="block sm:inline">
-            Vi fant ingen biler som matcher filteret "{activeFilter}". Prøv et
-            annet filter.
-          </span>
-        </div>
-      )}
+      {!isLoading &&
+        !isError &&
+        cars.length > 0 &&
+        filteredCars.length === 0 && (
+          <div className="bg-blue-100 border border-blue-400 text-blue-700 px-4 py-3 rounded relative mb-6">
+            <strong className="font-bold">Ingen treff! </strong>
+            <span className="block sm:inline">
+              Vi fant ingen biler som matcher filteret "{activeFilter}". Prøv et
+              annet filter.
+            </span>
+          </div>
+        )}
 
       {/* Car grid */}
       {!isLoading && filteredCars.length > 0 && (

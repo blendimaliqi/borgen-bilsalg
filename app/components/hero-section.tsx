@@ -70,8 +70,7 @@ export function HeroSection() {
             className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4"
           >
             <Link
-              href="https://www.finn.no/mobility/search/car?orgId=4471300"
-              target="_blank"
+              href="/cars"
               rel="noopener noreferrer"
               className="inline-block bg-primary text-primary-foreground px-8 py-3 rounded-full font-medium text-lg hover:bg-primary/90 transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-1 w-full sm:w-auto"
             >
