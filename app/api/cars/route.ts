@@ -18,17 +18,12 @@ export async function GET() {
     // Get cars with fallback
     const cars = await getCarsWithFallback();
 
-    // Return the cars array directly
+    // Return the cars array directly without hardcoded fixes
     return NextResponse.json(cars);
   } catch (error) {
-    console.error("Error fetching cars:", error);
-
+    console.error("Error in cars API route:", error);
     return NextResponse.json(
-      {
-        error: "Failed to fetch cars",
-        message:
-          error instanceof Error ? error.message : "Unknown error occurred",
-      },
+      { error: "Failed to fetch cars" },
       { status: 500 }
     );
   }

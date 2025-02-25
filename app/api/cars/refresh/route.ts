@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
-import { fetchCarsFromFinn } from "@/app/lib/finn-cars";
+import { fetchCarsFromFinn, getCarsWithFallback } from "@/app/lib/finn-cars";
+import { revalidatePath } from "next/cache";
 
 // Disable caching for this route
 export const dynamic = "force-dynamic";
@@ -28,7 +29,10 @@ export async function GET(request: Request) {
     // }
 
     // Fetch cars from Finn.no
-    const cars = await fetchCarsFromFinn(orgId);
+    const cars = await getCarsWithFallback();
+
+    // Revalidate the cars path to update any cached data
+    revalidatePath("/cars");
 
     const endTime = Date.now();
     const duration = `${((endTime - startTime) / 1000).toFixed(2)}s`;
