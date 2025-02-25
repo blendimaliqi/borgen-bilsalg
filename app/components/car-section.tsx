@@ -16,12 +16,19 @@ export function CarSection() {
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4">
-            Utvalgte Biler
+            Nyeste Biler
           </h2>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            Utforsk vårt utvalg av kvalitetsbiler. Alle våre biler gjennomgår
-            grundig inspeksjon for å sikre høyeste standard.
+            Utforsk våre nyeste tilskudd til bilutvalget. Alle våre biler
+            gjennomgår grundig inspeksjon for å sikre høyeste standard.
           </p>
+          <Link
+            href="/cars"
+            className="inline-flex items-center mt-4 text-primary font-medium hover:text-primary/80 transition-colors"
+          >
+            Se alle biler
+            <ArrowRight className="ml-2 h-4 w-4" />
+          </Link>
         </div>
 
         {/* Featured Cars */}

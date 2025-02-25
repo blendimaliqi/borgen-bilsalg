@@ -196,9 +196,12 @@ export default function CarsPage() {
             biler eller for å diskutere dine spesifikke ønsker.
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
-            <button className="px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition">
+            <Link
+              href={"/contact"}
+              className="px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition"
+            >
               Kontakt oss
-            </button>
+            </Link>
             <Link
               href="https://www.finn.no/mobility/search/car?orgId=4471300"
               target="_blank"

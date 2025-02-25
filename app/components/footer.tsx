@@ -44,14 +44,6 @@ export function Footer() {
           {/* Logo and about */}
           <div className="md:col-span-4">
             <div className="flex items-center mb-4">
-              <div className="relative w-16 h-16 mr-3">
-                <Image
-                  src="/borgen_logo_nobackground.png"
-                  alt="Borgen Bilsalg Logo"
-                  fill
-                  className="object-contain"
-                />
-              </div>
               <h3 className="text-2xl font-bold text-accent-foreground">
                 Borgen Bilsalg
               </h3>
@@ -60,7 +52,7 @@ export function Footer() {
               Din pålitelige partner for kvalitetsbiler i Sarpsborg. Vi tilbyr
               profesjonell service og trygg bilhandel.
             </p>
-            <div className="flex space-x-4">
+            {/* <div className="flex space-x-4">
               <a
                 href="#"
                 className="bg-accent-foreground/10 p-2 rounded-full hover:bg-accent-foreground/20 transition-colors"
@@ -79,7 +71,7 @@ export function Footer() {
               >
                 <Linkedin className="h-5 w-5 text-accent-foreground" />
               </a>
-            </div>
+            </div> */}
           </div>
 
           {/* Contact info */}
@@ -153,8 +145,7 @@ export function Footer() {
         {/* Copyright */}
         <div className="mt-12 pt-6 border-t border-accent-foreground/10 text-center">
           <p className="text-accent-foreground/80">
-            © {new Date().getFullYear()} Borgen Bilsalg. Alle rettigheter
-            reservert.
+            © {new Date().getFullYear()} Borgen Bilsalg
           </p>
         </div>
       </div>
