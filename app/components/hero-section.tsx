@@ -77,7 +77,7 @@ export function HeroSection() {
               Se våre biler
             </Link>
             <Link
-              href="#kontakt"
+              href="/contact"
               className="inline-block bg-transparent border-2 border-primary text-primary px-8 py-3 rounded-full font-medium text-lg hover:bg-primary/10 transition-all duration-300 w-full sm:w-auto backdrop-blur-sm"
             >
               Kontakt oss
