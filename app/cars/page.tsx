@@ -267,78 +267,78 @@ export default function CarsPage() {
       {!isLoading &&
         filteredAndSortedCars.length > 0 &&
         (viewMode === "grid" ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
             {filteredAndSortedCars.map((car) => (
               <div
                 key={car.id}
                 className="bg-card rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 border border-border/50 group"
               >
-                <div className="relative h-48 overflow-hidden">
+                <div className="relative h-32 sm:h-48 overflow-hidden">
                   <Image
                     src={car.imageUrl}
                     alt={car.title}
                     fill
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
                     style={{ objectFit: "cover" }}
                     className="group-hover:scale-105 transition-transform duration-500"
                   />
                   {car.status === "sold" && (
-                    <div className="absolute top-0 right-0 bg-destructive text-destructive-foreground px-3 py-1 m-2 rounded font-medium">
+                    <div className="absolute top-0 right-0 bg-destructive text-destructive-foreground px-3 py-1 m-2 rounded sm:rounded-md font-medium">
                       Solgt
                     </div>
                   )}
                   {car.fuel && (
-                    <div className="absolute bottom-0 left-0 bg-black/70 text-white px-3 py-1 m-2 rounded-md text-sm flex items-center gap-1">
-                      <Fuel className="h-4 w-4" />
+                    <div className="absolute bottom-0 left-0 bg-black/70 text-white px-2 sm:px-3 py-0.5 sm:py-1 m-1 sm:m-2 rounded sm:rounded-md text-xs sm:text-sm flex items-center gap-1">
+                      <Fuel className="h-3 w-3 sm:h-4 sm:w-4" />
                       {car.fuel}
                     </div>
                   )}
                 </div>
-                <div className="p-4">
-                  <h2 className="text-xl font-semibold mb-2 line-clamp-2">
+                <div className="p-2 sm:p-4">
+                  <h2 className="text-sm sm:text-xl font-semibold mb-1 sm:mb-2 line-clamp-2">
                     {car.title}
                   </h2>
-                  <div className="grid grid-cols-2 gap-3 mb-4">
-                    <div className="flex items-center gap-2">
-                      <Calendar className="h-4 w-4 text-muted-foreground" />
+                  <div className="grid grid-cols-2 gap-1 sm:gap-3 mb-2 sm:mb-4">
+                    <div className="flex items-center gap-1 sm:gap-2">
+                      <Calendar className="h-3 w-3 sm:h-4 sm:w-4 text-muted-foreground" />
                       <div>
-                        <span className="text-muted-foreground text-sm block">
+                        <span className="text-muted-foreground text-xs sm:text-sm block">
                           Modellår
                         </span>
-                        <p className="font-medium">
+                        <p className="font-medium text-xs sm:text-base">
                           {car.year || "Ikke oppgitt"}
                         </p>
                       </div>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <Gauge className="h-4 w-4 text-muted-foreground" />
+                    <div className="flex items-center gap-1 sm:gap-2">
+                      <Gauge className="h-3 w-3 sm:h-4 sm:w-4 text-muted-foreground" />
                       <div>
-                        <span className="text-muted-foreground text-sm block">
+                        <span className="text-muted-foreground text-xs sm:text-sm block">
                           Kilometer
                         </span>
-                        <p className="font-medium">
+                        <p className="font-medium text-xs sm:text-base">
                           {car.mileage || "Ikke oppgitt"}
                         </p>
                       </div>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <Zap className="h-4 w-4 text-muted-foreground" />
+                    <div className="flex items-center gap-1 sm:gap-2">
+                      <Zap className="h-3 w-3 sm:h-4 sm:w-4 text-muted-foreground" />
                       <div>
-                        <span className="text-muted-foreground text-sm block">
+                        <span className="text-muted-foreground text-xs sm:text-sm block">
                           Girkasse
                         </span>
-                        <p className="font-medium">
+                        <p className="font-medium text-xs sm:text-base">
                           {car.transmission || "Ikke oppgitt"}
                         </p>
                       </div>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <MapPin className="h-4 w-4 text-muted-foreground" />
+                    <div className="flex items-center gap-1 sm:gap-2">
+                      <MapPin className="h-3 w-3 sm:h-4 sm:w-4 text-muted-foreground" />
                       <div>
-                        <span className="text-muted-foreground text-sm block">
+                        <span className="text-muted-foreground text-xs sm:text-sm block">
                           Totalpris
                         </span>
-                        <p className="font-medium text-primary text-lg">
+                        <p className="font-medium text-primary text-xs sm:text-lg">
                           {car.price || "Kontakt oss"}
                         </p>
                       </div>
@@ -349,12 +349,12 @@ export default function CarsPage() {
                       href={car.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="bg-primary hover:bg-primary/90 text-primary-foreground px-4 py-2 rounded-md inline-block transition-colors duration-300"
+                      className="bg-primary hover:bg-primary/90 text-primary-foreground px-2 sm:px-4 py-1 sm:py-2 rounded sm:rounded-md inline-block transition-colors duration-300 text-xs sm:text-base"
                     >
                       Se detaljer
                     </a>
-                    <span className="text-sm text-muted-foreground">
-                      ID: {car.id.substring(0, 8)}
+                    <span className="text-[10px] sm:text-sm text-muted-foreground">
+                      ID: {car.id.substring(0, 6)}
                     </span>
                   </div>
                 </div>
@@ -378,7 +378,7 @@ export default function CarsPage() {
                     className="h-full w-full"
                   />
                   {car.status === "sold" && (
-                    <div className="absolute top-0 right-0 bg-destructive text-destructive-foreground px-3 py-1 m-2 rounded font-medium">
+                    <div className="absolute top-0 right-0 bg-destructive text-destructive-foreground px-3 py-1 m-2 rounded sm:rounded-md font-medium">
                       Solgt
                     </div>
                   )}
@@ -395,10 +395,10 @@ export default function CarsPage() {
                       <div className="flex items-center gap-2">
                         <Calendar className="h-4 w-4 text-muted-foreground" />
                         <div>
-                          <span className="text-muted-foreground text-sm block">
+                          <span className="text-muted-foreground text-xs sm:text-sm block">
                             Modellår
                           </span>
-                          <p className="font-medium">
+                          <p className="font-medium text-sm sm:text-base">
                             {car.year || "Ikke oppgitt"}
                           </p>
                         </div>
@@ -406,10 +406,10 @@ export default function CarsPage() {
                       <div className="flex items-center gap-2">
                         <Gauge className="h-4 w-4 text-muted-foreground" />
                         <div>
-                          <span className="text-muted-foreground text-sm block">
+                          <span className="text-muted-foreground text-xs sm:text-sm block">
                             Kilometer
                           </span>
-                          <p className="font-medium">
+                          <p className="font-medium text-sm sm:text-base">
                             {car.mileage || "Ikke oppgitt"}
                           </p>
                         </div>
@@ -417,10 +417,10 @@ export default function CarsPage() {
                       <div className="flex items-center gap-2">
                         <Zap className="h-4 w-4 text-muted-foreground" />
                         <div>
-                          <span className="text-muted-foreground text-sm block">
+                          <span className="text-muted-foreground text-xs sm:text-sm block">
                             Girkasse
                           </span>
-                          <p className="font-medium">
+                          <p className="font-medium text-sm sm:text-base">
                             {car.transmission || "Ikke oppgitt"}
                           </p>
                         </div>
@@ -428,10 +428,10 @@ export default function CarsPage() {
                       <div className="flex items-center gap-2">
                         <MapPin className="h-4 w-4 text-muted-foreground" />
                         <div>
-                          <span className="text-muted-foreground text-sm block">
+                          <span className="text-muted-foreground text-xs sm:text-sm block">
                             Totalpris
                           </span>
-                          <p className="font-medium text-primary text-lg">
+                          <p className="font-medium text-primary text-base sm:text-lg">
                             {car.price || "Kontakt oss"}
                           </p>
                         </div>
@@ -444,7 +444,7 @@ export default function CarsPage() {
                       href={car.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="bg-primary hover:bg-primary/90 text-primary-foreground px-4 py-2 rounded-md inline-block transition-colors duration-300"
+                      className="bg-primary hover:bg-primary/90 text-primary-foreground px-4 py-2 rounded sm:rounded-md inline-block transition-colors duration-300 text-xs sm:text-base"
                     >
                       Se detaljer
                     </a>
