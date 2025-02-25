@@ -426,7 +426,7 @@ export async function fetchCarsFromFinn(
           const isoDateMatch = text.match(/(\d{4})-(\d{2})-(\d{2})/);
 
           if (norwegianDateMatch) {
-            const [_, day, month, year] = norwegianDateMatch;
+            const [, day, month, year] = norwegianDateMatch;
             publishedDate = `${year}-${month.padStart(2, "0")}-${day.padStart(
               2,
               "0"
@@ -457,7 +457,7 @@ export async function fetchCarsFromFinn(
           );
           publishedDate = new Date().toISOString().split("T")[0];
         }
-      } catch (error) {
+      } catch {
         console.log(
           `Error parsing date: ${publishedDate}, using current date instead`
         );
