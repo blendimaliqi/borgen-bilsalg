@@ -11,6 +11,7 @@ export interface Car {
   imageUrl: string;
   url: string;
   status: string; // Added to track if a car is sold
+  publishedDate: string; // ISO date string when the listing was published
 }
 
 /**
@@ -375,6 +376,96 @@ export async function fetchCarsFromFinn(
           "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?q=80&w=800&auto=format&fit=crop";
       }
 
+      // Extract published date - look for data-published attribute or time element
+      let publishedDate = "";
+      const timeElement = element.querySelector("time");
+      if (timeElement) {
+        publishedDate = timeElement.getAttribute("datetime") || "";
+        console.log(`Found time element with datetime: ${publishedDate}`);
+      }
+      if (!publishedDate) {
+        // Try to find any element with data-published attribute
+        const publishedElement = element.querySelector("[data-published]");
+        if (publishedElement) {
+          publishedDate = publishedElement.getAttribute("data-published") || "";
+          console.log(`Found data-published attribute: ${publishedDate}`);
+        }
+      }
+      // If still no date, try to find text containing date information
+      if (!publishedDate) {
+        const allElements = Array.from(element.querySelectorAll("*"));
+        for (const el of allElements) {
+          const text = el.textContent?.trim() || "";
+          if (text.includes("Publisert") || text.includes("Lagt ut")) {
+            // Try to parse the date from the text
+            const dateMatch = text.match(/\d{1,2}\.\d{1,2}\.\d{4}/);
+            if (dateMatch) {
+              // Convert Norwegian date format to ISO
+              const [day, month, year] = dateMatch[0].split(".");
+              publishedDate = `${year}-${month.padStart(2, "0")}-${day.padStart(
+                2,
+                "0"
+              )}`;
+              console.log(
+                `Found published date in text: ${text} -> converted to ${publishedDate}`
+              );
+              break;
+            }
+          }
+        }
+      }
+      // If we still don't have a date, try to find any date-like text
+      if (!publishedDate) {
+        const allElements = Array.from(element.querySelectorAll("*"));
+        for (const el of allElements) {
+          const text = el.textContent?.trim() || "";
+          // Look for dates in format DD.MM.YYYY or YYYY-MM-DD
+          const norwegianDateMatch = text.match(
+            /(\d{1,2})\.(\d{1,2})\.(\d{4})/
+          );
+          const isoDateMatch = text.match(/(\d{4})-(\d{2})-(\d{2})/);
+
+          if (norwegianDateMatch) {
+            const [_, day, month, year] = norwegianDateMatch;
+            publishedDate = `${year}-${month.padStart(2, "0")}-${day.padStart(
+              2,
+              "0"
+            )}`;
+            console.log(
+              `Found Norwegian date format: ${text} -> converted to ${publishedDate}`
+            );
+            break;
+          } else if (isoDateMatch) {
+            publishedDate = isoDateMatch[0];
+            console.log(`Found ISO date format: ${publishedDate}`);
+            break;
+          }
+        }
+      }
+      // If we still don't have a date, use the current date as fallback
+      if (!publishedDate) {
+        publishedDate = new Date().toISOString().split("T")[0];
+        console.log(`No date found, using current date: ${publishedDate}`);
+      }
+
+      // Validate the date format
+      try {
+        const date = new Date(publishedDate);
+        if (isNaN(date.getTime())) {
+          console.log(
+            `Invalid date format: ${publishedDate}, using current date instead`
+          );
+          publishedDate = new Date().toISOString().split("T")[0];
+        }
+      } catch (error) {
+        console.log(
+          `Error parsing date: ${publishedDate}, using current date instead`
+        );
+        publishedDate = new Date().toISOString().split("T")[0];
+      }
+
+      console.log(`Final published date for ${title}: ${publishedDate}`);
+
       cars.push({
         id,
         title,
@@ -386,6 +477,7 @@ export async function fetchCarsFromFinn(
         imageUrl,
         url,
         status,
+        publishedDate,
       });
     }
 

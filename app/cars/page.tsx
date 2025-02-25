@@ -60,8 +60,28 @@ export default function CarsPage() {
             parseInt(a.price.replace(/\D/g, "") || "0")
           );
         case "newest":
+          try {
+            // If either date is undefined, treat it as oldest
+            if (!a.publishedDate && !b.publishedDate) return 0;
+            if (!a.publishedDate) return 1;
+            if (!b.publishedDate) return -1;
+
+            const dateA = new Date(a.publishedDate);
+            const dateB = new Date(b.publishedDate);
+
+            // Check if dates are valid
+            if (isNaN(dateA.getTime()) && isNaN(dateB.getTime())) return 0;
+            if (isNaN(dateA.getTime())) return 1;
+            if (isNaN(dateB.getTime())) return -1;
+
+            return dateB.getTime() - dateA.getTime();
+          } catch (error) {
+            console.error("Error comparing dates:", error);
+            return 0;
+          }
+        case "yearNewest":
           return parseInt(b.year || "0") - parseInt(a.year || "0");
-        case "oldest":
+        case "yearOldest":
           return parseInt(a.year || "0") - parseInt(b.year || "0");
         default:
           return 0;
@@ -146,15 +166,27 @@ export default function CarsPage() {
                       sortOption === "newest" ? "bg-muted/70 font-medium" : ""
                     }`}
                   >
-                    Nyeste først
+                    Publisert
                   </button>
                   <button
-                    onClick={() => handleSortChange("oldest")}
+                    onClick={() => handleSortChange("yearNewest")}
                     className={`block px-4 py-2 text-sm w-full text-left hover:bg-muted ${
-                      sortOption === "oldest" ? "bg-muted/70 font-medium" : ""
+                      sortOption === "yearNewest"
+                        ? "bg-muted/70 font-medium"
+                        : ""
                     }`}
                   >
-                    Eldste først
+                    Årsmodell nyeste
+                  </button>
+                  <button
+                    onClick={() => handleSortChange("yearOldest")}
+                    className={`block px-4 py-2 text-sm w-full text-left hover:bg-muted ${
+                      sortOption === "yearOldest"
+                        ? "bg-muted/70 font-medium"
+                        : ""
+                    }`}
+                  >
+                    Årsmodell eldste
                   </button>
                   <button
                     onClick={() => handleSortChange("priceAsc")}

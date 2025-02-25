@@ -8,10 +8,14 @@ import { useCars } from "../hooks/useCars";
 export function CarSection() {
   const { data: cars, isLoading } = useCars();
 
-  // Get the first 3 cars sorted by newest model year
+  // Get the first 3 cars sorted by newest published date
   const featuredCars =
     cars
-      ?.sort((a, b) => parseInt(b.year || "0") - parseInt(a.year || "0"))
+      ?.sort(
+        (a, b) =>
+          new Date(b.publishedDate).getTime() -
+          new Date(a.publishedDate).getTime()
+      )
       .slice(0, 3) || [];
 
   return (
