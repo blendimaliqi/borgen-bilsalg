@@ -19,7 +19,7 @@ export function HeroSection() {
             src="https://images.finncdn.no/dynamic/1600w/52/52e54c3a-3058-46b9-913f-3931e48db171"
             alt="Borgen Bilsalg showroom with actual inventory"
             fill
-            className="object-cover opacity-45 scale-105 hover:scale-110 transition-transform duration-10000"
+            className="object-cover opacity-70 scale-105 hover:scale-110 transition-transform duration-10000"
             priority
             sizes="100vw"
             quality={95}
