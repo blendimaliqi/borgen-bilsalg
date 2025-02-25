@@ -68,7 +68,7 @@ export default function RootLayout({
             dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
           />
           <Navbar />
-          <main className="min-h-screen">{children}</main>
+          <main className="min-h-screen pt-[72px]">{children}</main>
           <Footer />
         </Providers>
       </body>
