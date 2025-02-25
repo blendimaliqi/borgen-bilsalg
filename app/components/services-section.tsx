@@ -20,8 +20,8 @@ export function ServicesSection() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10">
           <ServiceCard
             icon={Car}
-            title="Kjøp Bil"
-            description="Vi tilbyr en trygg og transparent bilkjøpsprosess. Hver bil i vår kolleksjon er nøye inspisert og kvalitetssikret. Vi hjelper deg med finansiering og sørger for en smidig handleopplevelse fra start til slutt."
+            title="Kjøp bil hos oss"
+            description="Vi tilbyr en trygg og transparent bilkjpøsprosess. vi har et stort utvalg av biler med forskjellige prisklasser. vi hjelper deg med å finne den bilen som passer deg best å  sørger for en smidig of fin handelsopplevelse fra start til slutt."
             imageSrc="/images/services/man-buying-car.jpg"
             imageAlt="Kjøp bil hos Borgen Bilsalg"
             bgColor="bg-gradient-to-br from-primary/5 to-primary/10"
@@ -29,8 +29,8 @@ export function ServicesSection() {
 
           <ServiceCard
             icon={HandCoins}
-            title="Selg Bil"
-            description="Ønsker du å selge din bil? Vi tilbyr en enkel og effektiv salgsprosess med gratis verdivurdering og konkurransedyktige priser. Vårt erfarne team sørger for en rask og problemfri transaksjon."
+            title="Selge bilen din?"
+            description="Ønsker du å selge bilen din til oss eller ønsker du at vi skal selge bilen din for deg? Vi gir deg gratis verdivurdering på din bil og et helt uforpliket tilbud."
             imageSrc="/images/services/medium-shot-man-working-as-valet.jpg"
             imageAlt="Selg bil til Borgen Bilsalg"
             bgColor="bg-gradient-to-br from-secondary/5 to-secondary/10"
