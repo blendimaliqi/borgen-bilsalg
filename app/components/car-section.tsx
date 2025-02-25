@@ -19,8 +19,7 @@ export function CarSection() {
             Nyeste Biler
           </h2>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            Utforsk våre nyeste tilskudd til bilutvalget. Alle våre biler
-            gjennomgår grundig inspeksjon for å sikre høyeste standard.
+            Utforsk våre nyeste tilskudd til bilutvalget
           </p>
           <Link
             href="/cars"
