@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Script from "next/script";
+import Navbar from "./components/Navbar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -51,10 +52,10 @@ export const metadata: Metadata = {
     siteName: "Borgen Bilsalg",
     images: [
       {
-        url: "/android-chrome-512x512.png",
-        width: 512,
-        height: 512,
-        alt: "Borgen Bilsalg Logo",
+        url: "https://borgenbilsalg.no/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Borgen Bilsalg",
       },
     ],
   },
@@ -62,44 +63,27 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Borgen Bilsalg",
     description: "Din pålitelige partner for kjøp og salg av biler i Norge",
-    images: ["/android-chrome-512x512.png"],
+    images: ["https://borgenbilsalg.no/og-image.jpg"],
   },
-  icons: [
-    { rel: "icon", url: "/favicon.ico" },
-    { rel: "apple-touch-icon", url: "/apple-touch-icon.png" },
-    {
-      rel: "icon",
-      url: "/favicon-16x16.png",
-      sizes: "16x16",
-      type: "image/png",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
     },
-    {
-      rel: "icon",
-      url: "/favicon-32x32.png",
-      sizes: "32x32",
-      type: "image/png",
-    },
-    {
-      rel: "icon",
-      url: "/android-chrome-192x192.png",
-      sizes: "192x192",
-      type: "image/png",
-    },
-    {
-      rel: "icon",
-      url: "/android-chrome-512x512.png",
-      sizes: "512x512",
-      type: "image/png",
-    },
-  ],
+  },
+  icons: {
+    icon: "/favicon.ico",
+    shortcut: "/favicon-16x16.png",
+    apple: "/apple-touch-icon.png",
+  },
   manifest: "/site.webmanifest",
-  formatDetection: {
-    telephone: true,
-  },
-  appleWebApp: {
-    capable: true,
-    statusBarStyle: "default",
-    title: "Borgen Bilsalg",
+  verification: {
+    google: "google-site-verification-code",
   },
 };
 
@@ -108,8 +92,37 @@ const StructuredData = () => {
     "@context": "https://schema.org",
     "@type": "AutoDealer",
     name: "Borgen Bilsalg",
+    image: "https://borgenbilsalg.no/logo.png",
+    "@id": "https://borgenbilsalg.no",
     url: "https://borgenbilsalg.no",
-    description: "Din pålitelige partner for kjøp og salg av biler i Norge",
+    telephone: "+4712345678",
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: "Eksempelveien 123",
+      addressLocality: "Sarpsborg",
+      postalCode: "1710",
+      addressCountry: "NO",
+    },
+    geo: {
+      "@type": "GeoCoordinates",
+      latitude: 59.2839,
+      longitude: 11.1094,
+    },
+    openingHoursSpecification: [
+      {
+        "@type": "OpeningHoursSpecification",
+        dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+        opens: "09:00",
+        closes: "17:00",
+      },
+      {
+        "@type": "OpeningHoursSpecification",
+        dayOfWeek: ["Saturday"],
+        opens: "10:00",
+        closes: "15:00",
+      },
+    ],
+    sameAs: ["https://www.finn.no/mobility/search/car?orgId=4471300"],
   };
 
   return (
@@ -132,7 +145,26 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <StructuredData />
-        {children}
+        <Navbar />
+        <main>{children}</main>
+        <footer className="bg-muted py-8 mt-12">
+          <div className="container mx-auto px-4 text-center text-sm text-muted-foreground">
+            <p>
+              © {new Date().getFullYear()} Borgen Bilsalg. Alle rettigheter
+              reservert.
+            </p>
+            <p className="mt-2">
+              <a
+                href="https://www.finn.no/mobility/search/car?orgId=4471300"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-foreground transition"
+              >
+                Se våre biler på Finn.no
+              </a>
+            </p>
+          </div>
+        </footer>
       </body>
     </html>
   );

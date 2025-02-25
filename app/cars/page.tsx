@@ -1,158 +1,212 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
-import { getCarsWithFallback } from "@/app/lib/finn-cars";
+import { useState, useEffect } from "react";
+import { Car } from "@/app/lib/finn-cars";
 
-export const dynamic = "force-dynamic"; // Make this page dynamic to fetch fresh data
+export default function CarsPage() {
+  const [cars, setCars] = useState<Car[]>([]);
+  const [filteredCars, setFilteredCars] = useState<Car[]>([]);
+  const [activeFilter, setActiveFilter] = useState<string>("all");
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
-export default async function CarsPage() {
-  // Fetch cars with fallback to sample data
-  const cars = await getCarsWithFallback();
+  // Fetch cars on component mount
+  useEffect(() => {
+    async function fetchCars() {
+      setIsLoading(true);
+      setError(null);
+      try {
+        const response = await fetch("/api/cars");
+        if (!response.ok) {
+          throw new Error(`Failed to fetch cars: ${response.status}`);
+        }
+        const data = await response.json();
+        setCars(data);
+        setFilteredCars(data);
+      } catch (err) {
+        console.error("Error fetching cars:", err);
+        setError(
+          "Det oppstod en feil ved henting av biler. Vennligst prøv igjen senere."
+        );
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    fetchCars();
+  }, []);
+
+  // Filter cars based on selected filter
+  const handleFilterChange = (filter: string) => {
+    setActiveFilter(filter);
+
+    if (filter === "all") {
+      setFilteredCars(cars);
+    } else {
+      const filtered = cars.filter((car) => car.fuel === filter);
+      setFilteredCars(filtered);
+    }
+  };
 
   return (
-    <div className="container mx-auto px-4 py-12">
-      <div className="mb-12 text-center">
-        <h1 className="text-4xl font-bold text-primary mb-4">Våre biler</h1>
-        <p className="text-muted-foreground max-w-2xl mx-auto">
-          Utforsk vårt utvalg av premium bruktbiler. Alle våre biler er nøye
-          inspisert og kommer med garanti for å sikre din tilfredshet.
-        </p>
-      </div>
+    <div className="container mx-auto px-4 py-8">
+      <h1 className="text-3xl font-bold mb-8">Våre biler</h1>
 
-      {/* Filters - can be expanded later */}
-      <div className="mb-8 flex flex-wrap gap-4 justify-center">
-        <button className="px-4 py-2 rounded-full bg-primary/10 text-primary hover:bg-primary/20 transition">
+      {/* Filter buttons */}
+      <div className="flex flex-wrap gap-2 mb-8">
+        <button
+          onClick={() => handleFilterChange("all")}
+          className={`px-4 py-2 rounded-md ${
+            activeFilter === "all"
+              ? "bg-blue-600 text-white"
+              : "bg-gray-200 hover:bg-gray-300"
+          }`}
+        >
           Alle biler
         </button>
-        <button className="px-4 py-2 rounded-full bg-background hover:bg-muted transition">
-          Elektrisk
-        </button>
-        <button className="px-4 py-2 rounded-full bg-background hover:bg-muted transition">
-          Hybrid
-        </button>
-        <button className="px-4 py-2 rounded-full bg-background hover:bg-muted transition">
-          Diesel
-        </button>
-        <button className="px-4 py-2 rounded-full bg-background hover:bg-muted transition">
+        <button
+          onClick={() => handleFilterChange("Bensin")}
+          className={`px-4 py-2 rounded-md ${
+            activeFilter === "Bensin"
+              ? "bg-blue-600 text-white"
+              : "bg-gray-200 hover:bg-gray-300"
+          }`}
+        >
           Bensin
         </button>
+        <button
+          onClick={() => handleFilterChange("Diesel")}
+          className={`px-4 py-2 rounded-md ${
+            activeFilter === "Diesel"
+              ? "bg-blue-600 text-white"
+              : "bg-gray-200 hover:bg-gray-300"
+          }`}
+        >
+          Diesel
+        </button>
+        <button
+          onClick={() => handleFilterChange("Elektrisk")}
+          className={`px-4 py-2 rounded-md ${
+            activeFilter === "Elektrisk"
+              ? "bg-blue-600 text-white"
+              : "bg-gray-200 hover:bg-gray-300"
+          }`}
+        >
+          Elektrisk
+        </button>
+        <button
+          onClick={() => handleFilterChange("Hybrid")}
+          className={`px-4 py-2 rounded-md ${
+            activeFilter === "Hybrid"
+              ? "bg-blue-600 text-white"
+              : "bg-gray-200 hover:bg-gray-300"
+          }`}
+        >
+          Hybrid
+        </button>
       </div>
+
+      {/* Loading state */}
+      {isLoading && (
+        <div className="flex justify-center items-center py-20">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+        </div>
+      )}
+
+      {/* Error state */}
+      {error && !isLoading && (
+        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-6">
+          <strong className="font-bold">Feil! </strong>
+          <span className="block sm:inline">{error}</span>
+        </div>
+      )}
+
+      {/* No cars found state */}
+      {!isLoading && !error && cars.length === 0 && (
+        <div className="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded relative mb-6">
+          <strong className="font-bold">Ingen biler funnet! </strong>
+          <span className="block sm:inline">
+            Vi kunne ikke finne noen biler for øyeblikket. Dette kan skyldes en
+            midlertidig feil eller at det ikke er noen biler tilgjengelig.
+          </span>
+        </div>
+      )}
+
+      {/* No filtered results */}
+      {!isLoading && !error && cars.length > 0 && filteredCars.length === 0 && (
+        <div className="bg-blue-100 border border-blue-400 text-blue-700 px-4 py-3 rounded relative mb-6">
+          <strong className="font-bold">Ingen treff! </strong>
+          <span className="block sm:inline">
+            Vi fant ingen biler som matcher filteret "{activeFilter}". Prøv et
+            annet filter.
+          </span>
+        </div>
+      )}
 
       {/* Car grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {cars.map((car) => (
-          <div
-            key={car.id}
-            className="group bg-card rounded-xl overflow-hidden border border-border shadow-sm hover:shadow-md transition-all duration-300"
-          >
-            <div className="relative h-56 overflow-hidden">
-              <Image
-                src={car.imageUrl}
-                alt={car.title}
-                fill
-                className="object-cover group-hover:scale-105 transition-transform duration-500"
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-70"></div>
-              <div className="absolute bottom-4 left-4 right-4">
-                <p className="text-white font-bold text-xl">{car.price}</p>
+      {!isLoading && filteredCars.length > 0 && (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filteredCars.map((car) => (
+            <div
+              key={car.id}
+              className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300"
+            >
+              <div className="relative h-48">
+                <Image
+                  src={car.imageUrl}
+                  alt={car.title}
+                  fill
+                  style={{ objectFit: "cover" }}
+                />
+                {car.status === "sold" && (
+                  <div className="absolute top-0 right-0 bg-red-600 text-white px-3 py-1 m-2 rounded">
+                    Solgt
+                  </div>
+                )}
+              </div>
+              <div className="p-4">
+                <h2 className="text-xl font-semibold mb-2">{car.title}</h2>
+                <p className="text-2xl font-bold text-blue-600 mb-2">
+                  {car.price}
+                </p>
+                <div className="grid grid-cols-2 gap-2 mb-4">
+                  <div>
+                    <span className="text-gray-600 text-sm">Årsmodell</span>
+                    <p>{car.year || "Ikke oppgitt"}</p>
+                  </div>
+                  <div>
+                    <span className="text-gray-600 text-sm">Kilometer</span>
+                    <p>{car.mileage || "Ikke oppgitt"}</p>
+                  </div>
+                  <div>
+                    <span className="text-gray-600 text-sm">Girkasse</span>
+                    <p>{car.transmission || "Ikke oppgitt"}</p>
+                  </div>
+                  <div>
+                    <span className="text-gray-600 text-sm">Drivstoff</span>
+                    <p>{car.fuel || "Ikke oppgitt"}</p>
+                  </div>
+                </div>
+                <div className="flex justify-between items-center">
+                  <a
+                    href={car.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md inline-block transition-colors duration-300"
+                  >
+                    Se detaljer
+                  </a>
+                  <span className="text-sm text-gray-500">
+                    ID: {car.id.substring(0, 8)}
+                  </span>
+                </div>
               </div>
             </div>
-            <div className="p-6">
-              <h3 className="font-bold text-xl mb-2 text-foreground">
-                {car.title}
-              </h3>
-
-              <div className="grid grid-cols-2 gap-4 mb-4">
-                <div className="flex items-center gap-2">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5 text-muted-foreground"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                    />
-                  </svg>
-                  <span className="text-sm text-muted-foreground">
-                    {car.year}
-                  </span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5 text-muted-foreground"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M13 10V3L4 14h7v7l9-11h-7z"
-                    />
-                  </svg>
-                  <span className="text-sm text-muted-foreground">
-                    {car.fuel}
-                  </span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5 text-muted-foreground"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"
-                    />
-                  </svg>
-                  <span className="text-sm text-muted-foreground">
-                    {car.mileage}
-                  </span>
-                </div>
-              </div>
-
-              <div className="flex justify-between items-center mt-4">
-                <Link
-                  href={car.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-primary hover:text-primary/80 font-medium flex items-center gap-1"
-                >
-                  Se detaljer
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-4 w-4"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M14 5l7 7m0 0l-7 7m7-7H3"
-                    />
-                  </svg>
-                </Link>
-                <button className="px-3 py-1 text-sm bg-primary/10 text-primary rounded-full hover:bg-primary/20 transition">
-                  Kontakt oss
-                </button>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
 
       {/* Call to action */}
       <div className="mt-16 text-center">
