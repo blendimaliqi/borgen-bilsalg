@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { fetchCarsFromFinn, getCarsWithFallback } from "@/app/lib/finn-cars";
+import { getCarsWithFallback } from "@/app/lib/finn-cars";
 import { revalidatePath } from "next/cache";
 
 // Disable caching for this route
@@ -14,13 +14,14 @@ export const dynamic = "force-dynamic";
  * - orgId: The organization ID on Finn.no (defaults to 4471300)
  * - apiKey: Optional API key for protection (not implemented yet)
  */
-export async function GET(request: Request) {
+export async function GET() {
   const startTime = Date.now();
 
   try {
-    // Get query parameters
-    const { searchParams } = new URL(request.url);
-    const orgId = searchParams.get("orgId") || "4471300";
+    // Get query parameters - commented out as currently unused
+    // const { searchParams } = new URL(request.url);
+    // orgId is currently unused but kept in comments for future implementation
+    // const orgId = searchParams.get("orgId") || "4471300";
 
     // Optional: Add API key validation for security
     // const apiKey = searchParams.get("apiKey");

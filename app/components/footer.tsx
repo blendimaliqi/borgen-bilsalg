@@ -1,14 +1,4 @@
-import {
-  Phone,
-  Mail,
-  MapPin,
-  Clock,
-  Facebook,
-  Instagram,
-  Linkedin,
-} from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
+import { Phone, Mail, MapPin, Clock } from "lucide-react";
 
 export function Footer() {
   return (
@@ -52,26 +42,6 @@ export function Footer() {
               Din pålitelige partner for kvalitetsbiler i Sarpsborg. Vi tilbyr
               profesjonell service og trygg bilhandel.
             </p>
-            {/* <div className="flex space-x-4">
-              <a
-                href="#"
-                className="bg-accent-foreground/10 p-2 rounded-full hover:bg-accent-foreground/20 transition-colors"
-              >
-                <Facebook className="h-5 w-5 text-accent-foreground" />
-              </a>
-              <a
-                href="#"
-                className="bg-accent-foreground/10 p-2 rounded-full hover:bg-accent-foreground/20 transition-colors"
-              >
-                <Instagram className="h-5 w-5 text-accent-foreground" />
-              </a>
-              <a
-                href="#"
-                className="bg-accent-foreground/10 p-2 rounded-full hover:bg-accent-foreground/20 transition-colors"
-              >
-                <Linkedin className="h-5 w-5 text-accent-foreground" />
-              </a>
-            </div> */}
           </div>
 
           {/* Contact info */}

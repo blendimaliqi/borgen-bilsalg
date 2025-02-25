@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { useCars } from "@/app/hooks/useCars";
 import { useRefreshCars } from "@/app/hooks/useRefreshCars";
 
@@ -114,8 +113,8 @@ export default function AdminCarsPage() {
           <div className="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded relative mb-6">
             <strong className="font-bold">Ingen biler funnet! </strong>
             <span className="block sm:inline">
-              Det er ingen biler i systemet for øyeblikket. Klikk på "Oppdater
-              nå" for å hente biler fra Finn.no.
+              Det er ingen biler i systemet for øyeblikket. Klikk på
+              &quot;Oppdater nå&quot; for å hente biler fra Finn.no.
             </span>
           </div>
         )}
