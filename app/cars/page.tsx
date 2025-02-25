@@ -30,8 +30,8 @@ export default function CarsPage() {
           onClick={() => handleFilterChange("all")}
           className={`px-4 py-2 rounded-md ${
             activeFilter === "all"
-              ? "bg-blue-600 text-white"
-              : "bg-gray-200 hover:bg-gray-300"
+              ? "bg-primary text-primary-foreground"
+              : "bg-muted hover:bg-muted/80"
           }`}
         >
           Alle biler
@@ -40,8 +40,8 @@ export default function CarsPage() {
           onClick={() => handleFilterChange("Bensin")}
           className={`px-4 py-2 rounded-md ${
             activeFilter === "Bensin"
-              ? "bg-blue-600 text-white"
-              : "bg-gray-200 hover:bg-gray-300"
+              ? "bg-primary text-primary-foreground"
+              : "bg-muted hover:bg-muted/80"
           }`}
         >
           Bensin
@@ -50,8 +50,8 @@ export default function CarsPage() {
           onClick={() => handleFilterChange("Diesel")}
           className={`px-4 py-2 rounded-md ${
             activeFilter === "Diesel"
-              ? "bg-blue-600 text-white"
-              : "bg-gray-200 hover:bg-gray-300"
+              ? "bg-primary text-primary-foreground"
+              : "bg-muted hover:bg-muted/80"
           }`}
         >
           Diesel
@@ -60,8 +60,8 @@ export default function CarsPage() {
           onClick={() => handleFilterChange("Elektrisk")}
           className={`px-4 py-2 rounded-md ${
             activeFilter === "Elektrisk"
-              ? "bg-blue-600 text-white"
-              : "bg-gray-200 hover:bg-gray-300"
+              ? "bg-primary text-primary-foreground"
+              : "bg-muted hover:bg-muted/80"
           }`}
         >
           Elektrisk
@@ -70,8 +70,8 @@ export default function CarsPage() {
           onClick={() => handleFilterChange("Hybrid")}
           className={`px-4 py-2 rounded-md ${
             activeFilter === "Hybrid"
-              ? "bg-blue-600 text-white"
-              : "bg-gray-200 hover:bg-gray-300"
+              ? "bg-primary text-primary-foreground"
+              : "bg-muted hover:bg-muted/80"
           }`}
         >
           Hybrid
@@ -81,13 +81,13 @@ export default function CarsPage() {
       {/* Loading state */}
       {isLoading && (
         <div className="flex justify-center items-center py-20">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
         </div>
       )}
 
       {/* Error state */}
       {isError && (
-        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-6">
+        <div className="bg-destructive/10 border border-destructive text-destructive px-4 py-3 rounded-md relative mb-6">
           <strong className="font-bold">Feil! </strong>
           <span className="block sm:inline">
             {error instanceof Error
@@ -99,7 +99,7 @@ export default function CarsPage() {
 
       {/* No cars found state */}
       {!isLoading && !isError && cars.length === 0 && (
-        <div className="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded relative mb-6">
+        <div className="bg-secondary/10 border border-secondary text-secondary-foreground px-4 py-3 rounded-md relative mb-6">
           <strong className="font-bold">Ingen biler funnet! </strong>
           <span className="block sm:inline">
             Vi kunne ikke finne noen biler for øyeblikket. Dette kan skyldes en
@@ -113,7 +113,7 @@ export default function CarsPage() {
         !isError &&
         cars.length > 0 &&
         filteredCars.length === 0 && (
-          <div className="bg-blue-100 border border-blue-400 text-blue-700 px-4 py-3 rounded relative mb-6">
+          <div className="bg-accent/10 border border-accent text-accent-foreground px-4 py-3 rounded-md relative mb-6">
             <strong className="font-bold">Ingen treff! </strong>
             <span className="block sm:inline">
               Vi fant ingen biler som matcher filteret "{activeFilter}". Prøv et
@@ -138,31 +138,39 @@ export default function CarsPage() {
                   style={{ objectFit: "cover" }}
                 />
                 {car.status === "sold" && (
-                  <div className="absolute top-0 right-0 bg-red-600 text-white px-3 py-1 m-2 rounded">
+                  <div className="absolute top-0 right-0 bg-destructive text-destructive-foreground px-3 py-1 m-2 rounded">
                     Solgt
                   </div>
                 )}
               </div>
               <div className="p-4">
                 <h2 className="text-xl font-semibold mb-2">{car.title}</h2>
-                <p className="text-2xl font-bold text-blue-600 mb-2">
+                <p className="text-2xl font-bold text-primary mb-2">
                   {car.price}
                 </p>
                 <div className="grid grid-cols-2 gap-2 mb-4">
                   <div>
-                    <span className="text-gray-600 text-sm">Årsmodell</span>
+                    <span className="text-muted-foreground text-sm">
+                      Årsmodell
+                    </span>
                     <p>{car.year || "Ikke oppgitt"}</p>
                   </div>
                   <div>
-                    <span className="text-gray-600 text-sm">Kilometer</span>
+                    <span className="text-muted-foreground text-sm">
+                      Kilometer
+                    </span>
                     <p>{car.mileage || "Ikke oppgitt"}</p>
                   </div>
                   <div>
-                    <span className="text-gray-600 text-sm">Girkasse</span>
+                    <span className="text-muted-foreground text-sm">
+                      Girkasse
+                    </span>
                     <p>{car.transmission || "Ikke oppgitt"}</p>
                   </div>
                   <div>
-                    <span className="text-gray-600 text-sm">Drivstoff</span>
+                    <span className="text-muted-foreground text-sm">
+                      Drivstoff
+                    </span>
                     <p>{car.fuel || "Ikke oppgitt"}</p>
                   </div>
                 </div>
@@ -171,11 +179,11 @@ export default function CarsPage() {
                     href={car.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md inline-block transition-colors duration-300"
+                    className="bg-primary hover:bg-primary/90 text-primary-foreground px-4 py-2 rounded-md inline-block transition-colors duration-300"
                   >
                     Se detaljer
                   </a>
-                  <span className="text-sm text-gray-500">
+                  <span className="text-sm text-muted-foreground">
                     ID: {car.id.substring(0, 8)}
                   </span>
                 </div>
