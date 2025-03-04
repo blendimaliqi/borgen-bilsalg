@@ -71,19 +71,21 @@ function ServiceCard({
     <div
       className={`rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group ${bgColor}`}
     >
-      <div className="p-6 md:p-8">
-        <div className="flex items-start gap-4 mb-4">
-          <div className="bg-primary/10 p-3 rounded-xl">
-            <Icon className="h-6 w-6 md:h-7 md:w-7 text-primary" />
+      <div className="flex flex-col h-full">
+        <div className="p-6 flex-1">
+          <div className="flex items-start gap-4 mb-4">
+            <div className="bg-primary/10 p-3 rounded-xl">
+              <Icon className="h-6 w-6 md:h-7 md:w-7 text-primary" />
+            </div>
+            <h3 className="text-xl md:text-2xl font-bold">{title}</h3>
           </div>
-          <h3 className="text-xl md:text-2xl font-bold">{title}</h3>
+
+          <p className="text-muted-foreground text-base leading-relaxed mb-6">
+            {description}
+          </p>
         </div>
 
-        <p className="text-muted-foreground text-base leading-relaxed mb-6">
-          {description}
-        </p>
-
-        <div className="relative h-48 md:h-56 rounded-xl overflow-hidden">
+        <div className="relative h-[200px] md:h-[250px] w-full">
           <Image
             src={imageSrc}
             alt={imageAlt}

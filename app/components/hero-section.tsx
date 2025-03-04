@@ -1,8 +1,9 @@
 import { MotionDiv, MotionP } from "./motion-wrapper";
-import { Highlight } from "../ui/hero-highlight";
+
 import Image from "next/image";
 import { ContactCards } from "./ContactCards";
 import Link from "next/link";
+import { Highlight } from "./ui/hero-highlight";
 
 export function HeroSection() {
   return (
