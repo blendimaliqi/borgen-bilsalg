@@ -27,8 +27,8 @@ export function ContactCards() {
     {
       icon: MapPin,
       title: "Besøk Oss",
-      content: ["Industriveien 29", "1725 Sarpsborg"],
-      href: "https://www.google.com/maps/search/?api=1&query=59.277174491606935,11.092749118100468",
+      content: ["Snekkerstubakken 24", "1738 Borgenhaugen"],
+      href: "https://www.google.com/maps/search/?api=1&query=59.277167,11.092667",
       bgColor: "from-primary/10 to-secondary/20",
     },
   ];

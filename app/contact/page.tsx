@@ -59,15 +59,16 @@ export default function ContactPage() {
                 Finn oss
               </h2>
               <p className="text-lg text-muted-foreground">
-                Vi holder til i Industriveien 29, 1725 Sarpsborg. Våre lokaler
-                er lett tilgjengelige med god parkeringsplass for besøkende.
+                Vi holder til i Snekkerstubakken 24, 1738 Borgenhaugen. Våre
+                lokaler er lett tilgjengelige med god parkeringsplass for
+                besøkende.
               </p>
               <div className="flex items-start space-x-4">
                 <MapPin className="h-6 w-6 text-primary mt-1" />
                 <div>
                   <h3 className="text-xl font-semibold">Adresse</h3>
-                  <p className="text-muted-foreground">Industriveien 29</p>
-                  <p className="text-muted-foreground">1725 Sarpsborg</p>
+                  <p className="text-muted-foreground">Snekkerstubakken 24</p>
+                  <p className="text-muted-foreground">1738 Borgenhaugen</p>
                 </div>
               </div>
               <div className="flex items-start space-x-4">
@@ -91,7 +92,7 @@ export default function ContactPage() {
               className="w-full h-[400px] rounded-xl overflow-hidden shadow-xl"
             >
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2047.1545493106428!2d11.090560477114266!3d59.27717447331787!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x464412e2b4019c99%3A0x4e47f19c99b5b1eb!2sIndustriveien%2029%2C%201725%20Sarpsborg!5e0!3m2!1sen!2sno!4v1699123456789!5m2!1sen!2sno"
+                src="https://maps.google.com/maps?q=59.277167,11.092667&t=m&z=16&ie=UTF8&iwloc=&output=embed"
                 width="100%"
                 height="100%"
                 style={{ border: 0 }}

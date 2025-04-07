@@ -43,9 +43,9 @@ const structuredData = {
   name: "Borgen Bilsalg",
   address: {
     "@type": "PostalAddress",
-    streetAddress: "Borgenvegen 123",
-    addressLocality: "Oslo",
-    postalCode: "0123",
+    streetAddress: "Snekkerstubakken 24",
+    addressLocality: "Borgenhaugen",
+    postalCode: "1738",
     addressCountry: "NO",
   },
   telephone: "+47 12345678",
