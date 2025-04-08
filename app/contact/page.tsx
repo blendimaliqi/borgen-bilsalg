@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import { ContactCards } from "../components/ContactCards";
 import { MotionDiv, MotionH1, MotionP } from "../components/motion-wrapper";
 import { Mail, MapPin } from "lucide-react";
+import { STORE_COORDINATES, STORE_ADDRESS } from "../constants/config";
 
 export const metadata: Metadata = {
   title: "Kontakt Oss | Borgen Bilsalg",
@@ -67,8 +68,10 @@ export default function ContactPage() {
                 <MapPin className="h-6 w-6 text-primary mt-1" />
                 <div>
                   <h3 className="text-xl font-semibold">Adresse</h3>
-                  <p className="text-muted-foreground">Snekkerstubakken 24</p>
-                  <p className="text-muted-foreground">1738 Borgenhaugen</p>
+                  <p className="text-muted-foreground">
+                    {STORE_ADDRESS.street}
+                  </p>
+                  <p className="text-muted-foreground">{STORE_ADDRESS.city}</p>
                 </div>
               </div>
               <div className="flex items-start space-x-4">
@@ -92,7 +95,7 @@ export default function ContactPage() {
               className="w-full h-[400px] rounded-xl overflow-hidden shadow-xl"
             >
               <iframe
-                src="https://maps.google.com/maps?q=59.2684813308569,11.160016986414844&t=m&z=16&ie=UTF8&iwloc=&output=embed"
+                src={`https://maps.google.com/maps?q=${STORE_COORDINATES.formatted}&t=m&z=16&ie=UTF8&iwloc=&output=embed`}
                 width="100%"
                 height="100%"
                 style={{ border: 0 }}

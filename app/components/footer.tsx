@@ -1,4 +1,5 @@
 import { Phone, Mail, MapPin, Clock } from "lucide-react";
+import { STORE_COORDINATES, STORE_ADDRESS } from "../constants/config";
 
 export function Footer() {
   return (
@@ -6,7 +7,7 @@ export function Footer() {
       {/* Map section */}
       <div className="relative w-full h-[400px]">
         <iframe
-          src="https://maps.google.com/maps?q=59.2684813308569,11.160016986414844&t=k&z=19&ie=UTF8&iwloc=&output=embed"
+          src={`https://maps.google.com/maps?q=${STORE_COORDINATES.formatted}&t=k&z=19&ie=UTF8&iwloc=&output=embed`}
           width="100%"
           height="100%"
           style={{ border: 0 }}
@@ -16,7 +17,7 @@ export function Footer() {
           title="Borgen Bilsalg Location"
         />
         <a
-          href="https://www.google.com/maps/search/?api=1&query=59.2684813308569,11.160016986414844"
+          href={`https://www.google.com/maps/search/?api=1&query=${STORE_COORDINATES.formatted}`}
           target="_blank"
           rel="noopener noreferrer"
           className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground px-6 py-3 rounded-full hover:bg-primary/90 transition-colors shadow-lg"
@@ -52,11 +53,13 @@ export function Footer() {
             <ul className="space-y-4">
               <li>
                 <a
-                  href="https://www.google.com/maps/search/?api=1&query=59.2684813308569,11.160016986414844"
+                  href={`https://www.google.com/maps/search/?api=1&query=${STORE_COORDINATES.formatted}`}
                   className="flex items-start gap-3 text-accent-foreground/90 hover:text-accent-foreground transition-colors"
                 >
                   <MapPin className="h-5 w-5 text-accent-foreground/80 mt-0.5" />
-                  <span>Snekkerstubakken 24, 1738 Borgenhaugen</span>
+                  <span>
+                    {STORE_ADDRESS.street}, {STORE_ADDRESS.city}
+                  </span>
                 </a>
               </li>
               <li>

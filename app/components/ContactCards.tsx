@@ -1,5 +1,6 @@
 import { Phone, Mail, Clock, MapPin } from "lucide-react";
 import { MotionDiv } from "./motion-wrapper";
+import { STORE_COORDINATES, STORE_ADDRESS } from "../constants/config";
 
 export function ContactCards() {
   const contactInfo = [
@@ -27,8 +28,8 @@ export function ContactCards() {
     {
       icon: MapPin,
       title: "Besøk Oss",
-      content: ["Snekkerstubakken 24", "1738 Borgenhaugen"],
-      href: "https://www.google.com/maps/search/?api=1&query=59.2684813308569,11.160016986414844",
+      content: [STORE_ADDRESS.street, STORE_ADDRESS.city],
+      href: `https://www.google.com/maps/search/?api=1&query=${STORE_COORDINATES.formatted}`,
       bgColor: "from-primary/10 to-secondary/20",
     },
   ];
