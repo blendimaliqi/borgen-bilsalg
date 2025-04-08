@@ -52,7 +52,7 @@ export function Footer() {
             <ul className="space-y-4">
               <li>
                 <a
-                  href="https://www.google.com/maps/search/?api=1&query=59.277167,11.092667"
+                  href="https://www.google.com/maps/search/?api=1&query=59.2684813308569,11.160016986414844"
                   className="flex items-start gap-3 text-accent-foreground/90 hover:text-accent-foreground transition-colors"
                 >
                   <MapPin className="h-5 w-5 text-accent-foreground/80 mt-0.5" />
