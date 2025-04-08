@@ -1,10 +1,10 @@
 // Global configuration values for the application
 
 export const STORE_COORDINATES = {
-  latitude: 59.2684813308569,
-  longitude: 11.160016986414844,
+  latitude: 59.268107176997965,
+  longitude: 11.160173295968743,
   // Formatted string for direct use in URLs
-  formatted: "59.2684813308569,11.160016986414844",
+  formatted: "59.268107176997965,11.160173295968743",
 };
 
 export const STORE_ADDRESS = {
