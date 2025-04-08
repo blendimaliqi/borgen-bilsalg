@@ -92,7 +92,7 @@ export default function ContactPage() {
               className="w-full h-[400px] rounded-xl overflow-hidden shadow-xl"
             >
               <iframe
-                src="https://maps.google.com/maps?q=59.277167,11.092667&t=m&z=16&ie=UTF8&iwloc=&output=embed"
+                src="https://maps.google.com/maps?q=59.2684813308569,11.160016986414844&t=m&z=16&ie=UTF8&iwloc=&output=embed"
                 width="100%"
                 height="100%"
                 style={{ border: 0 }}

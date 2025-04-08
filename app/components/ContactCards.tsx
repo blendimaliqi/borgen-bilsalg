@@ -28,7 +28,7 @@ export function ContactCards() {
       icon: MapPin,
       title: "Besøk Oss",
       content: ["Snekkerstubakken 24", "1738 Borgenhaugen"],
-      href: "https://www.google.com/maps/search/?api=1&query=59.277167,11.092667",
+      href: "https://www.google.com/maps/search/?api=1&query=59.2684813308569,11.160016986414844",
       bgColor: "from-primary/10 to-secondary/20",
     },
   ];

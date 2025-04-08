@@ -6,7 +6,7 @@ export function Footer() {
       {/* Map section */}
       <div className="relative w-full h-[400px]">
         <iframe
-          src="https://maps.google.com/maps?q=59.277167,11.092667&t=k&z=19&ie=UTF8&iwloc=&output=embed"
+          src="https://maps.google.com/maps?q=59.2684813308569,11.160016986414844&t=k&z=19&ie=UTF8&iwloc=&output=embed"
           width="100%"
           height="100%"
           style={{ border: 0 }}
@@ -16,7 +16,7 @@ export function Footer() {
           title="Borgen Bilsalg Location"
         />
         <a
-          href="https://www.google.com/maps/search/?api=1&query=59.277167,11.092667"
+          href="https://www.google.com/maps/search/?api=1&query=59.2684813308569,11.160016986414844"
           target="_blank"
           rel="noopener noreferrer"
           className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground px-6 py-3 rounded-full hover:bg-primary/90 transition-colors shadow-lg"
