@@ -17,7 +17,7 @@ export function HeroSection() {
         {/* Background car image with overlay */}
         <div className="absolute inset-0 z-0">
           <Image
-            src="https://images.finncdn.no/dynamic/1600w/52/52e54c3a-3058-46b9-913f-3931e48db171"
+            src="/hoved_bilde_nettside.jpg"
             alt="Borgen Bilsalg showroom with actual inventory"
             fill
             className="object-cover opacity-100 scale-105 hover:scale-110 transition-transform duration-10000"
@@ -25,10 +25,6 @@ export function HeroSection() {
             sizes="100vw"
             quality={95}
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-background/90 via-background/70 to-background/90"></div>
-
-          {/* Add subtle animated gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-tr from-primary/10 to-transparent opacity-60"></div>
         </div>
 
         {/* Logo and content */}
@@ -40,7 +36,7 @@ export function HeroSection() {
             transition={{ duration: 0.7, ease: [0.4, 0.0, 0.2, 1] }}
             className="relative w-full max-w-[24rem] aspect-square sm:max-w-[30rem] mx-auto mb-8"
           >
-            <Image
+            {/* <Image
               src="/borgen_logo_nobackground.png"
               alt="Borgen Bilsalg Logo"
               fill
@@ -48,7 +44,7 @@ export function HeroSection() {
               priority
               sizes="(max-width: 640px) 100vw, (max-width: 768px) 75vw, (max-width: 1200px) 50vw, 3840px"
               quality={95}
-            />
+            /> */}
           </MotionDiv>
 
           {/* Tagline with improved animation */}
@@ -56,7 +52,11 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.3, ease: [0.4, 0.0, 0.2, 1] }}
-            className="text-xl md:text-3xl text-foreground font-medium px-6 sm:px-8 max-w-[20rem] sm:max-w-xl md:max-w-3xl mx-auto leading-relaxed drop-shadow-sm"
+            className="text-xl md:text-3xl text-white font-semibold px-6 sm:px-8 max-w-[20rem] sm:max-w-xl md:max-w-3xl mx-auto leading-relaxed"
+            style={{
+              textShadow:
+                "2px 2px 4px rgba(0,0,0,0.9), 1px 1px 2px rgba(0,0,0,0.8)",
+            }}
           >
             Din pålitelige partner for <Highlight>kvalitetsbiler</Highlight> i
             Sarpsborg. Vi tilbyr <Highlight>profesjonell service</Highlight> og
@@ -73,13 +73,13 @@ export function HeroSection() {
             <Link
               href="/cars"
               rel="noopener noreferrer"
-              className="inline-block bg-primary text-primary-foreground px-8 py-3 rounded-full font-medium text-lg hover:bg-primary/90 transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-1 w-full sm:w-auto"
+              className="inline-block bg-primary text-primary-foreground px-8 py-3 rounded-full font-semibold text-lg hover:bg-primary/90 transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-1 w-full sm:w-auto"
             >
               Se våre biler
             </Link>
             <Link
               href="/contact"
-              className="inline-block bg-transparent border-2 border-primary text-primary px-8 py-3 rounded-full font-medium text-lg hover:bg-primary/10 transition-all duration-300 w-full sm:w-auto backdrop-blur-sm"
+              className="inline-block bg-white/95 text-gray-900 px-8 py-3 rounded-full font-semibold text-lg hover:bg-white transition-all duration-300 w-full sm:w-auto shadow-lg hover:shadow-xl hover:-translate-y-1 backdrop-blur-sm"
             >
               Kontakt oss
             </Link>

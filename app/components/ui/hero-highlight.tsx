@@ -40,9 +40,8 @@ export const Highlight = ({
   className?: string;
 }) => {
   return (
-    <span className={cn("text-primary font-bold relative", className)}>
+    <span className={cn("text-white underline relative", className)}>
       {children}
-      <span className="absolute bottom-0 left-0 w-full h-[3px] bg-primary/20 rounded-full"></span>
     </span>
   );
 };
