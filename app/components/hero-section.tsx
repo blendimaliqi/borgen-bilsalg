@@ -1,11 +1,37 @@
-import { MotionDiv, MotionP } from "./motion-wrapper";
+"use client";
 
+import { useState, useEffect } from "react";
+import { MotionDiv, MotionP } from "./motion-wrapper";
 import Image from "next/image";
 import { ContactCards } from "./ContactCards";
 import Link from "next/link";
 import { Highlight } from "./ui/hero-highlight";
 
 export function HeroSection() {
+  const [objectPosition, setObjectPosition] = useState("center 45%");
+
+  useEffect(() => {
+    function updatePosition() {
+      const height = window.innerHeight;
+
+      // Adjust crop based on screen height
+      if (height < 700) {
+        // Shorter screens → move down a bit
+        setObjectPosition("center 55%");
+      } else if (height < 850) {
+        // Medium height → balanced
+        setObjectPosition("center 50%");
+      } else {
+        // Tall screens → move up slightly
+        setObjectPosition("center 40%");
+      }
+    }
+
+    updatePosition();
+    window.addEventListener("resize", updatePosition);
+    return () => window.removeEventListener("resize", updatePosition);
+  }, []);
+
   return (
     <>
       <MotionDiv
@@ -15,12 +41,13 @@ export function HeroSection() {
         className="relative text-center space-y-0 px-0 md:px-0 overflow-hidden"
       >
         {/* Background car image with overlay */}
-        <div className="absolute inset-0 z-0">
+        <div className="absolute inset-0 z-0 h-[60vh] sm:h-full">
           <Image
             src="/hoved_bilde_nettside.jpg"
             alt="Borgen Bilsalg showroom with actual inventory"
             fill
-            className="object-cover opacity-100 scale-105 hover:scale-110 transition-transform duration-10000"
+            style={{ objectPosition }}
+            className="object-cover"
             priority
             sizes="100vw"
             quality={95}
@@ -29,25 +56,15 @@ export function HeroSection() {
 
         {/* Logo and content */}
         <div className="relative z-10 pt-4 pb-20 md:pt-6 md:pb-28">
-          {/* Logo with subtle animation */}
+          {/* Logo placeholder */}
           <MotionDiv
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.7, ease: [0.4, 0.0, 0.2, 1] }}
             className="relative w-full max-w-[24rem] aspect-square sm:max-w-[30rem] mx-auto mb-8"
-          >
-            {/* <Image
-              src="/borgen_logo_nobackground.png"
-              alt="Borgen Bilsalg Logo"
-              fill
-              className="object-contain opacity-100 px-4 sm:p-6 scale-125 sm:scale-110 drop-shadow-lg"
-              priority
-              sizes="(max-width: 640px) 100vw, (max-width: 768px) 75vw, (max-width: 1200px) 50vw, 3840px"
-              quality={95}
-            /> */}
-          </MotionDiv>
+          ></MotionDiv>
 
-          {/* Tagline with improved animation */}
+          {/* Tagline */}
           <MotionP
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
@@ -63,7 +80,7 @@ export function HeroSection() {
             <Highlight> trygg bilhandel</Highlight>
           </MotionP>
 
-          {/* CTA buttons with improved styling and animations */}
+          {/* CTA buttons */}
           <MotionDiv
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
