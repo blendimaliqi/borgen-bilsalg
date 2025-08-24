@@ -28,7 +28,7 @@ export function ContactForm() {
       } else {
         setStatus("❌ Noe gikk galt. Prøv igjen.");
       }
-    } catch (error) {
+    } catch {
       setStatus("❌ Noe gikk galt. Prøv igjen.");
     }
   };

@@ -1,5 +1,4 @@
 "use client";
-import { Metadata } from "next";
 import { ContactCards } from "../components/ContactCards";
 import { ContactForm } from "../components/ContactForm";
 import { MotionDiv, MotionH1, MotionP } from "../components/motion-wrapper";
