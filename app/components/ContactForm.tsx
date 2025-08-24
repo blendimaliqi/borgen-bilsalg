@@ -225,7 +225,6 @@ export function ContactForm() {
           </MotionDiv>
         </div>
 
-        {/* Additional Preferences */}
         <MotionDiv
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -303,7 +302,6 @@ export function ContactForm() {
                 </div>
               </div>
 
-              {/* Message field */}
               <div>
                 <label
                   htmlFor="message"
@@ -323,7 +321,6 @@ export function ContactForm() {
           </Card>
         </MotionDiv>
 
-        {/* Submit Button and Status */}
         <MotionDiv
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
