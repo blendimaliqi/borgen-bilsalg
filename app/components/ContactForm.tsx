@@ -1,17 +1,30 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Button } from "./ui/button";
 import { MotionDiv } from "./motion-wrapper";
-import { User, Car, Send } from "lucide-react";
+import { User, Car, Send, CheckCircle, Loader2 } from "lucide-react";
 
 export function ContactForm() {
   const [status, setStatus] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
+
+  useEffect(() => {
+    if (status.includes("✅")) {
+      const timer = setTimeout(() => {
+        setStatus("");
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [status]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setIsLoading(true);
+    setStatus("");
+
     const formData = new FormData(e.currentTarget);
     const data = Object.fromEntries(formData.entries());
 
@@ -23,13 +36,17 @@ export function ContactForm() {
       });
 
       if (res.ok) {
-        setStatus("✅ Forespørsel sendt!");
+        setStatus(
+          "✅ Takk for forespørselen! Vi kontakter deg så snart som mulig."
+        );
         formRef.current?.reset();
       } else {
         setStatus("❌ Noe gikk galt. Prøv igjen.");
       }
     } catch {
       setStatus("❌ Noe gikk galt. Prøv igjen.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -327,18 +344,38 @@ export function ContactForm() {
           transition={{ duration: 0.6, delay: 1.2 }}
           className="text-center space-y-4"
         >
-          <Button type="submit" size="lg" className="px-8 py-3 text-base">
-            <Send className="mr-2 h-4 w-4" />
-            Send forespørsel
+          <Button
+            type="submit"
+            size="lg"
+            className="px-8 py-3 text-base"
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            ) : (
+              <Send className="mr-2 h-4 w-4" />
+            )}
+            {isLoading ? "Sender..." : "Send forespørsel"}
           </Button>
+
           {status && (
-            <p
-              className={`text-sm font-medium ${
-                status.includes("✅") ? "text-green-600" : "text-red-600"
+            <MotionDiv
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.3 }}
+              className={`inline-flex items-center gap-2 px-4 py-3 rounded-lg font-medium ${
+                status.includes("✅")
+                  ? "bg-green-50 text-green-700 border border-green-200"
+                  : "bg-red-50 text-red-700 border border-red-200"
               }`}
             >
+              {status.includes("✅") ? (
+                <CheckCircle className="h-4 w-4" />
+              ) : (
+                <span className="text-lg">❌</span>
+              )}
               {status}
-            </p>
+            </MotionDiv>
           )}
         </MotionDiv>
       </form>
