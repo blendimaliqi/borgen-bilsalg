@@ -8,7 +8,8 @@ export async function POST(req: Request) {
       customerEmail,
       customerPhone,
       merke,
-      pris,
+      minPris,
+      maxPris,
       arsmodell,
       maxKilometer,
       drivstoff,
@@ -43,7 +44,9 @@ Telefon: ${customerPhone || "(ikke oppgitt)"}
 
 Bilønsker:
 Merke: ${merke}
-Pris: ${pris}
+Prisrange: ${minPris ? `Fra ${minPris}` : "Ikke spesifisert"} ${
+        maxPris ? `til ${maxPris}` : ""
+      }
 Årsmodell: ${arsmodell}
 Maks kilometer: ${maxKilometer}
 Drivstoff: ${drivstoff}

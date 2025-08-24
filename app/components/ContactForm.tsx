@@ -151,19 +151,41 @@ export function ContactForm() {
                     />
                   </div>
                   <div>
-                    <label
-                      htmlFor="pris"
-                      className="block text-sm font-medium text-foreground mb-2"
-                    >
+                    <label className="block text-sm font-medium text-foreground mb-2">
                       Ønsket pris
                     </label>
-                    <input
-                      type="text"
-                      id="pris"
-                      name="pris"
-                      placeholder="f.eks. 200 000 kr"
-                      className="w-full px-4 py-3 rounded-lg border border-input bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-colors"
-                    />
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div>
+                        <label
+                          htmlFor="minPris"
+                          className="block text-xs text-muted-foreground mb-1"
+                        >
+                          Fra pris
+                        </label>
+                        <input
+                          type="text"
+                          id="minPris"
+                          name="minPris"
+                          placeholder="f.eks. 150 000 kr"
+                          className="w-full px-4 py-3 rounded-lg border border-input bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-colors"
+                        />
+                      </div>
+                      <div>
+                        <label
+                          htmlFor="maxPris"
+                          className="block text-xs text-muted-foreground mb-1"
+                        >
+                          Til pris
+                        </label>
+                        <input
+                          type="text"
+                          id="maxPris"
+                          name="maxPris"
+                          placeholder="f.eks. 250 000 kr"
+                          className="w-full px-4 py-3 rounded-lg border border-input bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-colors"
+                        />
+                      </div>
+                    </div>
                   </div>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
