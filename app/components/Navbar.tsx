@@ -142,6 +142,16 @@ export default function Navbar() {
           >
             Kontakt
           </Link>
+          <Link
+            href="/requestcar"
+            className={`relative py-1 transition ${
+              pathname === "/requestcar"
+                ? "text-primary font-semibold after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-primary"
+                : "text-foreground hover:text-primary"
+            }`}
+          >
+            Forespør bil
+          </Link>
         </nav>
 
         <div className="flex items-center gap-4">

@@ -1,14 +1,16 @@
+"use client";
 import { Metadata } from "next";
 import { ContactCards } from "../components/ContactCards";
+import { ContactForm } from "../components/ContactForm";
 import { MotionDiv, MotionH1, MotionP } from "../components/motion-wrapper";
 import { Mail, MapPin } from "lucide-react";
 import { STORE_COORDINATES, STORE_ADDRESS } from "../constants/config";
 
-export const metadata: Metadata = {
+/*export const metadata: Metadata = {
   title: "Kontakt Oss | Borgen Bilsalg",
   description:
     "Ta kontakt med Borgen Bilsalg for spørsmål om våre biler eller for å avtale en visning.",
-};
+};*/
 
 export default function ContactPage() {
   return (
@@ -108,6 +110,9 @@ export default function ContactPage() {
             </MotionDiv>
           </div>
         </div>
+
+        {/* Contact Form Section */}
+        <ContactForm />
       </section>
     </main>
   );
