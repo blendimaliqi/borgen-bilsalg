@@ -5,6 +5,7 @@ import { MotionDiv, MotionP } from "./motion-wrapper";
 import Image from "next/image";
 import { ContactCards } from "./ContactCards";
 import Link from "next/link";
+import { Phone, Mail } from "lucide-react";
 
 export function HeroSection() {
   return (
@@ -13,7 +14,7 @@ export function HeroSection() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.6 }}
-        className="relative overflow-hidden bg-white h-screen"
+        className="relative overflow-hidden bg-white min-h-screen"
       >
         {/* Background car image */}
         <div className="absolute inset-0 z-0">
@@ -72,10 +73,33 @@ export function HeroSection() {
             </MotionDiv>
           </div>
 
-          {/* Contact Cards - Positioned at bottom */}
-          <div className="w-full px-0">
+          {/* Contact Cards - Desktop only */}
+          <div className="w-full px-0 hidden md:block">
             <ContactCards />
           </div>
+
+          {/* Compact Contact Info - Mobile only */}
+          <MotionDiv
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.5 }}
+            className="w-full flex flex-col gap-3 md:hidden"
+          >
+            <a
+              href="tel:+4798681758"
+              className="flex items-center justify-center gap-3 bg-white/10 backdrop-blur-sm border border-white/20 p-3 hover:bg-white/20 transition-colors"
+            >
+              <Phone className="h-4 w-4 text-white flex-shrink-0" />
+              <span className="text-white text-sm font-medium">+47 986 81 758</span>
+            </a>
+            <a
+              href="mailto:mirnes@borgenbilsalg.no"
+              className="flex items-center justify-center gap-3 bg-white/10 backdrop-blur-sm border border-white/20 p-3 hover:bg-white/20 transition-colors"
+            >
+              <Mail className="h-4 w-4 text-white flex-shrink-0" />
+              <span className="text-white text-sm font-medium">mirnes@borgenbilsalg.no</span>
+            </a>
+          </MotionDiv>
         </div>
       </MotionDiv>
     </>
