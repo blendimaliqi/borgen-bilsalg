@@ -5,106 +5,79 @@ import { MotionDiv, MotionP } from "./motion-wrapper";
 import Image from "next/image";
 import { ContactCards } from "./ContactCards";
 import Link from "next/link";
-import { Highlight } from "./ui/hero-highlight";
 
 export function HeroSection() {
-  const [objectPosition, setObjectPosition] = useState("center 45%");
-
-  useEffect(() => {
-    function updatePosition() {
-      const height = window.innerHeight;
-
-      // Adjust crop based on screen height
-      if (height < 700) {
-        // Shorter screens → move down a bit
-        setObjectPosition("center 55%");
-      } else if (height < 850) {
-        // Medium height → balanced
-        setObjectPosition("center 50%");
-      } else {
-        // Tall screens → move up slightly
-        setObjectPosition("center 40%");
-      }
-    }
-
-    updatePosition();
-    window.addEventListener("resize", updatePosition);
-    return () => window.removeEventListener("resize", updatePosition);
-  }, []);
-
   return (
     <>
       <MotionDiv
-        initial={{ opacity: 0, y: 0 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, ease: [0.4, 0.0, 0.2, 1] }}
-        className="relative text-center space-y-0 px-0 md:px-0 overflow-hidden"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.6 }}
+        className="relative overflow-hidden bg-white h-screen"
       >
-        {/* Background car image with overlay */}
-        <div className="absolute inset-0 z-0 h-[60vh] sm:h-full">
+        {/* Background car image */}
+        <div className="absolute inset-0 z-0">
           <Image
             src="/hoved_bilde_nettside.jpg"
             alt="Borgen Bilsalg showroom with actual inventory"
             fill
-            style={{ objectPosition }}
-            className="object-cover"
+            className="object-cover object-[center_5%] brightness-[0.85]"
             priority
             sizes="100vw"
             quality={95}
           />
+          <div className="absolute inset-0 bg-black/40" />
         </div>
 
-        {/* Logo and content */}
-        <div className="relative z-10 pt-4 pb-20 md:pt-6 md:pb-28">
-          {/* Logo placeholder */}
-          <MotionDiv
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.7, ease: [0.4, 0.0, 0.2, 1] }}
-            className="relative w-full max-w-[24rem] aspect-square sm:max-w-[30rem] mx-auto mb-8"
-          ></MotionDiv>
-
-          {/* Tagline */}
-          <MotionP
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.3, ease: [0.4, 0.0, 0.2, 1] }}
-            className="text-xl md:text-3xl text-white font-semibold px-6 sm:px-8 max-w-[20rem] sm:max-w-xl md:max-w-3xl mx-auto leading-relaxed"
-            style={{
-              textShadow:
-                "2px 2px 4px rgba(0,0,0,0.9), 1px 1px 2px rgba(0,0,0,0.8)",
-            }}
-          >
-            Din pålitelige partner for <Highlight>kvalitetsbiler</Highlight> i
-            Sarpsborg. Vi tilbyr <Highlight>profesjonell service</Highlight> og
-            <Highlight> trygg bilhandel</Highlight>
-          </MotionP>
-
-          {/* CTA buttons */}
-          <MotionDiv
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.5, ease: [0.4, 0.0, 0.2, 1] }}
-            className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4"
-          >
-            <Link
-              href="/cars"
-              rel="noopener noreferrer"
-              className="inline-block bg-primary text-primary-foreground px-8 py-3 rounded-full font-semibold text-lg hover:bg-primary/90 transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-1 w-full sm:w-auto"
+        {/* Content */}
+        <div className="relative z-10 h-full flex flex-col justify-center px-6 pb-0 pt-[27rem]">
+          <div className="max-w-4xl mx-auto mb-12">
+            <MotionP
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="text-4xl md:text-6xl text-white font-bold mb-6 leading-tight drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]"
             >
-              Se våre biler
-            </Link>
-            <Link
-              href="/contact"
-              className="inline-block bg-white/95 text-gray-900 px-8 py-3 rounded-full font-semibold text-lg hover:bg-white transition-all duration-300 w-full sm:w-auto shadow-lg hover:shadow-xl hover:-translate-y-1 backdrop-blur-sm"
+              Kvalitetsbiler i Sarpsborg
+            </MotionP>
+
+            <MotionP
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="text-lg md:text-xl text-white mb-10 max-w-2xl leading-relaxed drop-shadow-[0_2px_6px_rgba(0,0,0,0.7)]"
             >
-              Kontakt oss
-            </Link>
-          </MotionDiv>
+              Din pålitelige partner for profesjonell service og trygg bilhandel
+            </MotionP>
+
+            {/* CTA buttons */}
+            <MotionDiv
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              className="flex flex-col sm:flex-row gap-4"
+            >
+              <Link
+                href="/cars"
+                className="inline-flex items-center justify-center bg-white text-gray-900 px-8 py-4 text-base font-medium hover:bg-gray-100 transition-colors"
+              >
+                Se våre biler
+              </Link>
+              <Link
+                href="/contact"
+                className="inline-flex items-center justify-center border-2 border-white text-white px-8 py-4 text-base font-medium hover:bg-white hover:text-gray-900 transition-colors"
+              >
+                Kontakt oss
+              </Link>
+            </MotionDiv>
+          </div>
+
+          {/* Contact Cards - Positioned at bottom */}
+          <div className="w-full px-0">
+            <ContactCards />
+          </div>
         </div>
       </MotionDiv>
-
-      <ContactCards />
     </>
   );
 }

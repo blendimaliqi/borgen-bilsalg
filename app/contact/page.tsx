@@ -15,7 +15,7 @@ export default function ContactPage() {
   return (
     <main className="flex-1">
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-b from-background to-muted/30 pt-16 pb-24 md:pt-24 md:pb-32">
+      <section className="relative bg-gradient-to-b from-background to-muted/30 pt-24 pb-24 md:pt-32 md:pb-32">
         <div className="container mx-auto px-4">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <MotionH1
@@ -43,7 +43,7 @@ export default function ContactPage() {
           </div>
 
           {/* Contact Cards */}
-          <ContactCards />
+          <ContactCards variant="light" />
         </div>
       </section>
 
@@ -93,7 +93,7 @@ export default function ContactPage() {
               initial={{ opacity: 0, x: 30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 0.5 }}
-              className="w-full h-[400px] rounded-xl overflow-hidden shadow-xl"
+              className="w-full h-[400px] overflow-hidden shadow-xl"
             >
               <iframe
                 src={`https://maps.google.com/maps?q=${STORE_COORDINATES.formatted}&t=m&z=16&ie=UTF8&iwloc=&output=embed`}

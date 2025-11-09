@@ -97,57 +97,84 @@ export default function Navbar() {
     };
   }, []);
 
+  const isHomePage = pathname === "/";
+
   return (
     <header
-      className={`border-b border-border fixed top-0 left-0 right-0 z-[100] bg-background transition-all duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ${
         visible ? "translate-y-0" : "-translate-y-full"
-      } ${isScrolled ? "shadow-md" : ""}`}
+      } ${
+        isHomePage && !isScrolled
+          ? "bg-transparent border-b border-transparent"
+          : "bg-background border-b border-border shadow-md"
+      }`}
     >
       <div className="container mx-auto px-4 py-4 flex justify-between items-center">
         <div className="flex items-center gap-2">
-          <Link href="/" className="font-bold text-xl text-primary">
+          <Link
+            href="/"
+            className={`font-bold text-xl ${
+              isHomePage && !isScrolled ? "text-white" : "text-primary"
+            }`}
+          >
             Borgen Bilsalg
           </Link>
         </div>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center gap-6">
+        <nav className="hidden md:flex items-center gap-2">
           <Link
             href="/"
-            className={`relative py-1 transition ${
+            className={`relative py-2 px-3 transition ${
               pathname === "/"
-                ? "text-primary font-semibold after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-primary"
-                : "text-foreground hover:text-primary"
+                ? isHomePage && !isScrolled
+                  ? "text-white font-semibold bg-white/10 backdrop-blur-sm"
+                  : "text-primary font-semibold bg-primary/10"
+                : isHomePage && !isScrolled
+                ? "text-white/90 hover:text-white hover:bg-white/10 backdrop-blur-sm"
+                : "text-foreground hover:text-primary hover:bg-primary/5"
             }`}
           >
             Hjem
           </Link>
           <Link
             href="/cars"
-            className={`relative py-1 transition ${
+            className={`relative py-2 px-3 transition ${
               pathname === "/cars" || pathname.startsWith("/cars/")
-                ? "text-primary font-semibold after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-primary"
-                : "text-foreground hover:text-primary"
+                ? isHomePage && !isScrolled
+                  ? "text-white font-semibold bg-white/10 backdrop-blur-sm"
+                  : "text-primary font-semibold bg-primary/10"
+                : isHomePage && !isScrolled
+                ? "text-white/90 hover:text-white hover:bg-white/10 backdrop-blur-sm"
+                : "text-foreground hover:text-primary hover:bg-primary/5"
             }`}
           >
             Biler
           </Link>
           <Link
             href="/contact"
-            className={`relative py-1 transition ${
+            className={`relative py-2 px-3 transition ${
               pathname === "/contact"
-                ? "text-primary font-semibold after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-primary"
-                : "text-foreground hover:text-primary"
+                ? isHomePage && !isScrolled
+                  ? "text-white font-semibold bg-white/10 backdrop-blur-sm"
+                  : "text-primary font-semibold bg-primary/10"
+                : isHomePage && !isScrolled
+                ? "text-white/90 hover:text-white hover:bg-white/10 backdrop-blur-sm"
+                : "text-foreground hover:text-primary hover:bg-primary/5"
             }`}
           >
             Kontakt
           </Link>
           <Link
             href="/requestcar"
-            className={`relative py-1 transition ${
+            className={`relative py-2 px-3 transition ${
               pathname === "/requestcar"
-                ? "text-primary font-semibold after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-primary"
-                : "text-foreground hover:text-primary"
+                ? isHomePage && !isScrolled
+                  ? "text-white font-semibold bg-white/10 backdrop-blur-sm"
+                  : "text-primary font-semibold bg-primary/10"
+                : isHomePage && !isScrolled
+                ? "text-white/90 hover:text-white hover:bg-white/10 backdrop-blur-sm"
+                : "text-foreground hover:text-primary hover:bg-primary/5"
             }`}
           >
             Forespør bil
@@ -157,7 +184,11 @@ export default function Navbar() {
         <div className="flex items-center gap-4">
           <Link
             href="/cars"
-            className="hidden sm:inline-flex px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition"
+            className={`hidden sm:inline-flex px-4 py-2 transition ${
+              isHomePage && !isScrolled
+                ? "bg-white text-gray-900 hover:bg-gray-100"
+                : "bg-primary text-primary-foreground hover:bg-primary/90"
+            }`}
           >
             Se våre biler
           </Link>
@@ -169,19 +200,19 @@ export default function Navbar() {
             aria-label="Toggle menu"
           >
             <span
-              className={`block w-6 h-0.5 bg-foreground transition-transform duration-300 ease-in-out ${
-                mobileMenuOpen ? "rotate-45 translate-y-2" : ""
-              }`}
+              className={`block w-6 h-0.5 transition-all duration-300 ease-in-out ${
+                isHomePage && !isScrolled ? "bg-white" : "bg-foreground"
+              } ${mobileMenuOpen ? "rotate-45 translate-y-2" : ""}`}
             />
             <span
-              className={`block w-6 h-0.5 bg-foreground transition-opacity duration-300 ease-in-out ${
-                mobileMenuOpen ? "opacity-0" : "opacity-100"
-              }`}
+              className={`block w-6 h-0.5 transition-all duration-300 ease-in-out ${
+                isHomePage && !isScrolled ? "bg-white" : "bg-foreground"
+              } ${mobileMenuOpen ? "opacity-0" : "opacity-100"}`}
             />
             <span
-              className={`block w-6 h-0.5 bg-foreground transition-transform duration-300 ease-in-out ${
-                mobileMenuOpen ? "-rotate-45 -translate-y-2" : ""
-              }`}
+              className={`block w-6 h-0.5 transition-all duration-300 ease-in-out ${
+                isHomePage && !isScrolled ? "bg-white" : "bg-foreground"
+              } ${mobileMenuOpen ? "-rotate-45 -translate-y-2" : ""}`}
             />
           </button>
         </div>
@@ -207,7 +238,7 @@ export default function Navbar() {
 
             {/* Menu Panel */}
             <div
-              className="fixed top-16 right-4 w-[250px] bg-white z-[1001] shadow-xl rounded-xl"
+              className="fixed top-16 right-4 w-[250px] bg-white z-[1001] shadow-xl"
               style={{
                 position: "fixed",
                 maxHeight: "calc(100vh - 100px)",
@@ -217,7 +248,7 @@ export default function Navbar() {
               {/* Close Button - Top Right Corner */}
               <button
                 onClick={() => setMobileMenuOpen(false)}
-                className="absolute top-2 right-2 p-1.5 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors z-20"
+                className="absolute top-2 right-2 p-1.5 bg-gray-100 hover:bg-gray-200 transition-colors z-20"
                 aria-label="Close menu"
               >
                 <svg
@@ -276,7 +307,7 @@ export default function Navbar() {
                 <div className="mt-3 pt-3 border-t border-gray-100">
                   <Link
                     href="/cars"
-                    className="block w-full py-2 px-3 bg-primary text-white rounded-md hover:bg-primary/90 transition text-center font-medium text-sm"
+                    className="block w-full py-2 px-3 bg-primary text-white hover:bg-primary/90 transition text-center font-medium text-sm"
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     Se våre biler

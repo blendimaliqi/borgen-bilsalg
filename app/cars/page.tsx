@@ -136,7 +136,7 @@ export default function CarsPage() {
               placeholder="Søk etter bilmerke, modell..."
               value={searchQuery}
               onChange={handleSearchChange}
-              className="pl-10 pr-10 py-2 border rounded-lg w-full focus:ring-2 focus:ring-primary focus:border-primary"
+              className="pl-10 pr-10 py-2 border w-full focus:ring-2 focus:ring-primary focus:border-primary"
             />
             {searchQuery && (
               <button
@@ -151,14 +151,14 @@ export default function CarsPage() {
           <div className="relative">
             <button
               onClick={() => setShowSortOptions(!showSortOptions)}
-              className="flex items-center justify-center gap-2 px-4 py-2 bg-muted rounded-lg hover:bg-muted/80 transition-colors w-full sm:w-auto"
+              className="flex items-center justify-center gap-2 px-4 py-2 bg-muted hover:bg-muted/80 transition-colors w-full sm:w-auto"
             >
               <ArrowUpDown className="h-5 w-5" />
               <span>Sortering</span>
             </button>
 
             {showSortOptions && (
-              <div className="absolute right-0 mt-2 w-48 bg-card rounded-md shadow-lg z-10 border animate-in fade-in slide-in-from-top-2 duration-200">
+              <div className="absolute right-0 mt-2 w-48 bg-card shadow-lg z-10 border animate-in fade-in slide-in-from-top-2 duration-200">
                 <div className="py-1">
                   <button
                     onClick={() => handleSortChange("newest")}
@@ -213,7 +213,7 @@ export default function CarsPage() {
 
           <button
             onClick={toggleViewMode}
-            className="flex items-center justify-center gap-2 px-4 py-2 bg-muted rounded-lg hover:bg-muted/80 transition-colors"
+            className="flex items-center justify-center gap-2 px-4 py-2 bg-muted hover:bg-muted/80 transition-colors"
           >
             <span>
               {viewMode === "grid" ? "Listevisning" : "Rutenettvisning"}
@@ -229,7 +229,7 @@ export default function CarsPage() {
             <button
               key={fuel}
               onClick={() => handleFilterChange(fuel)}
-              className={`px-4 py-2 text-sm rounded-full transition-all ${
+              className={`px-4 py-2 text-sm transition-all ${
                 activeFilter === fuel
                   ? "bg-primary text-primary-foreground shadow-md"
                   : "bg-muted/50 hover:bg-muted text-foreground hover:shadow-sm"
@@ -250,7 +250,7 @@ export default function CarsPage() {
 
       {/* Error state */}
       {isError && (
-        <div className="bg-destructive/10 border border-destructive text-destructive px-4 py-3 rounded-md relative mb-6">
+        <div className="bg-destructive/10 border border-destructive text-destructive px-4 py-3 relative mb-6">
           <strong className="font-bold">Feil! </strong>
           <span className="block sm:inline">
             {error instanceof Error
@@ -262,7 +262,7 @@ export default function CarsPage() {
 
       {/* No cars found state */}
       {!isLoading && !isError && cars.length === 0 && (
-        <div className="bg-secondary/10 border border-secondary text-secondary-foreground px-4 py-3 rounded-md relative mb-6">
+        <div className="bg-secondary/10 border border-secondary text-secondary-foreground px-4 py-3 relative mb-6">
           <strong className="font-bold">Ingen biler funnet! </strong>
           <span className="block sm:inline">
             Vi kunne ikke finne noen biler for øyeblikket. Dette kan skyldes en
@@ -276,7 +276,7 @@ export default function CarsPage() {
         !isError &&
         cars.length > 0 &&
         filteredAndSortedCars.length === 0 && (
-          <div className="bg-accent/10 border border-accent text-accent-foreground px-4 py-3 rounded-md relative mb-6">
+          <div className="bg-accent/10 border border-accent text-accent-foreground px-4 py-3 relative mb-6">
             <strong className="font-bold">Ingen treff! </strong>
             <span className="block sm:inline">
               Vi fant ingen biler som matcher dine søkekriterier. Prøv å justere
@@ -303,7 +303,7 @@ export default function CarsPage() {
             {filteredAndSortedCars.map((car) => (
               <div
                 key={car.id}
-                className="bg-card rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 border border-border/50 group"
+                className="bg-card shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 border border-border/50 group"
               >
                 <div className="relative h-32 sm:h-48 overflow-hidden">
                   <Image
@@ -315,12 +315,12 @@ export default function CarsPage() {
                     className="group-hover:scale-105 transition-transform duration-500"
                   />
                   {car.status === "sold" && (
-                    <div className="absolute top-0 right-0 bg-destructive text-destructive-foreground px-3 py-1 m-2 rounded sm:rounded-md font-medium">
+                    <div className="absolute top-0 right-0 bg-destructive text-destructive-foreground px-3 py-1 m-2 font-medium">
                       Solgt
                     </div>
                   )}
                   {car.fuel && (
-                    <div className="absolute bottom-0 left-0 bg-black/70 text-white px-2 sm:px-3 py-0.5 sm:py-1 m-1 sm:m-2 rounded sm:rounded-md text-xs sm:text-sm flex items-center gap-1">
+                    <div className="absolute bottom-0 left-0 bg-black/70 text-white px-2 sm:px-3 py-0.5 sm:py-1 m-1 sm:m-2 text-xs sm:text-sm flex items-center gap-1">
                       <Fuel className="h-3 w-3 sm:h-4 sm:w-4" />
                       {car.fuel}
                     </div>
@@ -381,7 +381,7 @@ export default function CarsPage() {
                       href={car.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="bg-primary hover:bg-primary/90 text-primary-foreground px-2 sm:px-4 py-1 sm:py-2 rounded sm:rounded-md inline-block transition-colors duration-300 text-xs sm:text-base"
+                      className="bg-primary hover:bg-primary/90 text-primary-foreground px-2 sm:px-4 py-1 sm:py-2 inline-block transition-colors duration-300 text-xs sm:text-base"
                     >
                       Se detaljer
                     </a>
@@ -398,7 +398,7 @@ export default function CarsPage() {
             {filteredAndSortedCars.map((car) => (
               <div
                 key={car.id}
-                className="bg-card rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 border border-border/50 flex flex-col md:flex-row"
+                className="bg-card shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 border border-border/50 flex flex-col md:flex-row"
               >
                 <div className="relative h-48 md:h-auto md:w-1/3 md:min-w-[250px]">
                   <Image
@@ -410,7 +410,7 @@ export default function CarsPage() {
                     className="h-full w-full"
                   />
                   {car.status === "sold" && (
-                    <div className="absolute top-0 right-0 bg-destructive text-destructive-foreground px-3 py-1 m-2 rounded sm:rounded-md font-medium">
+                    <div className="absolute top-0 right-0 bg-destructive text-destructive-foreground px-3 py-1 m-2 font-medium">
                       Solgt
                     </div>
                   )}
@@ -476,7 +476,7 @@ export default function CarsPage() {
                       href={car.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="bg-primary hover:bg-primary/90 text-primary-foreground px-4 py-2 rounded sm:rounded-md inline-block transition-colors duration-300 text-xs sm:text-base"
+                      className="bg-primary hover:bg-primary/90 text-primary-foreground px-4 py-2 inline-block transition-colors duration-300 text-xs sm:text-base"
                     >
                       Se detaljer
                     </a>
@@ -492,7 +492,7 @@ export default function CarsPage() {
 
       {/* Call to action */}
       <div className="mt-16 text-center">
-        <div className="bg-gradient-to-r from-primary/10 via-secondary/10 to-primary/10 rounded-2xl p-8 max-w-4xl mx-auto shadow-lg border border-border/50">
+        <div className="bg-gradient-to-r from-primary/10 via-secondary/10 to-primary/10 p-8 max-w-4xl mx-auto shadow-lg border border-border/50">
           <h2 className="text-2xl font-bold mb-4">
             Finner du ikke det du leter etter?
           </h2>
@@ -503,7 +503,7 @@ export default function CarsPage() {
           <div className="flex flex-wrap gap-4 justify-center">
             <Link
               href={"/contact"}
-              className="px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition flex items-center gap-2"
+              className="px-6 py-3 bg-primary text-primary-foreground hover:bg-primary/90 transition flex items-center gap-2"
             >
               <MapPin className="h-5 w-5" />
               Kontakt oss
@@ -512,7 +512,7 @@ export default function CarsPage() {
               href="https://www.finn.no/mobility/search/car?orgId=4471300"
               target="_blank"
               rel="noopener noreferrer"
-              className="px-6 py-3 bg-secondary text-secondary-foreground rounded-lg hover:bg-secondary/90 transition flex items-center gap-2"
+              className="px-6 py-3 bg-secondary text-secondary-foreground hover:bg-secondary/90 transition flex items-center gap-2"
             >
               Se alle på Finn.no
             </Link>

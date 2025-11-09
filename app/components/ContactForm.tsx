@@ -98,7 +98,7 @@ export function ContactForm() {
                     name="customerName"
                     placeholder="Skriv inn ditt navn"
                     required
-                    className="w-full px-4 py-3 rounded-lg border border-input bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-colors"
+                    className="w-full px-4 py-3 border border-input bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-colors"
                   />
                 </div>
                 <div>
@@ -114,7 +114,7 @@ export function ContactForm() {
                     name="customerEmail"
                     placeholder="din@epost.no"
                     required
-                    className="w-full px-4 py-3 rounded-lg border border-input bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-colors"
+                    className="w-full px-4 py-3 border border-input bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-colors"
                   />
                 </div>
                 <div>
@@ -129,7 +129,7 @@ export function ContactForm() {
                     id="customerPhone"
                     name="customerPhone"
                     placeholder="+47 123 45 678"
-                    className="w-full px-4 py-3 rounded-lg border border-input bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-colors"
+                    className="w-full px-4 py-3 border border-input bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-colors"
                   />
                 </div>
               </CardContent>
@@ -164,7 +164,7 @@ export function ContactForm() {
                       id="merke"
                       name="merke"
                       placeholder="f.eks. Mercedes Benz E-klasse"
-                      className="w-full px-4 py-3 rounded-lg border border-input bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-colors"
+                      className="w-full px-4 py-3 border border-input bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-colors"
                     />
                   </div>
                   <div>
@@ -184,7 +184,7 @@ export function ContactForm() {
                           id="minPris"
                           name="minPris"
                           placeholder="f.eks. 150 000 kr"
-                          className="w-full px-4 py-3 rounded-lg border border-input bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-colors"
+                          className="w-full px-4 py-3 border border-input bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-colors"
                         />
                       </div>
                       <div>
@@ -199,7 +199,7 @@ export function ContactForm() {
                           id="maxPris"
                           name="maxPris"
                           placeholder="f.eks. 250 000 kr"
-                          className="w-full px-4 py-3 rounded-lg border border-input bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-colors"
+                          className="w-full px-4 py-3 border border-input bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-colors"
                         />
                       </div>
                     </div>
@@ -218,7 +218,7 @@ export function ContactForm() {
                       id="arsmodell"
                       name="arsmodell"
                       placeholder="f.eks. 2020"
-                      className="w-full px-4 py-3 rounded-lg border border-input bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-colors"
+                      className="w-full px-4 py-3 border border-input bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-colors"
                     />
                   </div>
                   <div>
@@ -233,7 +233,7 @@ export function ContactForm() {
                       id="maxKilometer"
                       name="maxKilometer"
                       placeholder="f.eks. 50 000 km"
-                      className="w-full px-4 py-3 rounded-lg border border-input bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-colors"
+                      className="w-full px-4 py-3 border border-input bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-colors"
                     />
                   </div>
                 </div>
@@ -284,7 +284,7 @@ export function ContactForm() {
                     id="karosseri"
                     name="karosseri"
                     placeholder="f.eks. SUV"
-                    className="w-full px-4 py-3 rounded-lg border border-input bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-colors"
+                    className="w-full px-4 py-3 border border-input bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-colors"
                   />
                 </div>
                 <div>
@@ -299,7 +299,7 @@ export function ContactForm() {
                     id="girkasse"
                     name="girkasse"
                     placeholder="f.eks. Automat"
-                    className="w-full px-4 py-3 rounded-lg border border-input bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-colors"
+                    className="w-full px-4 py-3 border border-input bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-colors"
                   />
                 </div>
                 <div>
@@ -314,7 +314,7 @@ export function ContactForm() {
                     id="hjuldrift"
                     name="hjuldrift"
                     placeholder="f.eks. 4WD"
-                    className="w-full px-4 py-3 rounded-lg border border-input bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-colors"
+                    className="w-full px-4 py-3 border border-input bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-colors"
                   />
                 </div>
               </div>
@@ -331,7 +331,7 @@ export function ContactForm() {
                   name="message"
                   placeholder="Fortell oss mer om hva du leter etter, spesielle ønsker eller andre detaljer..."
                   rows={4}
-                  className="w-full px-4 py-3 rounded-lg border border-input bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-colors resize-none"
+                  className="w-full px-4 py-3 border border-input bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-colors resize-none"
                 />
               </div>
             </CardContent>
@@ -363,7 +363,7 @@ export function ContactForm() {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.3 }}
-              className={`inline-flex items-center gap-2 px-4 py-3 rounded-lg font-medium ${
+              className={`inline-flex items-center gap-2 px-4 py-3 font-medium ${
                 status.includes("✅")
                   ? "bg-green-50 text-green-700 border border-green-200"
                   : "bg-red-50 text-red-700 border border-red-200"
