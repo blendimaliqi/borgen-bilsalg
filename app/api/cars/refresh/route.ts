@@ -1,52 +1,36 @@
 import { NextResponse } from "next/server";
-import { getCarsWithFallback } from "@/app/lib/finn-cars";
+import { getCarsFromRedis } from "@/app/lib/redis";
 import { revalidatePath } from "next/cache";
 
-// Disable caching for this route
 export const dynamic = "force-dynamic";
 
 /**
  * GET handler for /api/cars/refresh
- * Manually triggers a refresh of car data from Finn.no
- * This can be called by a cron job or manually to update the data
- *
- * Optional query parameters:
- * - orgId: The organization ID on Finn.no (defaults to 4471300)
- * - apiKey: Optional API key for protection (not implemented yet)
+ * Checks Redis for latest data and revalidates the cache.
+ * The actual scraping is done by the external cron job.
  */
 export async function GET() {
   const startTime = Date.now();
 
   try {
-    // Get query parameters - commented out as currently unused
-    // const { searchParams } = new URL(request.url);
-    // orgId is currently unused but kept in comments for future implementation
-    // const orgId = searchParams.get("orgId") || "4471300";
+    const cars = await getCarsFromRedis();
 
-    // Optional: Add API key validation for security
-    // const apiKey = searchParams.get("apiKey");
-    // if (!apiKey || apiKey !== process.env.REFRESH_API_KEY) {
-    //   return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    // }
-
-    // Fetch cars from Finn.no
-    const cars = await getCarsWithFallback();
-
-    // Revalidate the cars path to update any cached data
+    // Revalidate the cars path to pick up latest Redis data
     revalidatePath("/cars");
 
     const endTime = Date.now();
     const duration = `${((endTime - startTime) / 1000).toFixed(2)}s`;
 
+    const count = Array.isArray(cars) ? cars.length : 0;
+
     return NextResponse.json({
       success: true,
-      count: cars.length,
+      count,
       duration,
       timestamp: new Date().toISOString(),
-      message:
-        cars.length > 0
-          ? `Successfully fetched ${cars.length} cars in ${duration}`
-          : "No cars found. Please check that your Finn.no listing is active.",
+      message: count > 0
+        ? `Found ${count} cars in cache (${duration})`
+        : "No cars in cache. Waiting for cron job to populate data.",
     });
   } catch (error) {
     console.error("Error refreshing cars:", error);
