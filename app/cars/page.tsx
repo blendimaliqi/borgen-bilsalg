@@ -120,7 +120,7 @@ export default function CarsPage() {
   }, [activeFilter]);
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 pt-24 pb-8 md:pt-32">
       <div className="flex flex-col md:flex-row md:items-center justify-between mb-6">
         <h1 className="text-4xl font-bold mb-4 md:mb-0 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
           Våre biler
