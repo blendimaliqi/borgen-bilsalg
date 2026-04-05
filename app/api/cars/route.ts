@@ -10,13 +10,21 @@ export async function GET() {
     // Try Redis first (populated by external cron job)
     const cachedCars = await getCarsFromRedis();
     if (cachedCars && Array.isArray(cachedCars) && cachedCars.length > 0) {
-      return NextResponse.json(cachedCars);
+      return NextResponse.json(cachedCars, {
+        headers: {
+          "x-cars-source": "redis",
+        },
+      });
     }
 
     // Fallback to live scraping if Redis is empty (e.g. first run)
     console.log("Redis empty, falling back to live scraping");
     const cars = await getCarsWithFallback();
-    return NextResponse.json(cars);
+    return NextResponse.json(cars, {
+      headers: {
+        "x-cars-source": "live-scrape",
+      },
+    });
   } catch (error) {
     console.error("Error in cars API route:", error);
     return NextResponse.json(
