@@ -4,7 +4,7 @@ import { CarSection } from "./components/car-section";
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-white">
+    <main className="min-h-screen overflow-x-hidden bg-background">
       <HeroSection />
       <CarSection />
       <ServicesSection />

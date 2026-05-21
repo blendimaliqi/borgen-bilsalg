@@ -7,7 +7,7 @@ export const dynamic = "force-dynamic";
 /**
  * GET handler for /api/cars/refresh
  * Checks Redis for latest data and revalidates the cache.
- * The actual scraping is done by the external cron job.
+ * The source endpoint populates Redis outside this read route.
  */
 export async function GET() {
   const startTime = Date.now();
@@ -30,7 +30,7 @@ export async function GET() {
       timestamp: new Date().toISOString(),
       message: count > 0
         ? `Found ${count} cars in cache (${duration})`
-        : "No cars in cache. Waiting for cron job to populate data.",
+        : "No cars in cache. Waiting for the source endpoint to populate data.",
     });
   } catch (error) {
     console.error("Error refreshing cars:", error);

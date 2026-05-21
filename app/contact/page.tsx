@@ -1,118 +1,145 @@
 "use client";
+
+import { Mail, MapPin, Phone } from "lucide-react";
 import { ContactCards } from "../components/ContactCards";
 import { ContactForm } from "../components/ContactForm";
 import { MotionDiv, MotionH1, MotionP } from "../components/motion-wrapper";
-import { Mail, MapPin } from "lucide-react";
-import { STORE_COORDINATES, STORE_ADDRESS } from "../constants/config";
+import { STORE_ADDRESS, STORE_COORDINATES } from "../constants/config";
 
-/*export const metadata: Metadata = {
-  title: "Kontakt Oss | Borgen Bilsalg",
-  description:
-    "Ta kontakt med Borgen Bilsalg for spørsmål om våre biler eller for å avtale en visning.",
-};*/
+const mapSrc = `https://maps.google.com/maps?q=${STORE_COORDINATES.formatted}&t=m&z=16&ie=UTF8&iwloc=&output=embed`;
 
 export default function ContactPage() {
   return (
-    <main className="flex-1">
-      {/* Hero Section */}
-      <section className="relative bg-gradient-to-b from-background to-muted/30 pt-24 pb-24 md:pt-32 md:pb-32">
-        <div className="container mx-auto px-4">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <MotionH1
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, ease: [0.4, 0.0, 0.2, 1] }}
-              className="text-4xl md:text-5xl font-bold text-foreground mb-6"
-            >
-              Kontakt Oss
-            </MotionH1>
+    <main className="overflow-x-hidden bg-background">
+      <section className="relative border-b border-border py-16 md:py-24">
+        <div className="absolute inset-0 -z-10 noise-layer opacity-40" />
+        <div className="page-shell">
+          <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
+            <div>
+              <MotionP
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.45 }}
+                className="eyebrow mb-4"
+              >
+                Kontakt
+              </MotionP>
+              <MotionH1
+                initial={{ opacity: 0, y: 18 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.55, delay: 0.08 }}
+                className="max-w-3xl text-4xl font-semibold tracking-tight text-foreground md:text-6xl"
+              >
+                Snakk med oss før du bestemmer deg
+              </MotionH1>
+            </div>
             <MotionP
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{
-                duration: 0.5,
-                delay: 0.2,
-                ease: [0.4, 0.0, 0.2, 1],
-              }}
-              className="text-lg md:text-xl text-muted-foreground"
+              transition={{ duration: 0.55, delay: 0.16 }}
+              className="max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg"
             >
-              Vi er her for å hjelpe deg med alle spørsmål om våre biler. Ta
-              kontakt med oss via telefon, e-post eller besøk oss i våre
-              lokaler.
+              Ring, send e-post eller besøk oss i Borgenhaugen. Vi hjelper med
+              prøvekjøring, innbytte, finansiering og konkrete bilønsker.
             </MotionP>
           </div>
 
-          {/* Contact Cards */}
-          <ContactCards variant="light" />
+          <div className="mt-10">
+            <ContactCards variant="light" />
+          </div>
         </div>
       </section>
 
-      {/* Map Section */}
-      <section className="py-16 md:py-24 bg-gradient-to-b from-muted/30 to-background">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      <section className="py-14 md:py-20">
+        <div className="page-shell">
+          <div className="grid gap-6 lg:grid-cols-[0.8fr_1.2fr]">
             <MotionDiv
-              initial={{ opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-              className="space-y-6"
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ duration: 0.55 }}
+              className="rounded-lg border border-border bg-card p-6 md:p-8"
             >
-              <h2 className="text-3xl md:text-4xl font-bold text-foreground">
-                Finn oss
+              <p className="eyebrow mb-4">Besøk oss</p>
+              <h2 className="text-3xl font-semibold tracking-tight text-foreground">
+                Snekkerstubakken 24
               </h2>
-              <p className="text-lg text-muted-foreground">
-                Vi holder til i Snekkerstubakken 24, 1738 Borgenhaugen. Våre
-                lokaler er lett tilgjengelige med god parkeringsplass for
-                besøkende.
+              <p className="mt-4 text-base leading-relaxed text-muted-foreground">
+                Vi holder til på {STORE_ADDRESS.street}, {STORE_ADDRESS.city}.
+                Det er god parkering og enkelt å avtale visning av aktuelle biler.
               </p>
-              <div className="flex items-start space-x-4">
-                <MapPin className="h-6 w-6 text-primary mt-1" />
-                <div>
-                  <h3 className="text-xl font-semibold">Adresse</h3>
-                  <p className="text-muted-foreground">
-                    {STORE_ADDRESS.street}
-                  </p>
-                  <p className="text-muted-foreground">{STORE_ADDRESS.city}</p>
-                </div>
-              </div>
-              <div className="flex items-start space-x-4">
-                <Mail className="h-6 w-6 text-primary mt-1" />
-                <div>
-                  <h3 className="text-xl font-semibold">E-post</h3>
-                  <p className="text-muted-foreground">
-                    mirnes@borgenbilsalg.no
-                  </p>
-                  <p className="text-muted-foreground">
-                    For generelle henvendelser og spørsmål
-                  </p>
-                </div>
+              <div className="mt-8 space-y-4">
+                <a
+                  href={`https://www.google.com/maps/search/?api=1&query=${STORE_COORDINATES.formatted}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="focus-ring flex items-start gap-3 rounded-md border border-border p-4 transition-all duration-300 hover:border-primary hover:bg-muted"
+                >
+                  <MapPin className="mt-0.5 h-5 w-5 shrink-0" aria-hidden="true" />
+                  <span>
+                    <span className="block font-semibold text-foreground">
+                      Få veibeskrivelse
+                    </span>
+                    <span className="text-sm text-muted-foreground">
+                      Åpnes i Google Maps
+                    </span>
+                  </span>
+                </a>
+                <a
+                  href="tel:+4798681758"
+                  className="focus-ring flex items-start gap-3 rounded-md border border-border p-4 transition-all duration-300 hover:border-primary hover:bg-muted"
+                >
+                  <Phone className="mt-0.5 h-5 w-5 shrink-0" aria-hidden="true" />
+                  <span>
+                    <span className="block font-semibold text-foreground">
+                      +47 986 81 758
+                    </span>
+                    <span className="text-sm text-muted-foreground">
+                      Raskeste vei til prøvekjøring
+                    </span>
+                  </span>
+                </a>
+                <a
+                  href="mailto:mirnes@borgenbilsalg.no"
+                  className="focus-ring flex items-start gap-3 rounded-md border border-border p-4 transition-all duration-300 hover:border-primary hover:bg-muted"
+                >
+                  <Mail className="mt-0.5 h-5 w-5 shrink-0" aria-hidden="true" />
+                  <span>
+                    <span className="block break-all font-semibold text-foreground">
+                      mirnes@borgenbilsalg.no
+                    </span>
+                    <span className="text-sm text-muted-foreground">
+                      Send spørsmål om bil, innbytte eller finansiering
+                    </span>
+                  </span>
+                </a>
               </div>
             </MotionDiv>
 
             <MotionDiv
-              initial={{ opacity: 0, x: 30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: 0.5 }}
-              className="w-full h-[400px] overflow-hidden shadow-xl"
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ duration: 0.55, delay: 0.08 }}
+              className="min-h-[420px] overflow-hidden rounded-lg border border-border bg-card"
             >
               <iframe
-                src={`https://maps.google.com/maps?q=${STORE_COORDINATES.formatted}&t=m&z=16&ie=UTF8&iwloc=&output=embed`}
+                src={mapSrc}
                 width="100%"
                 height="100%"
                 style={{ border: 0 }}
                 allowFullScreen
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
-                title="Borgen Bilsalg location"
-                className="w-full h-full"
-              ></iframe>
+                title="Borgen Bilsalg kart"
+                className="h-full min-h-[420px] w-full"
+              />
             </MotionDiv>
           </div>
         </div>
-
-        {/* Contact Form Section */}
-        <ContactForm />
       </section>
+
+      <ContactForm />
     </main>
   );
 }

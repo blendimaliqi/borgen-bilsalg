@@ -1,323 +1,172 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { Menu, Phone, X } from "lucide-react";
 import { useEffect, useState } from "react";
-import { createPortal } from "react-dom";
+import { cn } from "@/lib/utils";
+
+const navItems = [
+  { href: "/", label: "Hjem" },
+  { href: "/cars", label: "Biler" },
+  { href: "/contact", label: "Kontakt" },
+  { href: "/requestcar", label: "Forespør bil" },
+];
 
 export default function Navbar() {
   const pathname = usePathname();
-
-  // Add scroll behavior states
-  const [prevScrollPos, setPrevScrollPos] = useState(0);
-  const [visible, setVisible] = useState(true);
-  const [isScrolled, setIsScrolled] = useState(false);
-
-  // Add mobile menu state
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  // State for portal container
-  const [portalContainer, setPortalContainer] = useState<HTMLElement | null>(
-    null
-  );
-
-  // Check session storage on component mount
   useEffect(() => {
-    // Add keyboard shortcut listener for mobile menu
-    const handleKeyDown = (e: KeyboardEvent) => {
-      // Close mobile menu with Escape
-      if (e.key === "Escape" && mobileMenuOpen) {
+    setMobileMenuOpen(false);
+  }, [pathname]);
+
+  useEffect(() => {
+    document.body.style.overflow = mobileMenuOpen ? "hidden" : "";
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
         setMobileMenuOpen(false);
       }
     };
 
     window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [mobileMenuOpen]);
-
-  // Add scroll behavior effect
-  useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollPos = window.scrollY;
-
-      // Make the navbar visible when:
-      // 1. Scrolling up
-      // 2. At the top of the page
-      // 3. Scrolled less than the navbar height (to prevent flickering)
-      const isScrollingUp = prevScrollPos > currentScrollPos;
-      const isAtTop = currentScrollPos < 10;
-
-      // Don't hide navbar when mobile menu is open
-      if (!mobileMenuOpen) {
-        setVisible(isScrollingUp || isAtTop);
-      }
-
-      setPrevScrollPos(currentScrollPos);
-      setIsScrolled(currentScrollPos > 10);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [prevScrollPos, mobileMenuOpen]);
-
-  // Close mobile menu when route changes
-  useEffect(() => {
-    setMobileMenuOpen(false);
-  }, [pathname]);
-
-  // Prevent scrolling when mobile menu is open
-  useEffect(() => {
-    if (mobileMenuOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
 
     return () => {
       document.body.style.overflow = "";
+      window.removeEventListener("keydown", handleKeyDown);
     };
   }, [mobileMenuOpen]);
 
-  // Set up portal container on mount
-  useEffect(() => {
-    // Create or get the portal container
-    let container = document.getElementById("mobile-menu-portal");
-    if (!container) {
-      container = document.createElement("div");
-      container.id = "mobile-menu-portal";
-      document.body.appendChild(container);
-    }
-    setPortalContainer(container);
-
-    // Clean up on unmount
-    return () => {
-      if (container && document.body.contains(container)) {
-        document.body.removeChild(container);
-      }
-    };
-  }, []);
-
-  const isHomePage = pathname === "/";
+  const isActive = (href: string) =>
+    href === "/" ? pathname === "/" : pathname.startsWith(href);
 
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ${
-        visible ? "translate-y-0" : "-translate-y-full"
-      } ${
-        isHomePage && !isScrolled
-          ? "bg-transparent border-b border-transparent"
-          : "bg-background border-b border-border shadow-md"
-      }`}
-    >
-      <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-        <div className="flex items-center gap-2">
+    <header className="sticky top-0 z-[70] border-b border-border/70 bg-background/95 backdrop-blur-xl">
+      <div className="page-shell py-3">
+        <div className="flex items-center justify-between gap-4">
           <Link
             href="/"
-            className={`font-bold text-xl ${
-              isHomePage && !isScrolled ? "text-white" : "text-primary"
-            }`}
+            className="focus-ring group flex min-w-0 items-center gap-3 rounded-md"
+            aria-label="Borgen Bilsalg hjem"
           >
-            Borgen Bilsalg
-          </Link>
-        </div>
-
-        {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center gap-2">
-          <Link
-            href="/"
-            className={`relative py-2 px-3 transition ${
-              pathname === "/"
-                ? isHomePage && !isScrolled
-                  ? "text-white font-semibold bg-white/10 backdrop-blur-sm"
-                  : "text-primary font-semibold bg-primary/10"
-                : isHomePage && !isScrolled
-                ? "text-white/90 hover:text-white hover:bg-white/10 backdrop-blur-sm"
-                : "text-foreground hover:text-primary hover:bg-primary/5"
-            }`}
-          >
-            Hjem
-          </Link>
-          <Link
-            href="/cars"
-            className={`relative py-2 px-3 transition ${
-              pathname === "/cars" || pathname.startsWith("/cars/")
-                ? isHomePage && !isScrolled
-                  ? "text-white font-semibold bg-white/10 backdrop-blur-sm"
-                  : "text-primary font-semibold bg-primary/10"
-                : isHomePage && !isScrolled
-                ? "text-white/90 hover:text-white hover:bg-white/10 backdrop-blur-sm"
-                : "text-foreground hover:text-primary hover:bg-primary/5"
-            }`}
-          >
-            Biler
-          </Link>
-          <Link
-            href="/contact"
-            className={`relative py-2 px-3 transition ${
-              pathname === "/contact"
-                ? isHomePage && !isScrolled
-                  ? "text-white font-semibold bg-white/10 backdrop-blur-sm"
-                  : "text-primary font-semibold bg-primary/10"
-                : isHomePage && !isScrolled
-                ? "text-white/90 hover:text-white hover:bg-white/10 backdrop-blur-sm"
-                : "text-foreground hover:text-primary hover:bg-primary/5"
-            }`}
-          >
-            Kontakt
-          </Link>
-          <Link
-            href="/requestcar"
-            className={`relative py-2 px-3 transition ${
-              pathname === "/requestcar"
-                ? isHomePage && !isScrolled
-                  ? "text-white font-semibold bg-white/10 backdrop-blur-sm"
-                  : "text-primary font-semibold bg-primary/10"
-                : isHomePage && !isScrolled
-                ? "text-white/90 hover:text-white hover:bg-white/10 backdrop-blur-sm"
-                : "text-foreground hover:text-primary hover:bg-primary/5"
-            }`}
-          >
-            Forespør bil
-          </Link>
-        </nav>
-
-        <div className="flex items-center gap-4">
-          <Link
-            href="/cars"
-            className={`hidden sm:inline-flex px-4 py-2 transition ${
-              isHomePage && !isScrolled
-                ? "bg-white text-gray-900 hover:bg-gray-100"
-                : "bg-primary text-primary-foreground hover:bg-primary/90"
-            }`}
-          >
-            Se våre biler
+            <span className="relative flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-md border border-border/70 bg-card">
+              <Image
+                src="/borgen_logo_nobackground.png"
+                alt=""
+                width={40}
+                height={40}
+                className="h-8 w-8 object-contain transition-transform duration-300 group-hover:scale-105"
+                priority
+              />
+            </span>
+            <span className="min-w-0">
+              <span className="block truncate text-sm font-semibold uppercase tracking-[0.16em] text-foreground">
+                Borgen Bilsalg
+              </span>
+              <span className="hidden text-xs text-muted-foreground sm:block">
+                Kvalitetsbiler i Sarpsborg
+              </span>
+            </span>
           </Link>
 
-          {/* Hamburger Menu Button */}
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden flex flex-col justify-center items-center w-8 h-8 space-y-1.5 focus:outline-none z-50"
-            aria-label="Toggle menu"
-          >
-            <span
-              className={`block w-6 h-0.5 transition-all duration-300 ease-in-out ${
-                isHomePage && !isScrolled ? "bg-white" : "bg-foreground"
-              } ${mobileMenuOpen ? "rotate-45 translate-y-2" : ""}`}
-            />
-            <span
-              className={`block w-6 h-0.5 transition-all duration-300 ease-in-out ${
-                isHomePage && !isScrolled ? "bg-white" : "bg-foreground"
-              } ${mobileMenuOpen ? "opacity-0" : "opacity-100"}`}
-            />
-            <span
-              className={`block w-6 h-0.5 transition-all duration-300 ease-in-out ${
-                isHomePage && !isScrolled ? "bg-white" : "bg-foreground"
-              } ${mobileMenuOpen ? "-rotate-45 -translate-y-2" : ""}`}
-            />
-          </button>
-        </div>
-      </div>
-
-      {/* Mobile Menu Implementation - Using Portal */}
-      {mobileMenuOpen &&
-        portalContainer &&
-        createPortal(
-          <div className="mobile-menu-container">
-            {/* Overlay */}
-            <div
-              className="fixed inset-0 bg-black/60 z-[1000] backdrop-blur-sm"
-              onClick={() => setMobileMenuOpen(false)}
-              style={{
-                position: "fixed",
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-              }}
-            />
-
-            {/* Menu Panel */}
-            <div
-              className="fixed top-16 right-4 w-[250px] bg-white z-[1001] shadow-xl"
-              style={{
-                position: "fixed",
-                maxHeight: "calc(100vh - 100px)",
-                overflowY: "auto",
-              }}
-            >
-              {/* Close Button - Top Right Corner */}
-              <button
-                onClick={() => setMobileMenuOpen(false)}
-                className="absolute top-2 right-2 p-1.5 bg-gray-100 hover:bg-gray-200 transition-colors z-20"
-                aria-label="Close menu"
+          <nav className="hidden items-center gap-1 md:flex" aria-label="Hovedmeny">
+            {navItems.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={cn(
+                  "focus-ring ease-premium rounded-md px-3 py-2 text-sm font-medium transition-all duration-300 active:translate-y-[1px]",
+                  isActive(item.href)
+                    ? "bg-primary text-primary-foreground"
+                    : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                )}
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <line x1="18" y1="6" x2="6" y2="18"></line>
-                  <line x1="6" y1="6" x2="18" y2="18"></line>
-                </svg>
-              </button>
+                {item.label}
+              </Link>
+            ))}
+          </nav>
 
-              {/* Menu Links */}
-              <div className="pt-10 pb-4 px-3 flex flex-col">
-                <div>
+          <div className="flex items-center gap-2">
+            <a
+              href="tel:+4798681758"
+              className="focus-ring hidden items-center gap-2 rounded-md border border-border bg-card px-3 py-2 text-sm font-semibold text-foreground transition-all duration-300 hover:border-primary hover:bg-primary hover:text-primary-foreground active:translate-y-[1px] sm:inline-flex"
+            >
+              <Phone className="h-4 w-4" aria-hidden="true" />
+              Ring oss
+            </a>
+            <Link
+              href="/cars"
+              className="focus-ring hidden rounded-md bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition-all duration-300 hover:bg-primary/90 active:translate-y-[1px] lg:inline-flex"
+            >
+              Se biler
+            </Link>
+            <button
+              type="button"
+              className="focus-ring inline-flex h-10 w-10 items-center justify-center rounded-md border border-border bg-card text-foreground transition-all duration-300 hover:border-primary md:hidden"
+              onClick={() => setMobileMenuOpen((open) => !open)}
+              aria-expanded={mobileMenuOpen}
+              aria-controls="mobile-navigation"
+              aria-label={mobileMenuOpen ? "Lukk meny" : "Åpne meny"}
+            >
+              {mobileMenuOpen ? (
+                <X className="h-5 w-5" aria-hidden="true" />
+              ) : (
+                <Menu className="h-5 w-5" aria-hidden="true" />
+              )}
+            </button>
+          </div>
+        </div>
+
+        {mobileMenuOpen ? (
+          <>
+            <button
+              type="button"
+              className="fixed inset-x-0 bottom-0 top-[4.75rem] z-[75] bg-primary/5 md:hidden"
+              aria-label="Lukk meny"
+              onClick={() => setMobileMenuOpen(false)}
+            />
+            <div
+              id="mobile-navigation"
+              className="fixed left-4 right-4 top-[4.75rem] z-[80] md:hidden"
+            >
+              <nav className="rounded-lg border border-border bg-card p-2 shadow-[0_24px_50px_-36px_hsl(var(--foreground))]">
+                {navItems.map((item) => (
                   <Link
-                    href="/"
-                    className={`block py-2 px-3 text-sm font-medium border-l-2 mb-1 ${
-                      pathname === "/"
-                        ? "border-primary text-primary bg-blue-50/50"
-                        : "border-transparent text-gray-800 hover:border-gray-300 hover:bg-gray-50"
-                    }`}
+                    key={item.href}
+                    href={item.href}
                     onClick={() => setMobileMenuOpen(false)}
+                    className={cn(
+                      "focus-ring flex items-center justify-between rounded-md px-3 py-3 text-sm font-semibold transition-all duration-300",
+                      isActive(item.href)
+                        ? "bg-primary text-primary-foreground"
+                        : "text-foreground hover:bg-muted"
+                    )}
                   >
-                    Hjem
+                    {item.label}
                   </Link>
+                ))}
+                <div className="mt-2 grid grid-cols-2 gap-2 border-t border-border pt-2">
+                  <a
+                    href="tel:+4798681758"
+                    className="focus-ring inline-flex items-center justify-center rounded-md border border-border px-3 py-3 text-sm font-semibold text-foreground"
+                  >
+                    Ring
+                  </a>
                   <Link
                     href="/cars"
-                    className={`block py-2 px-3 text-sm font-medium border-l-2 mb-1 ${
-                      pathname === "/cars" || pathname.startsWith("/cars/")
-                        ? "border-primary text-primary bg-blue-50/50"
-                        : "border-transparent text-gray-800 hover:border-gray-300 hover:bg-gray-50"
-                    }`}
                     onClick={() => setMobileMenuOpen(false)}
+                    className="focus-ring inline-flex items-center justify-center rounded-md bg-primary px-3 py-3 text-sm font-semibold text-primary-foreground"
                   >
                     Biler
                   </Link>
-                  <Link
-                    href="/contact"
-                    className={`block py-2 px-3 text-sm font-medium border-l-2 mb-1 ${
-                      pathname === "/contact"
-                        ? "border-primary text-primary bg-blue-50/50"
-                        : "border-transparent text-gray-800 hover:border-gray-300 hover:bg-gray-50"
-                    }`}
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    Kontakt
-                  </Link>
                 </div>
-                <div className="mt-3 pt-3 border-t border-gray-100">
-                  <Link
-                    href="/cars"
-                    className="block w-full py-2 px-3 bg-primary text-white hover:bg-primary/90 transition text-center font-medium text-sm"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    Se våre biler
-                  </Link>
-                </div>
-              </div>
+              </nav>
             </div>
-          </div>,
-          portalContainer
-        )}
+          </>
+        ) : null}
+      </div>
     </header>
   );
 }

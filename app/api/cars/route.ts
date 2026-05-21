@@ -1,15 +1,14 @@
 import { NextResponse } from "next/server";
 import { getCarsFromRedis } from "@/app/lib/redis";
-import { getCarsWithFallback } from "@/app/lib/finn-cars";
 
-// Cache for 5 minutes — Redis data is updated every 30 min by cron
-export const revalidate = 300;
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 export async function GET() {
   try {
-    // Try Redis first (populated by external cron job)
     const cachedCars = await getCarsFromRedis();
-    if (cachedCars && Array.isArray(cachedCars) && cachedCars.length > 0) {
+
+    if (Array.isArray(cachedCars)) {
       return NextResponse.json(cachedCars, {
         headers: {
           "x-cars-source": "redis",
@@ -17,12 +16,9 @@ export async function GET() {
       });
     }
 
-    // Fallback to live scraping if Redis is empty (e.g. first run)
-    console.log("Redis empty, falling back to live scraping");
-    const cars = await getCarsWithFallback();
-    return NextResponse.json(cars, {
+    return NextResponse.json([], {
       headers: {
-        "x-cars-source": "live-scrape",
+        "x-cars-source": "redis-empty",
       },
     });
   } catch (error) {

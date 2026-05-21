@@ -2,523 +2,507 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState, useEffect } from "react";
-import { useCars } from "../hooks/useCars";
+import { useMemo, useState } from "react";
 import {
+  ArrowRight,
+  Calendar,
+  ExternalLink,
+  Fuel,
+  Gauge,
+  Grid2X2,
+  List,
+  MapPin,
   Search,
-  ArrowUpDown,
+  SlidersHorizontal,
   X,
   Zap,
-  MapPin,
-  Calendar,
-  Gauge,
-  Fuel,
 } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { useCars } from "../hooks/useCars";
+import type { Car } from "../lib/car-types";
+
+const sortOptions = [
+  { value: "newest", label: "Publisert sist" },
+  { value: "yearNewest", label: "Nyeste årsmodell" },
+  { value: "yearOldest", label: "Eldste årsmodell" },
+  { value: "priceAsc", label: "Laveste pris" },
+  { value: "priceDesc", label: "Høyeste pris" },
+] as const;
+
+type SortOption = (typeof sortOptions)[number]["value"];
+type ViewMode = "grid" | "list";
 
 export default function CarsPage() {
   const { data: cars = [], isLoading, isError, error } = useCars();
-  const [activeFilter, setActiveFilter] = useState<string>("all");
-  const [searchQuery, setSearchQuery] = useState<string>("");
-  const [showSortOptions, setShowSortOptions] = useState<boolean>(false);
-  const [sortOption, setSortOption] = useState<string>("newest");
-  const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
+  const [activeFilter, setActiveFilter] = useState("all");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [sortOption, setSortOption] = useState<SortOption>("newest");
+  const [viewMode, setViewMode] = useState<ViewMode>("grid");
 
-  // Get unique fuel types from cars
-  const fuelTypes = [
-    "all",
-    ...new Set(cars.map((car) => car.fuel).filter(Boolean)),
-  ];
+  const fuelTypes = useMemo(
+    () => ["all", ...Array.from(new Set(cars.map((car) => car.fuel).filter(Boolean)))],
+    [cars]
+  );
 
-  // Filter and sort cars
-  const filteredAndSortedCars = cars
-    .filter((car) => {
-      // Filter by fuel type
-      const fuelMatch = activeFilter === "all" || car.fuel === activeFilter;
+  const filteredAndSortedCars = useMemo(() => {
+    const query = searchQuery.trim().toLowerCase();
 
-      // Filter by search query
-      const searchMatch =
-        !searchQuery ||
-        car.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        (car.year &&
-          car.year.toLowerCase().includes(searchQuery.toLowerCase())) ||
-        (car.fuel &&
-          car.fuel.toLowerCase().includes(searchQuery.toLowerCase()));
+    return [...cars]
+      .filter((car) => {
+        const fuelMatch = activeFilter === "all" || car.fuel === activeFilter;
+        const searchMatch =
+          !query ||
+          car.title.toLowerCase().includes(query) ||
+          car.year?.toLowerCase().includes(query) ||
+          car.fuel?.toLowerCase().includes(query) ||
+          car.transmission?.toLowerCase().includes(query);
 
-      return fuelMatch && searchMatch;
-    })
-    .sort((a, b) => {
-      // Sort based on selected option
-      switch (sortOption) {
-        case "priceAsc":
-          return (
-            parseInt(a.price.replace(/\D/g, "") || "0") -
-            parseInt(b.price.replace(/\D/g, "") || "0")
-          );
-        case "priceDesc":
-          return (
-            parseInt(b.price.replace(/\D/g, "") || "0") -
-            parseInt(a.price.replace(/\D/g, "") || "0")
-          );
-        case "newest":
-          try {
-            // If either date is undefined, treat it as oldest
-            if (!a.publishedDate && !b.publishedDate) return 0;
-            if (!a.publishedDate) return 1;
-            if (!b.publishedDate) return -1;
+        return fuelMatch && searchMatch;
+      })
+      .sort((a, b) => {
+        switch (sortOption) {
+          case "priceAsc":
+            return parsePrice(a.price) - parsePrice(b.price);
+          case "priceDesc":
+            return parsePrice(b.price) - parsePrice(a.price);
+          case "yearNewest":
+            return parseInt(b.year || "0", 10) - parseInt(a.year || "0", 10);
+          case "yearOldest":
+            return parseInt(a.year || "0", 10) - parseInt(b.year || "0", 10);
+          case "newest":
+          default:
+            return (
+              new Date(b.publishedDate || 0).getTime() -
+              new Date(a.publishedDate || 0).getTime()
+            );
+        }
+      });
+  }, [activeFilter, cars, searchQuery, sortOption]);
 
-            const dateA = new Date(a.publishedDate);
-            const dateB = new Date(b.publishedDate);
-
-            // Check if dates are valid
-            if (isNaN(dateA.getTime()) && isNaN(dateB.getTime())) return 0;
-            if (isNaN(dateA.getTime())) return 1;
-            if (isNaN(dateB.getTime())) return -1;
-
-            return dateB.getTime() - dateA.getTime();
-          } catch (error) {
-            console.error("Error comparing dates:", error);
-            return 0;
-          }
-        case "yearNewest":
-          return parseInt(b.year || "0") - parseInt(a.year || "0");
-        case "yearOldest":
-          return parseInt(a.year || "0") - parseInt(b.year || "0");
-        default:
-          return 0;
-      }
-    });
-
-  // Handle filter change
-  const handleFilterChange = (filter: string) => {
-    setActiveFilter(filter);
-  };
-
-  // Handle search input change
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchQuery(e.target.value);
-  };
-
-  // Clear search
-  const clearSearch = () => {
-    setSearchQuery("");
-  };
-
-  // Handle sort change
-  const handleSortChange = (option: string) => {
-    setSortOption(option);
-    setShowSortOptions(false);
-  };
-
-  // Toggle view mode
-  const toggleViewMode = () => {
-    setViewMode((prev) => (prev === "grid" ? "list" : "grid"));
-  };
-
-  // Scroll to top on filter change
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }, [activeFilter]);
+  const availableCount = cars.filter((car) => car.status !== "sold").length;
 
   return (
-    <div className="container mx-auto px-4 pt-24 pb-8 md:pt-32">
-      <div className="flex flex-col md:flex-row md:items-center justify-between mb-6">
-        <h1 className="text-4xl font-bold mb-4 md:mb-0 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-          Våre biler
-        </h1>
-
-        <div className="flex flex-col sm:flex-row gap-4">
-          <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <Search className="h-5 w-5 text-muted-foreground" />
+    <main className="min-h-screen overflow-x-hidden bg-background">
+      <section className="border-b border-border py-14 md:py-20">
+        <div className="page-shell">
+          <div className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-end">
+            <div>
+              <p className="eyebrow mb-4">Bilutvalg</p>
+              <h1 className="max-w-4xl text-4xl font-semibold tracking-tight text-foreground md:text-6xl">
+                Våre biler
+              </h1>
+              <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg">
+                Søk i utvalget vårt, filtrer etter drivstoff og åpne annonsen på
+                FINN for full beskrivelse, bilder og detaljer.
+              </p>
             </div>
-            <input
-              type="text"
-              placeholder="Søk etter bilmerke, modell..."
-              value={searchQuery}
-              onChange={handleSearchChange}
-              className="pl-10 pr-10 py-2 border w-full focus:ring-2 focus:ring-primary focus:border-primary"
-            />
-            {searchQuery && (
+            <div className="grid gap-3 rounded-lg border border-border bg-card p-4 shadow-[0_18px_45px_-38px_hsl(var(--foreground))] sm:grid-cols-3">
+              <Metric label="Biler" value={cars.length || "-"} />
+              <Metric label="Tilgjengelig" value={availableCount || "-"} />
+              <Metric
+                label="Sortering"
+                value={sortOptions.find((option) => option.value === sortOption)?.label || "-"}
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="page-shell py-8 md:py-10">
+        <div className="rounded-lg border border-border bg-card p-4 shadow-[0_18px_45px_-38px_hsl(var(--foreground))] md:p-5">
+          <div className="grid gap-3 lg:grid-cols-[1fr_auto_auto] lg:items-center">
+            <div className="relative">
+              <label htmlFor="car-search" className="sr-only">
+                Søk etter bil
+              </label>
+              <Search
+                className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground"
+                aria-hidden="true"
+              />
+              <input
+                id="car-search"
+                type="search"
+                placeholder="Søk etter merke, modell, drivstoff eller årsmodell"
+                value={searchQuery}
+                onChange={(event) => setSearchQuery(event.target.value)}
+                className="w-full rounded-md border border-input bg-background py-3 pl-10 pr-11 text-sm text-foreground placeholder:text-muted-foreground transition-all duration-300 focus:border-ring focus:outline-none focus:ring-2 focus:ring-ring/20"
+              />
+              {searchQuery ? (
+                <button
+                  type="button"
+                  onClick={() => setSearchQuery("")}
+                  className="focus-ring absolute right-2 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-md text-muted-foreground transition-colors hover:text-foreground"
+                  aria-label="Tøm søk"
+                >
+                  <X className="h-4 w-4" aria-hidden="true" />
+                </button>
+              ) : null}
+            </div>
+
+            <div className="flex items-center gap-2 rounded-md border border-input bg-background px-3 py-2">
+              <SlidersHorizontal className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
+              <label htmlFor="car-sort" className="sr-only">
+                Sorter biler
+              </label>
+              <select
+                id="car-sort"
+                value={sortOption}
+                onChange={(event) => setSortOption(event.target.value as SortOption)}
+                className="bg-transparent text-sm font-semibold text-foreground outline-none"
+              >
+                {sortOptions.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="grid grid-cols-2 gap-2 rounded-md border border-input bg-background p-1">
+              <ViewButton
+                active={viewMode === "grid"}
+                icon={<Grid2X2 className="h-4 w-4" aria-hidden="true" />}
+                label="Rutenett"
+                onClick={() => setViewMode("grid")}
+              />
+              <ViewButton
+                active={viewMode === "list"}
+                icon={<List className="h-4 w-4" aria-hidden="true" />}
+                label="Liste"
+                onClick={() => setViewMode("list")}
+              />
+            </div>
+          </div>
+
+          <div className="mt-4 flex gap-2 overflow-x-auto pb-1">
+            {fuelTypes.map((fuel) => (
               <button
-                onClick={clearSearch}
-                className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                key={fuel}
+                type="button"
+                onClick={() => setActiveFilter(fuel)}
+                className={cn(
+                  "focus-ring shrink-0 rounded-md px-4 py-2 text-sm font-semibold transition-all duration-300 active:translate-y-[1px]",
+                  activeFilter === fuel
+                    ? "bg-primary text-primary-foreground"
+                    : "border border-border bg-background text-foreground hover:border-primary"
+                )}
               >
-                <X className="h-5 w-5 text-muted-foreground hover:text-foreground" />
+                {fuel === "all" ? "Alle biler" : fuel}
               </button>
-            )}
-          </div>
-
-          <div className="relative">
-            <button
-              onClick={() => setShowSortOptions(!showSortOptions)}
-              className="flex items-center justify-center gap-2 px-4 py-2 bg-muted hover:bg-muted/80 transition-colors w-full sm:w-auto"
-            >
-              <ArrowUpDown className="h-5 w-5" />
-              <span>Sortering</span>
-            </button>
-
-            {showSortOptions && (
-              <div className="absolute right-0 mt-2 w-48 bg-card shadow-lg z-10 border animate-in fade-in slide-in-from-top-2 duration-200">
-                <div className="py-1">
-                  <button
-                    onClick={() => handleSortChange("newest")}
-                    className={`block px-4 py-2 text-sm w-full text-left hover:bg-muted ${
-                      sortOption === "newest" ? "bg-muted/70 font-medium" : ""
-                    }`}
-                  >
-                    Publisert
-                  </button>
-                  <button
-                    onClick={() => handleSortChange("yearNewest")}
-                    className={`block px-4 py-2 text-sm w-full text-left hover:bg-muted ${
-                      sortOption === "yearNewest"
-                        ? "bg-muted/70 font-medium"
-                        : ""
-                    }`}
-                  >
-                    Årsmodell nyeste
-                  </button>
-                  <button
-                    onClick={() => handleSortChange("yearOldest")}
-                    className={`block px-4 py-2 text-sm w-full text-left hover:bg-muted ${
-                      sortOption === "yearOldest"
-                        ? "bg-muted/70 font-medium"
-                        : ""
-                    }`}
-                  >
-                    Årsmodell eldste
-                  </button>
-                  <button
-                    onClick={() => handleSortChange("priceAsc")}
-                    className={`block px-4 py-2 text-sm w-full text-left hover:bg-muted ${
-                      sortOption === "priceAsc" ? "bg-muted/70 font-medium" : ""
-                    }`}
-                  >
-                    Pris (lav til høy)
-                  </button>
-                  <button
-                    onClick={() => handleSortChange("priceDesc")}
-                    className={`block px-4 py-2 text-sm w-full text-left hover:bg-muted ${
-                      sortOption === "priceDesc"
-                        ? "bg-muted/70 font-medium"
-                        : ""
-                    }`}
-                  >
-                    Pris (høy til lav)
-                  </button>
-                </div>
-              </div>
-            )}
-          </div>
-
-          <button
-            onClick={toggleViewMode}
-            className="flex items-center justify-center gap-2 px-4 py-2 bg-muted hover:bg-muted/80 transition-colors"
-          >
-            <span>
-              {viewMode === "grid" ? "Listevisning" : "Rutenettvisning"}
-            </span>
-          </button>
-        </div>
-      </div>
-
-      {/* Always visible fuel type filters */}
-      <div className="mb-6">
-        <div className="flex flex-wrap gap-3">
-          {fuelTypes.map((fuel) => (
-            <button
-              key={fuel}
-              onClick={() => handleFilterChange(fuel)}
-              className={`px-4 py-2 text-sm transition-all ${
-                activeFilter === fuel
-                  ? "bg-primary text-primary-foreground shadow-md"
-                  : "bg-muted/50 hover:bg-muted text-foreground hover:shadow-sm"
-              }`}
-            >
-              {fuel === "all" ? "Alle biler" : fuel}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* Loading state */}
-      {isLoading && (
-        <div className="flex justify-center items-center py-20">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
-        </div>
-      )}
-
-      {/* Error state */}
-      {isError && (
-        <div className="bg-destructive/10 border border-destructive text-destructive px-4 py-3 relative mb-6">
-          <strong className="font-bold">Feil! </strong>
-          <span className="block sm:inline">
-            {error instanceof Error
-              ? error.message
-              : "Det oppstod en feil ved henting av biler. Vennligst prøv igjen senere."}
-          </span>
-        </div>
-      )}
-
-      {/* No cars found state */}
-      {!isLoading && !isError && cars.length === 0 && (
-        <div className="bg-secondary/10 border border-secondary text-secondary-foreground px-4 py-3 relative mb-6">
-          <strong className="font-bold">Ingen biler funnet! </strong>
-          <span className="block sm:inline">
-            Vi kunne ikke finne noen biler for øyeblikket. Dette kan skyldes en
-            midlertidig feil eller at det ikke er noen biler tilgjengelig.
-          </span>
-        </div>
-      )}
-
-      {/* No filtered results */}
-      {!isLoading &&
-        !isError &&
-        cars.length > 0 &&
-        filteredAndSortedCars.length === 0 && (
-          <div className="bg-accent/10 border border-accent text-accent-foreground px-4 py-3 relative mb-6">
-            <strong className="font-bold">Ingen treff! </strong>
-            <span className="block sm:inline">
-              Vi fant ingen biler som matcher dine søkekriterier. Prøv å justere
-              filtrene eller søket.
-            </span>
-          </div>
-        )}
-
-      {/* Results count */}
-      {!isLoading && filteredAndSortedCars.length > 0 && (
-        <p className="text-muted-foreground mb-6">
-          Viser {filteredAndSortedCars.length}{" "}
-          {filteredAndSortedCars.length === 1 ? "bil" : "biler"}
-          {activeFilter !== "all" ? ` med drivstofftype "${activeFilter}"` : ""}
-          {searchQuery ? ` som matcher "${searchQuery}"` : ""}
-        </p>
-      )}
-
-      {/* Car grid or list */}
-      {!isLoading &&
-        filteredAndSortedCars.length > 0 &&
-        (viewMode === "grid" ? (
-          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-            {filteredAndSortedCars.map((car) => (
-              <div
-                key={car.id}
-                className="bg-card shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 border border-border/50 group"
-              >
-                <div className="relative h-32 sm:h-48 overflow-hidden">
-                  <Image
-                    src={car.imageUrl}
-                    alt={car.title}
-                    fill
-                    sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
-                    style={{ objectFit: "cover" }}
-                    className="group-hover:scale-105 transition-transform duration-500"
-                  />
-                  {car.status === "sold" && (
-                    <div className="absolute top-0 right-0 bg-destructive text-destructive-foreground px-3 py-1 m-2 font-medium">
-                      Solgt
-                    </div>
-                  )}
-                  {car.fuel && (
-                    <div className="absolute bottom-0 left-0 bg-black/70 text-white px-2 sm:px-3 py-0.5 sm:py-1 m-1 sm:m-2 text-xs sm:text-sm flex items-center gap-1">
-                      <Fuel className="h-3 w-3 sm:h-4 sm:w-4" />
-                      {car.fuel}
-                    </div>
-                  )}
-                </div>
-                <div className="p-2 sm:p-4">
-                  <h2 className="text-sm sm:text-xl font-semibold mb-1 sm:mb-2 line-clamp-2">
-                    {car.title}
-                  </h2>
-                  <div className="grid grid-cols-2 gap-1 sm:gap-3 mb-2 sm:mb-4">
-                    <div className="flex items-center gap-1 sm:gap-2">
-                      <Calendar className="h-3 w-3 sm:h-4 sm:w-4 text-muted-foreground" />
-                      <div>
-                        <span className="text-muted-foreground text-xs sm:text-sm block">
-                          Modellår
-                        </span>
-                        <p className="font-medium text-xs sm:text-base">
-                          {car.year || "Ikke oppgitt"}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-1 sm:gap-2">
-                      <Gauge className="h-3 w-3 sm:h-4 sm:w-4 text-muted-foreground" />
-                      <div>
-                        <span className="text-muted-foreground text-xs sm:text-sm block">
-                          Kilometer
-                        </span>
-                        <p className="font-medium text-xs sm:text-base">
-                          {car.mileage || "Ikke oppgitt"}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-1 sm:gap-2">
-                      <Zap className="h-3 w-3 sm:h-4 sm:w-4 text-muted-foreground" />
-                      <div>
-                        <span className="text-muted-foreground text-xs sm:text-sm block">
-                          Girkasse
-                        </span>
-                        <p className="font-medium text-xs sm:text-base">
-                          {car.transmission || "Ikke oppgitt"}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-1 sm:gap-2">
-                      <MapPin className="h-3 w-3 sm:h-4 sm:w-4 text-muted-foreground" />
-                      <div>
-                        <span className="text-muted-foreground text-xs sm:text-sm block">
-                          Totalpris
-                        </span>
-                        <p className="font-medium text-primary text-xs sm:text-lg">
-                          {car.price || "Kontakt oss"}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <a
-                      href={car.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="bg-primary hover:bg-primary/90 text-primary-foreground px-2 sm:px-4 py-1 sm:py-2 inline-block transition-colors duration-300 text-xs sm:text-base"
-                    >
-                      Se detaljer
-                    </a>
-                    <span className="text-[10px] sm:text-sm text-muted-foreground">
-                      ID: {car.id.substring(0, 6)}
-                    </span>
-                  </div>
-                </div>
-              </div>
             ))}
           </div>
-        ) : (
-          <div className="flex flex-col gap-4">
-            {filteredAndSortedCars.map((car) => (
-              <div
-                key={car.id}
-                className="bg-card shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 border border-border/50 flex flex-col md:flex-row"
+        </div>
+
+        <div className="mt-6">
+          {isLoading ? (
+            <CarsSkeleton viewMode={viewMode} />
+          ) : isError ? (
+            <InventoryState
+              title="Vi klarte ikke hente biler"
+              description={
+                error instanceof Error
+                  ? error.message
+                  : "Det oppstod en feil ved henting av biler. Prøv igjen senere."
+              }
+            />
+          ) : cars.length === 0 ? (
+            <InventoryState
+              title="Ingen biler ligger ute akkurat nå"
+              description="Kontakt oss gjerne, så kan vi fortelle hva som er på vei inn."
+            />
+          ) : filteredAndSortedCars.length === 0 ? (
+            <InventoryState
+              title="Ingen treff"
+              description="Juster søket eller filtrene, eller send oss en forespørsel om bilen du leter etter."
+              actionHref="/requestcar"
+              actionLabel="Forespør bil"
+            />
+          ) : (
+            <>
+              <p className="mb-5 text-sm text-muted-foreground">
+                Viser {filteredAndSortedCars.length}{" "}
+                {filteredAndSortedCars.length === 1 ? "bil" : "biler"}
+                {activeFilter !== "all" ? ` med drivstofftype ${activeFilter}` : ""}
+                {searchQuery ? ` som matcher "${searchQuery}"` : ""}
+              </p>
+
+              {viewMode === "grid" ? (
+                <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
+                  {filteredAndSortedCars.map((car) => (
+                    <CarGridCard key={car.id} car={car} />
+                  ))}
+                </div>
+              ) : (
+                <div className="grid gap-4">
+                  {filteredAndSortedCars.map((car) => (
+                    <CarListCard key={car.id} car={car} />
+                  ))}
+                </div>
+              )}
+            </>
+          )}
+        </div>
+
+        <div className="mt-12 rounded-lg border border-border bg-primary p-6 text-primary-foreground md:p-8">
+          <div className="grid gap-5 md:grid-cols-[1fr_auto] md:items-center">
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-primary-foreground/60">
+                Finner du ikke bilen?
+              </p>
+              <h2 className="mt-3 text-2xl font-semibold tracking-tight md:text-3xl">
+                Fortell oss hva du leter etter.
+              </h2>
+              <p className="mt-3 max-w-2xl text-sm leading-relaxed text-primary-foreground/70">
+                Vi får jevnlig inn nye biler og kan følge med på modeller som
+                matcher ønskene dine.
+              </p>
+            </div>
+            <div className="flex flex-col gap-3 sm:flex-row">
+              <Link
+                href="/requestcar"
+                className="focus-ring inline-flex items-center justify-center gap-2 rounded-md bg-white px-5 py-3 text-sm font-semibold text-primary transition-all duration-300 hover:bg-white/90 active:translate-y-[1px]"
               >
-                <div className="relative h-48 md:h-auto md:w-1/3 md:min-w-[250px]">
-                  <Image
-                    src={car.imageUrl}
-                    alt={car.title}
-                    fill
-                    sizes="(max-width: 768px) 100vw, 33vw"
-                    style={{ objectFit: "cover" }}
-                    className="h-full w-full"
-                  />
-                  {car.status === "sold" && (
-                    <div className="absolute top-0 right-0 bg-destructive text-destructive-foreground px-3 py-1 m-2 font-medium">
-                      Solgt
-                    </div>
-                  )}
-                </div>
-                <div className="p-4 flex-1 flex flex-col">
-                  <div className="flex-1">
-                    <div className="flex justify-between items-start">
-                      <h2 className="text-xl font-semibold mb-2">
-                        {car.title}
-                      </h2>
-                    </div>
-
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 my-4">
-                      <div className="flex items-center gap-2">
-                        <Calendar className="h-4 w-4 text-muted-foreground" />
-                        <div>
-                          <span className="text-muted-foreground text-xs sm:text-sm block">
-                            Modellår
-                          </span>
-                          <p className="font-medium text-sm sm:text-base">
-                            {car.year || "Ikke oppgitt"}
-                          </p>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <Gauge className="h-4 w-4 text-muted-foreground" />
-                        <div>
-                          <span className="text-muted-foreground text-xs sm:text-sm block">
-                            Kilometer
-                          </span>
-                          <p className="font-medium text-sm sm:text-base">
-                            {car.mileage || "Ikke oppgitt"}
-                          </p>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <Zap className="h-4 w-4 text-muted-foreground" />
-                        <div>
-                          <span className="text-muted-foreground text-xs sm:text-sm block">
-                            Girkasse
-                          </span>
-                          <p className="font-medium text-sm sm:text-base">
-                            {car.transmission || "Ikke oppgitt"}
-                          </p>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <MapPin className="h-4 w-4 text-muted-foreground" />
-                        <div>
-                          <span className="text-muted-foreground text-xs sm:text-sm block">
-                            Totalpris
-                          </span>
-                          <p className="font-medium text-primary text-base sm:text-lg">
-                            {car.price || "Kontakt oss"}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="flex justify-between items-center mt-4">
-                    <a
-                      href={car.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="bg-primary hover:bg-primary/90 text-primary-foreground px-4 py-2 inline-block transition-colors duration-300 text-xs sm:text-base"
-                    >
-                      Se detaljer
-                    </a>
-                    <span className="text-sm text-muted-foreground">
-                      ID: {car.id.substring(0, 8)}
-                    </span>
-                  </div>
-                </div>
-              </div>
-            ))}
+                Forespør bil
+                <ArrowRight className="h-4 w-4" aria-hidden="true" />
+              </Link>
+              <Link
+                href="https://www.finn.no/mobility/search/car?orgId=4471300"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="focus-ring inline-flex items-center justify-center gap-2 rounded-md border border-white/20 px-5 py-3 text-sm font-semibold text-white transition-all duration-300 hover:bg-white/10 active:translate-y-[1px]"
+              >
+                Se alle på FINN
+                <ExternalLink className="h-4 w-4" aria-hidden="true" />
+              </Link>
+            </div>
           </div>
-        ))}
+        </div>
+      </section>
+    </main>
+  );
+}
 
-      {/* Call to action */}
-      <div className="mt-16 text-center">
-        <div className="bg-gradient-to-r from-primary/10 via-secondary/10 to-primary/10 p-8 max-w-4xl mx-auto shadow-lg border border-border/50">
-          <h2 className="text-2xl font-bold mb-4">
-            Finner du ikke det du leter etter?
+function parsePrice(price: string) {
+  const numeric = parseInt(price.replace(/\D/g, "") || "0", 10);
+  return Number.isNaN(numeric) ? 0 : numeric;
+}
+
+function Metric({ label, value }: { label: string; value: number | string }) {
+  return (
+    <div className="rounded-md bg-muted p-4">
+      <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+        {label}
+      </p>
+      <p className="mt-2 font-mono text-lg font-semibold text-foreground">{value}</p>
+    </div>
+  );
+}
+
+function ViewButton({
+  active,
+  icon,
+  label,
+  onClick,
+}: {
+  active: boolean;
+  icon: React.ReactNode;
+  label: string;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={cn(
+        "focus-ring inline-flex items-center justify-center gap-2 rounded px-3 py-2 text-sm font-semibold transition-all duration-300",
+        active ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"
+      )}
+      aria-pressed={active}
+    >
+      {icon}
+      <span className="hidden sm:inline">{label}</span>
+    </button>
+  );
+}
+
+function CarGridCard({ car }: { car: Car }) {
+  return (
+    <article className="group overflow-hidden rounded-lg border border-border bg-card shadow-[0_18px_45px_-38px_hsl(var(--foreground))]">
+      <CarImage car={car} sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 33vw" />
+      <div className="p-5">
+        <div className="min-h-[4.5rem]">
+          <h2 className="line-clamp-2 text-xl font-semibold tracking-tight text-foreground">
+            {car.title}
           </h2>
-          <p className="text-muted-foreground mb-6">
-            Vi får jevnlig inn nye biler. Kontakt oss for å høre om kommende
-            biler eller for å diskutere dine spesifikke ønsker.
+          <p className="mt-2 text-2xl font-semibold text-foreground">
+            {car.price || "Kontakt oss"}
           </p>
-          <div className="flex flex-wrap gap-4 justify-center">
-            <Link
-              href={"/contact"}
-              className="px-6 py-3 bg-primary text-primary-foreground hover:bg-primary/90 transition flex items-center gap-2"
-            >
-              <MapPin className="h-5 w-5" />
-              Kontakt oss
-            </Link>
-            <Link
-              href="https://www.finn.no/mobility/search/car?orgId=4471300"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-6 py-3 bg-secondary text-secondary-foreground hover:bg-secondary/90 transition flex items-center gap-2"
-            >
-              Se alle på Finn.no
-            </Link>
+        </div>
+        <CarFacts car={car} />
+        <CardActions car={car} />
+      </div>
+    </article>
+  );
+}
+
+function CarListCard({ car }: { car: Car }) {
+  return (
+    <article className="group grid overflow-hidden rounded-lg border border-border bg-card shadow-[0_18px_45px_-38px_hsl(var(--foreground))] md:grid-cols-[320px_1fr]">
+      <CarImage car={car} sizes="(max-width: 768px) 100vw, 320px" list />
+      <div className="grid gap-5 p-5 md:grid-cols-[1fr_auto] md:items-center">
+        <div>
+          <h2 className="text-2xl font-semibold tracking-tight text-foreground">
+            {car.title}
+          </h2>
+          <p className="mt-2 text-2xl font-semibold text-foreground">
+            {car.price || "Kontakt oss"}
+          </p>
+          <CarFacts car={car} wide />
+        </div>
+        <CardActions car={car} stacked />
+      </div>
+    </article>
+  );
+}
+
+function CarImage({
+  car,
+  list = false,
+  sizes,
+}: {
+  car: Car;
+  list?: boolean;
+  sizes: string;
+}) {
+  return (
+    <div className={cn("relative overflow-hidden bg-muted", list ? "aspect-[16/10] md:aspect-auto" : "aspect-[4/3]")}>
+      <Image
+        src={car.imageUrl || "/car-placeholder.svg"}
+        alt={car.title}
+        fill
+        sizes={sizes}
+        className="ease-premium object-cover transition-transform duration-700 group-hover:scale-105"
+      />
+      <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-primary/60 to-transparent" />
+      {car.status === "sold" ? (
+        <span className="absolute left-3 top-3 rounded-md bg-destructive px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.14em] text-destructive-foreground">
+          Solgt
+        </span>
+      ) : null}
+      {car.fuel ? (
+        <span className="absolute bottom-3 left-3 inline-flex items-center gap-1.5 rounded-md bg-white/90 px-2.5 py-1.5 text-xs font-semibold text-foreground">
+          <Fuel className="h-3.5 w-3.5" aria-hidden="true" />
+          {car.fuel}
+        </span>
+      ) : null}
+    </div>
+  );
+}
+
+function CarFacts({ car, wide = false }: { car: Car; wide?: boolean }) {
+  const facts = [
+    { label: "Modellår", value: car.year || "Ikke oppgitt", icon: Calendar },
+    { label: "Kilometer", value: car.mileage || "Ikke oppgitt", icon: Gauge },
+    { label: "Girkasse", value: car.transmission || "Ikke oppgitt", icon: Zap },
+    { label: "Totalpris", value: car.price || "Kontakt oss", icon: MapPin },
+  ];
+
+  return (
+    <dl className={cn("mt-5 grid gap-3", wide ? "sm:grid-cols-4" : "grid-cols-2")}>
+      {facts.map((fact) => (
+        <div key={fact.label} className="min-w-0 border-t border-border pt-3">
+          <dt className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground">
+            <fact.icon className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+            {fact.label}
+          </dt>
+          <dd className="mt-1 truncate text-sm font-semibold text-foreground">
+            {fact.value}
+          </dd>
+        </div>
+      ))}
+    </dl>
+  );
+}
+
+function CardActions({ car, stacked = false }: { car: Car; stacked?: boolean }) {
+  return (
+    <div className={cn("mt-5 flex gap-3", stacked ? "md:mt-0 md:flex-col" : "items-center justify-between")}>
+      <a
+        href={car.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="focus-ring inline-flex items-center justify-center gap-2 rounded-md bg-primary px-4 py-3 text-sm font-semibold text-primary-foreground transition-all duration-300 hover:bg-primary/90 active:translate-y-[1px]"
+      >
+        Se detaljer
+        <ExternalLink className="h-4 w-4" aria-hidden="true" />
+      </a>
+      <span className="hidden font-mono text-xs text-muted-foreground sm:inline">
+        ID {car.id.substring(0, 6)}
+      </span>
+    </div>
+  );
+}
+
+function CarsSkeleton({ viewMode }: { viewMode: ViewMode }) {
+  const items = Array.from({ length: viewMode === "grid" ? 6 : 4 }, (_, index) => index);
+
+  return (
+    <div
+      className={cn(
+        "grid gap-5",
+        viewMode === "grid" ? "sm:grid-cols-2 xl:grid-cols-3" : "grid-cols-1"
+      )}
+      aria-label="Laster biler"
+    >
+      {items.map((item) => (
+        <div
+          key={item}
+          className={cn(
+            "rounded-lg border border-border bg-card p-4",
+            viewMode === "list" ? "md:grid md:grid-cols-[320px_1fr] md:gap-5" : ""
+          )}
+        >
+          <div className="aspect-[4/3] animate-pulse rounded-md bg-muted" />
+          <div className="pt-5">
+            <div className="h-6 w-4/5 animate-pulse rounded bg-muted" />
+            <div className="mt-3 h-5 w-1/2 animate-pulse rounded bg-muted" />
+            <div className="mt-5 grid grid-cols-2 gap-3">
+              <div className="h-10 animate-pulse rounded bg-muted" />
+              <div className="h-10 animate-pulse rounded bg-muted" />
+              <div className="h-10 animate-pulse rounded bg-muted" />
+              <div className="h-10 animate-pulse rounded bg-muted" />
+            </div>
           </div>
         </div>
-      </div>
+      ))}
+    </div>
+  );
+}
+
+function InventoryState({
+  actionHref = "/contact",
+  actionLabel = "Kontakt oss",
+  description,
+  title,
+}: {
+  actionHref?: string;
+  actionLabel?: string;
+  description: string;
+  title: string;
+}) {
+  return (
+    <div className="rounded-lg border border-border bg-card p-8 text-center shadow-[0_18px_45px_-38px_hsl(var(--foreground))]">
+      <h2 className="text-2xl font-semibold tracking-tight text-foreground">{title}</h2>
+      <p className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground">
+        {description}
+      </p>
+      <Link
+        href={actionHref}
+        className="focus-ring mt-6 inline-flex items-center gap-2 rounded-md bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground transition-all duration-300 hover:bg-primary/90 active:translate-y-[1px]"
+      >
+        {actionLabel}
+        <ArrowRight className="h-4 w-4" aria-hidden="true" />
+      </Link>
     </div>
   );
 }

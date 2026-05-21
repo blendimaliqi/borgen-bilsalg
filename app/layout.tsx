@@ -1,11 +1,19 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Geist, Geist_Mono } from "next/font/google";
 import Navbar from "./components/Navbar";
 import Providers from "./providers";
 import { Footer } from "./components/footer";
 
-const inter = Inter({ subsets: ["latin"] });
+const geist = Geist({
+  subsets: ["latin"],
+  variable: "--font-geist",
+});
+
+const geistMono = Geist_Mono({
+  subsets: ["latin"],
+  variable: "--font-geist-mono",
+});
 
 export const metadata: Metadata = {
   title: "Borgen Bilsalg",
@@ -48,9 +56,9 @@ const structuredData = {
     postalCode: "1738",
     addressCountry: "NO",
   },
-  telephone: "+47 12345678",
+  telephone: "+47 98681758",
   url: "https://borgenbilsalg.no",
-  openingHours: "Mo-Fr 09:00-17:00",
+  openingHours: ["Mo-Fr 10:00-17:00", "Sa 10:00-14:00"],
   priceRange: "$$",
 };
 
@@ -61,7 +69,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="nb">
-      <body className={inter.className}>
+      <body className={`${geist.variable} ${geistMono.variable} font-sans`}>
         <Providers>
           <script
             type="application/ld+json"

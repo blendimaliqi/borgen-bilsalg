@@ -1,6 +1,7 @@
 import { Phone, Mail, Clock, MapPin } from "lucide-react";
 import { MotionDiv } from "./motion-wrapper";
 import { STORE_COORDINATES, STORE_ADDRESS } from "../constants/config";
+import { cn } from "@/lib/utils";
 
 interface ContactCardsProps {
   variant?: "light" | "dark";
@@ -41,7 +42,7 @@ export function ContactCards({ variant = "dark" }: ContactCardsProps) {
       transition={{ duration: 0.6, delay: 0.3 }}
       className="py-4"
     >
-      <div className="max-w-7xl mx-auto grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+      <div className="mx-auto grid max-w-7xl grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
         {contactInfo.map((info, index) => {
           const CardWrapper = info.href ? "a" : "div";
           const cardProps = info.href
@@ -51,40 +52,48 @@ export function ContactCards({ variant = "dark" }: ContactCardsProps) {
                 rel: info.href.includes("google.com")
                   ? "noopener noreferrer"
                   : undefined,
-                className: `flex flex-col items-center text-center group cursor-pointer p-4 backdrop-blur-sm border shadow-md transition-all ${
+                className: cn(
+                  "focus-ring ease-premium group flex min-h-[140px] flex-col justify-between rounded-lg border p-5 text-left transition-all duration-300 active:translate-y-[1px]",
                   variant === "dark"
-                    ? "bg-black/30 border-white/20 hover:bg-black/40 hover:border-white/30"
-                    : "bg-card/95 border-border hover:bg-card hover:border-primary/50"
-                }`,
+                    ? "border-white/15 bg-white/10 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.12)] backdrop-blur-md hover:bg-white/15"
+                    : "border-border bg-card text-foreground shadow-[0_18px_45px_-36px_hsl(var(--foreground))] hover:border-primary"
+                ),
               }
             : {
-                className: `flex flex-col items-center text-center group relative p-4 backdrop-blur-sm border shadow-md ${
+                className: cn(
+                  "group relative flex min-h-[140px] flex-col justify-between rounded-lg border p-5 text-left",
                   variant === "dark"
-                    ? "bg-black/30 border-white/20"
-                    : "bg-card/95 border-border"
-                }`,
+                    ? "border-white/15 bg-white/10 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.12)] backdrop-blur-md"
+                    : "border-border bg-card text-foreground shadow-[0_18px_45px_-36px_hsl(var(--foreground))]"
+                ),
               };
 
           return (
             <CardWrapper key={index} {...cardProps}>
-              <div
-                className={`backdrop-blur-sm p-3 mb-3 border group-hover:scale-110 transition-all ${
-                  variant === "dark"
-                    ? "bg-white/10 border-white/20 group-hover:bg-white/20"
-                    : "bg-primary/10 border-primary/30 group-hover:bg-primary/20"
-                }`}
-              >
-                <info.icon
-                  className={`h-5 w-5 flex-shrink-0 ${
-                    variant === "dark" ? "text-white" : "text-primary"
-                  }`}
+              <div className="mb-5 flex items-center justify-between gap-4">
+                <div
+                  className={cn(
+                    "flex h-10 w-10 items-center justify-center rounded-md border transition-transform duration-300 group-hover:-translate-y-0.5",
+                    variant === "dark"
+                      ? "border-white/15 bg-white/10"
+                      : "border-border bg-muted"
+                  )}
+                >
+                  <info.icon className="h-5 w-5 flex-shrink-0" aria-hidden="true" />
+                </div>
+                <span
+                  className={cn(
+                    "h-px flex-1",
+                    variant === "dark" ? "bg-white/15" : "bg-border"
+                  )}
                 />
               </div>
               <div className="min-w-0">
                 <h3
-                  className={`text-xs font-bold mb-1.5 uppercase tracking-wide ${
-                    variant === "dark" ? "text-white" : "text-foreground"
-                  }`}
+                  className={cn(
+                    "mb-2 text-xs font-semibold uppercase tracking-[0.18em]",
+                    variant === "dark" ? "text-white/70" : "text-muted-foreground"
+                  )}
                 >
                   {info.title}
                 </h3>
@@ -92,29 +101,27 @@ export function ContactCards({ variant = "dark" }: ContactCardsProps) {
                   info.content.map((line, i) => (
                     <p
                       key={i}
-                      className={`text-sm leading-tight transition-colors ${
-                        variant === "dark" ? "text-white/90" : "text-foreground"
-                      }`}
+                      className="text-sm font-semibold leading-relaxed transition-colors"
                     >
                       {line}
                     </p>
                   ))
                 ) : (
                   <p
-                    className={`transition-colors ${
-                      info.title === "E-post"
-                        ? "text-xs break-all"
-                        : "text-sm font-semibold"
-                    } ${variant === "dark" ? "text-white/90" : "text-foreground"}`}
+                    className={cn(
+                      "font-semibold transition-colors",
+                      info.title === "E-post" ? "break-all text-sm" : "text-base"
+                    )}
                   >
                     {info.content}
                   </p>
                 )}
                 {info.tooltip && (
                   <p
-                    className={`text-xs mt-1.5 ${
-                      variant === "dark" ? "text-white/70" : "text-muted-foreground"
-                    }`}
+                    className={cn(
+                      "mt-2 text-xs leading-relaxed",
+                      variant === "dark" ? "text-white/60" : "text-muted-foreground"
+                    )}
                   >
                     {info.tooltip}
                   </p>

@@ -1,125 +1,117 @@
-import { Phone, Mail, MapPin, Clock } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { Clock, Mail, MapPin, Phone } from "lucide-react";
 import { STORE_COORDINATES, STORE_ADDRESS } from "../constants/config";
+
+const mapUrl = `https://www.google.com/maps/search/?api=1&query=${STORE_COORDINATES.formatted}`;
 
 export function Footer() {
   return (
-    <footer id="kontakt" className="bg-accent">
-      {/* Map section */}
-      <div className="relative w-full h-[400px]">
-        <iframe
-          src={`https://maps.google.com/maps?q=${STORE_COORDINATES.formatted}&t=k&z=19&ie=UTF8&iwloc=&output=embed`}
-          width="100%"
-          height="100%"
-          style={{ border: 0 }}
-          allowFullScreen={false}
-          loading="lazy"
-          referrerPolicy="no-referrer-when-downgrade"
-          title="Borgen Bilsalg Location"
-        />
-        <a
-          href={`https://www.google.com/maps/search/?api=1&query=${STORE_COORDINATES.formatted}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground px-6 py-3 rounded-full hover:bg-primary/90 transition-colors shadow-lg"
-        >
-          Få veibeskrivelse
-          <span className="text-xs block text-center mt-1">
-            (åpnes i Google Maps)
-          </span>
-        </a>
-      </div>
-
-      {/* Footer content */}
-      <div className="max-w-7xl mx-auto px-4 py-12 md:py-16">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
-          {/* Logo and about */}
-          <div className="md:col-span-4">
-            <div className="flex items-center mb-4">
-              <h3 className="text-2xl font-bold text-accent-foreground">
-                Borgen Bilsalg
-              </h3>
+    <footer id="kontakt" className="border-t border-border bg-primary text-primary-foreground">
+      <div className="page-shell py-14 md:py-16">
+        <div className="grid gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:items-start">
+          <div>
+            <div className="mb-8 flex items-center gap-3">
+              <span className="flex h-11 w-11 items-center justify-center rounded-md border border-white/15 bg-white/10">
+                <Image
+                  src="/borgen_logo_nobackground.png"
+                  alt=""
+                  width={44}
+                  height={44}
+                  className="h-9 w-9 object-contain"
+                />
+              </span>
+              <div>
+                <p className="text-sm font-semibold uppercase tracking-[0.18em]">
+                  Borgen Bilsalg
+                </p>
+                <p className="text-sm text-primary-foreground/70">
+                  Snekkerstubakken 24, Borgenhaugen
+                </p>
+              </div>
             </div>
-            <p className="text-accent-foreground/80 mb-6">
-              Din pålitelige partner for kvalitetsbiler i Sarpsborg. Vi tilbyr
-              profesjonell service og trygg bilhandel.
-            </p>
-          </div>
 
-          {/* Contact info */}
-          <div className="md:col-span-4">
-            <h3 className="text-xl font-bold text-accent-foreground mb-6">
-              Kontakt Oss
-            </h3>
-            <ul className="space-y-4">
-              <li>
-                <a
-                  href={`https://www.google.com/maps/search/?api=1&query=${STORE_COORDINATES.formatted}`}
-                  className="flex items-start gap-3 text-accent-foreground/90 hover:text-accent-foreground transition-colors"
-                >
-                  <MapPin className="h-5 w-5 text-accent-foreground/80 mt-0.5" />
-                  <span>
-                    {STORE_ADDRESS.street}, {STORE_ADDRESS.city}
-                  </span>
-                </a>
-              </li>
-              <li>
-                <a
-                  href="tel:+4798681758"
-                  className="flex items-center gap-3 text-accent-foreground/90 hover:text-accent-foreground transition-colors"
-                >
-                  <Phone className="h-5 w-5 text-accent-foreground/80" />
-                  +47 986 81 758
-                </a>
-              </li>
-              <li>
-                <a
-                  href="mailto:mirnes@borgenbilsalg.no"
-                  className="flex items-center gap-3 text-accent-foreground/90 hover:text-accent-foreground transition-colors"
-                >
-                  <Mail className="h-5 w-5 text-accent-foreground/80" />
+            <div className="grid gap-4 sm:grid-cols-3">
+              <a
+                href="tel:+4798681758"
+                className="focus-ring rounded-lg border border-white/10 bg-white/10 p-4 transition-all duration-300 hover:bg-white/15 active:translate-y-[1px]"
+              >
+                <Phone className="mb-4 h-5 w-5" aria-hidden="true" />
+                <p className="text-xs uppercase tracking-[0.18em] text-primary-foreground/60">
+                  Telefon
+                </p>
+                <p className="mt-1 font-semibold">+47 986 81 758</p>
+              </a>
+              <a
+                href="mailto:mirnes@borgenbilsalg.no"
+                className="focus-ring rounded-lg border border-white/10 bg-white/10 p-4 transition-all duration-300 hover:bg-white/15 active:translate-y-[1px]"
+              >
+                <Mail className="mb-4 h-5 w-5" aria-hidden="true" />
+                <p className="text-xs uppercase tracking-[0.18em] text-primary-foreground/60">
+                  E-post
+                </p>
+                <p className="mt-1 break-all text-sm font-semibold">
                   mirnes@borgenbilsalg.no
-                </a>
-              </li>
-            </ul>
+                </p>
+              </a>
+              <a
+                href={mapUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="focus-ring rounded-lg border border-white/10 bg-white/10 p-4 transition-all duration-300 hover:bg-white/15 active:translate-y-[1px]"
+              >
+                <MapPin className="mb-4 h-5 w-5" aria-hidden="true" />
+                <p className="text-xs uppercase tracking-[0.18em] text-primary-foreground/60">
+                  Adresse
+                </p>
+                <p className="mt-1 text-sm font-semibold">
+                  {STORE_ADDRESS.street}
+                  <br />
+                  {STORE_ADDRESS.city}
+                </p>
+              </a>
+            </div>
           </div>
 
-          {/* Opening hours */}
-          <div className="md:col-span-4">
-            <h3 className="text-xl font-bold text-accent-foreground mb-6">
-              Åpningstider
-            </h3>
-            <ul className="space-y-2">
-              <li className="flex items-start gap-3 text-accent-foreground/90">
-                <Clock className="h-5 w-5 text-accent-foreground/80 mt-0.5" />
-                <div>
-                  <p className="font-medium">Mandag - Fredag</p>
-                  <p>10:00 - 17:00</p>
-                </div>
-              </li>
-              <li className="flex items-start gap-3 text-accent-foreground/90 pl-8">
-                <div>
-                  <p className="font-medium">Lørdag</p>
-                  <p>10:00 - 14:00</p>
-                </div>
-              </li>
-              <li className="flex items-start gap-3 text-accent-foreground/90 pl-8">
-                <div>
-                  <p className="font-medium">Søndag</p>
-                  <p>Stengt</p>
-                </div>
-              </li>
-              <li className="mt-4 text-accent-foreground/80 text-sm pl-8">
-                Møter kan avtales utover åpningstider
-              </li>
-            </ul>
+          <div className="rounded-lg border border-white/10 bg-white/10 p-5">
+            <div className="mb-5 flex items-center gap-3">
+              <Clock className="h-5 w-5" aria-hidden="true" />
+              <h2 className="text-lg font-semibold">Åpningstider</h2>
+            </div>
+            <dl className="space-y-3 text-sm">
+              <div className="flex items-center justify-between gap-6 border-b border-white/10 pb-3">
+                <dt className="text-primary-foreground/70">Mandag - Fredag</dt>
+                <dd className="font-semibold">10:00 - 17:00</dd>
+              </div>
+              <div className="flex items-center justify-between gap-6 border-b border-white/10 pb-3">
+                <dt className="text-primary-foreground/70">Lørdag</dt>
+                <dd className="font-semibold">10:00 - 14:00</dd>
+              </div>
+              <div className="flex items-center justify-between gap-6">
+                <dt className="text-primary-foreground/70">Søndag</dt>
+                <dd className="font-semibold">Stengt</dd>
+              </div>
+            </dl>
+            <p className="mt-5 text-sm leading-relaxed text-primary-foreground/70">
+              Møter kan avtales utenfor åpningstid. Ring oss for visning eller
+              prøvekjøring.
+            </p>
           </div>
         </div>
 
-        {/* Copyright */}
-        <div className="mt-12 pt-6 border-t border-accent-foreground/10 text-center">
-          <p className="text-accent-foreground/80">
-            © {new Date().getFullYear()} Borgen Bilsalg
-          </p>
+        <div className="mt-10 flex flex-col gap-4 border-t border-white/10 pt-6 text-sm text-primary-foreground/60 sm:flex-row sm:items-center sm:justify-between">
+          <p>© {new Date().getFullYear()} Borgen Bilsalg</p>
+          <div className="flex gap-4">
+            <Link href="/cars" className="transition-colors hover:text-primary-foreground">
+              Biler
+            </Link>
+            <Link href="/contact" className="transition-colors hover:text-primary-foreground">
+              Kontakt
+            </Link>
+            <Link href="/requestcar" className="transition-colors hover:text-primary-foreground">
+              Forespør bil
+            </Link>
+          </div>
         </div>
       </div>
     </footer>

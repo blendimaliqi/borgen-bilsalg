@@ -1,94 +1,162 @@
 "use client";
 
-import { Car, HandCoins, ShieldCheck } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
+import { ArrowRight, Car, HandCoins, ShieldCheck } from "lucide-react";
+import { MotionDiv } from "./motion-wrapper";
+
+const services = [
+  {
+    icon: Car,
+    title: "Kjøp bil hos oss",
+    description:
+      "Vi gjør kjøpsprosessen ryddig fra første visning til overlevering, med tydelig informasjon om bil, pris og historikk.",
+    imageSrc: "/images/services/man-buying-car.jpg",
+    imageAlt: "Kunde som kjøper bil hos Borgen Bilsalg",
+  },
+  {
+    icon: HandCoins,
+    title: "Selg bilen din",
+    description:
+      "Få en uforpliktende vurdering hvis du vil selge bilen direkte til oss, eller ønsker hjelp med salg.",
+    imageSrc: "/images/services/medium-shot-man-working-as-valet.jpg",
+    imageAlt: "Bilforhandler klargjør bil for kunde",
+  },
+  {
+    icon: ShieldCheck,
+    title: "Innbytte",
+    description:
+      "Vi vurderer bilen din rettferdig og hjelper deg over i en nyere eller mer praktisk bil.",
+    imageSrc: "/images/services/close-up-sales-manager-black-suit-selling-car-customer.jpg",
+    imageAlt: "Avtale om bilhandel og innbytte",
+  },
+];
 
 export function ServicesSection() {
   return (
-    <section className="py-20 md:py-32 px-6 bg-gray-50">
-      <div className="max-w-7xl mx-auto">
-        <div className="mb-16 md:mb-20">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-900">
-            Våre Tjenester
-          </h2>
-          <p className="text-gray-600 text-lg max-w-2xl">
-            Vi tilbyr et bredt spekter av tjenester for å gjøre din
-            bilopplevelse så smidig som mulig
+    <section className="bg-background py-16 md:py-24">
+      <div className="page-shell">
+        <div className="mb-10 grid gap-6 md:grid-cols-[0.75fr_1.25fr] md:items-end">
+          <div>
+            <p className="eyebrow mb-3">Tjenester</p>
+            <h2 className="text-3xl font-semibold tracking-tight text-foreground md:text-5xl">
+              Trygg bilhandel uten omveier
+            </h2>
+          </div>
+          <p className="max-w-2xl text-base leading-relaxed text-muted-foreground md:justify-self-end md:text-lg">
+            Enten du skal kjøpe, selge eller bytte bil, handler prosessen om
+            tydelige svar, riktig pris og enkel oppfølging.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <ServiceCard
-            icon={Car}
-            title="Kjøp bil hos oss"
-            description="Vi tilbyr en trygg og transparent bilkjpøsprosess. vi har et stort utvalg av biler med forskjellige prisklasser. vi hjelper deg med å finne den bilen som passer deg best å  sørger for en smidig of fin handelsopplevelse fra start til slutt."
-            imageSrc="/images/services/man-buying-car.jpg"
-            imageAlt="Kjøp bil hos Borgen Bilsalg"
-          />
-
-          <ServiceCard
-            icon={HandCoins}
-            title="Selge bilen din?"
-            description="Ønsker du å selge bilen din til oss eller ønsker du at vi skal selge bilen din for deg? Vi gir deg gratis verdivurdering på din bil og et helt uforpliket tilbud."
-            imageSrc="/images/services/medium-shot-man-working-as-valet.jpg"
-            imageAlt="Selg bil til Borgen Bilsalg"
-          />
-
-          <ServiceCard
-            icon={ShieldCheck}
-            title="Innbytte av bil"
-            description="Vil du bytte din nåværende bil mot en nyere eller bare en annen type? vi gir deg en rettferdig vurdering av din bil og hjelper deg å finne den perfekte erstatningen. Med vår innbytteordning blir overgangen til ny bil både enkel og økonomisk fordelaktig."
-            imageSrc="/images/services/close-up-sales-manager-black-suit-selling-car-customer.jpg"
-            imageAlt="Innbytte av bil hos Borgen Bilsalg"
-          />
+        <div className="grid gap-5 lg:grid-cols-[1.15fr_0.85fr]">
+          <ServiceFeature service={services[0]} />
+          <div className="grid gap-5">
+            {services.slice(1).map((service) => (
+              <ServiceRow key={service.title} service={service} />
+            ))}
+            <MotionDiv
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ duration: 0.5 }}
+              className="rounded-lg border border-border bg-primary p-6 text-primary-foreground"
+            >
+              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-primary-foreground/60">
+                Neste steg
+              </p>
+              <h3 className="mt-3 text-2xl font-semibold tracking-tight">
+                Avtal visning eller send oss et bilønske.
+              </h3>
+              <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+                <Link
+                  href="/cars"
+                  className="focus-ring inline-flex items-center justify-center gap-2 rounded-md bg-white px-4 py-3 text-sm font-semibold text-primary transition-all duration-300 hover:bg-white/90 active:translate-y-[1px]"
+                >
+                  Se biler
+                  <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                </Link>
+                <Link
+                  href="/requestcar"
+                  className="focus-ring inline-flex items-center justify-center gap-2 rounded-md border border-white/20 px-4 py-3 text-sm font-semibold text-white transition-all duration-300 hover:bg-white/10 active:translate-y-[1px]"
+                >
+                  Forespør bil
+                </Link>
+              </div>
+            </MotionDiv>
+          </div>
         </div>
       </div>
     </section>
   );
 }
 
-interface ServiceCardProps {
-  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
-  title: string;
-  description: string;
-  imageSrc: string;
-  imageAlt: string;
+function ServiceFeature({ service }: { service: (typeof services)[number] }) {
+  const Icon = service.icon;
+
+  return (
+    <MotionDiv
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-80px" }}
+      transition={{ duration: 0.55 }}
+      className="group overflow-hidden rounded-lg border border-border bg-card shadow-[0_24px_60px_-44px_hsl(var(--foreground))]"
+    >
+      <div className="relative aspect-[16/11] overflow-hidden">
+        <Image
+          src={service.imageSrc}
+          alt={service.imageAlt}
+          fill
+          sizes="(max-width: 1024px) 100vw, 58vw"
+          className="ease-premium object-cover transition-transform duration-700 group-hover:scale-105"
+        />
+      </div>
+      <div className="p-6 md:p-8">
+        <div className="mb-6 flex h-11 w-11 items-center justify-center rounded-md bg-muted text-foreground">
+          <Icon className="h-5 w-5" aria-hidden="true" />
+        </div>
+        <h3 className="text-3xl font-semibold tracking-tight text-foreground">
+          {service.title}
+        </h3>
+        <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted-foreground">
+          {service.description}
+        </p>
+      </div>
+    </MotionDiv>
+  );
 }
 
-function ServiceCard({
-  icon: Icon,
-  title,
-  description,
-  imageSrc,
-  imageAlt,
-}: ServiceCardProps) {
+function ServiceRow({ service }: { service: (typeof services)[number] }) {
+  const Icon = service.icon;
+
   return (
-    <div className="bg-white overflow-hidden group">
-      <div className="flex flex-col h-full">
-        <div className="relative h-[240px] md:h-[280px] w-full overflow-hidden">
-          <Image
-            src={imageSrc}
-            alt={imageAlt}
-            fill
-            sizes="(max-width: 768px) 100vw, 33vw"
-            className="object-cover"
-          />
-        </div>
-
-        <div className="p-8 flex-1 border-l border-r border-b border-gray-200">
-          <div className="mb-4">
-            <Icon className="h-6 w-6 text-gray-900" />
-          </div>
-
-          <h3 className="text-xl md:text-2xl font-bold mb-4 text-gray-900">
-            {title}
-          </h3>
-
-          <p className="text-gray-600 text-base leading-relaxed">
-            {description}
-          </p>
-        </div>
+    <MotionDiv
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-80px" }}
+      transition={{ duration: 0.55 }}
+      className="group grid gap-4 rounded-lg border border-border bg-card p-4 shadow-[0_18px_45px_-38px_hsl(var(--foreground))] sm:grid-cols-[170px_1fr]"
+    >
+      <div className="relative aspect-[4/3] overflow-hidden rounded-md bg-muted sm:aspect-auto">
+        <Image
+          src={service.imageSrc}
+          alt={service.imageAlt}
+          fill
+          sizes="(max-width: 640px) 100vw, 170px"
+          className="ease-premium object-cover transition-transform duration-700 group-hover:scale-105"
+        />
       </div>
-    </div>
+      <div className="p-1">
+        <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-md bg-muted text-foreground">
+          <Icon className="h-5 w-5" aria-hidden="true" />
+        </div>
+        <h3 className="text-xl font-semibold tracking-tight text-foreground">
+          {service.title}
+        </h3>
+        <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+          {service.description}
+        </p>
+      </div>
+    </MotionDiv>
   );
 }
